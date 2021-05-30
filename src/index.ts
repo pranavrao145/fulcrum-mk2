@@ -5,26 +5,23 @@ dotenv.config();
 // import all necessary modules
 import Discord from 'discord.js';
 import { Client } from 'pg';
+import * as database from './utils/database'
 
-// declare all necessary constants
-const client: any = new Discord.Client(); // declare client object
+const client: any = new Discord.Client(); // initialize client object
 const prefix = "f!"; // declare prefix
 
 // DATABASE CONNECTION
 
-// declare database connection
+// declare database connection and options
 const con = new Client({
-    connectionString: process.env.DATABASE_URL,
+    //connectionString: process.env.DATABASE_URL,
     ssl: {
         rejectUnauthorized: false,
     }
 })
 
-// establish database connection
-con.connect((err: any) => {
-    if (err) throw err;
-    console.log("Connected to database!");
-})
+// connect to database
+database.connect(con);
 
 // BOT EVENTS
 
