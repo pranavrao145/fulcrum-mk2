@@ -48,6 +48,7 @@ client.on('ready', async () => {
     for (const file of commandFiles) {
         const command = await import (file); 
         commands.push(command);
+        console.log(`Command ${command.name} loaded successfully.`);
     } 
 
     console.log(`Logged in as ${client.user!.tag}!`);
@@ -55,10 +56,10 @@ client.on('ready', async () => {
 
     try {
         await client.user!.setPresence({
-            status: "online",
+            status: 'online',
             activity: {
-                name: "f!help",
-                type: "WATCHING"
+                name: 'f!help',
+                type: 'WATCHING'
             },
         })
     }
