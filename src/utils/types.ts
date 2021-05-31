@@ -6,5 +6,6 @@ export interface Command {
     name: string
     description: string
     alias?: string[]
+    syntax: string
     execute(message: Message, con?: Client, args?: string[]): any
 }

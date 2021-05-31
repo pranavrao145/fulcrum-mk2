@@ -64,7 +64,8 @@ client.on('ready', async () => {
         })
     }
     catch (e) {
-        console.log(e);
+        console.log('There was an error setting the bot status. The error message is below:');
+        console.log(e)
     }
 });
 
