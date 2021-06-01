@@ -33,3 +33,7 @@ export function getChannelFromMention (message: Message, mention: string): Chann
 		return message.guild!.channels.cache.get(mention);
 	}
 }
+
+export function timeout(ms: number) : Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}

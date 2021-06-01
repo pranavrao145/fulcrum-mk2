@@ -7,5 +7,5 @@ export interface Command {
     description: string
     alias?: string[]
     syntax: string
-    execute(message: Message, con?: Client, args?: string[]): any
+    execute(message: Message, con: Client, args?: string[]): any
 }

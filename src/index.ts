@@ -43,7 +43,7 @@ client.login(process.env.BOT_TOKEN).catch((err: any) => {
 // on ready, set status and log presence data
 client.on('ready', async () => {
     // load in command files
-    const commandFiles = await globPromise(`${__dirname}/commands/*.{.js,.ts}`); // identify command files
+    const commandFiles = await globPromise(`${__dirname}/commands/*.{js,ts}`); // identify command files
     
     for (const file of commandFiles) {
         const command = await import (file); 
@@ -73,12 +73,23 @@ client.on('message', async (message: Discord.Message) => {
     // check if the message contains the prefix, and is not by a bot or in a dm 
     if (!message.content.toLowerCase().startsWith(prefix) || message.author.bot || message.guild === null) return;
 
+    if (!message.member || !message.guild) return; // check if the member that sent this message and its guild exists
+
+    console.log(`Message received from user ${message.member.user.tag}. Checking for valid commands.`)
+
     // parse the message for the correct command and find the associated command file
     const [commandName, ...args] = message.content.slice(prefix.length).trim().split(/ +/);
-    const command = commands.find(c => c.name === commandName || c.alias ? c.alias!.includes(commandName) : false);
+
+    console.log(`Potential command name: ${commandName}`);
+    console.log(`Potential arguments: ${args}`);
+
+    const command = commands.find(c => c.name === commandName || (c.alias ? c.alias!.includes(commandName) : false));
 
     // if the command is found, execute it
     if (command) {
         command.execute(message, con, args);
+    }
+    else {
+        console.log('No command found, ignoring message.')
     }
 })
