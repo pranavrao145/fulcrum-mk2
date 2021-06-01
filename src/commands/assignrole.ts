@@ -1,13 +1,13 @@
 import { Message, MessageEmbed } from 'discord.js';
-import { Command } from '../utils/types';
+import { ICommand } from '../utils/types';
 import { Client } from 'pg';
 import { getRoleFromMention, getUserFromMention, timeout } from '../utils/helpers';
 
-const command: Command = {
+const command: ICommand = {
     name: 'assignrole',
     description: 'Adds the given role to the given user(s). Max 10 users mentionable with one command.',
     alias: ['ar'],
-    syntax: 'f!assignrole [role] [user mentions (10 max)]',
+    syntax: 'f!assignrole [role mention] [user mentions (10 max)]',
     async execute(message: Message, con: Client, args?: string[]) {
         console.log(`Command assignrole started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
@@ -31,7 +31,7 @@ const command: Command = {
             console.log('Checking validity of arguments...')
             try {
                 console.log('Incorrect syntax given, stopping execution.');
-                return await message.channel.send('Incorrect syntax! Correct syntax: f!assignrole: [role] [user mentions (10 max)]')
+                return await message.channel.send(`Incorrect syntax! Correct syntax: ${this.syntax}`)
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);

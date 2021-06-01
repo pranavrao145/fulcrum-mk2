@@ -8,7 +8,7 @@ import { Client } from 'pg';
 import * as database from './utils/database';
 import glob from 'glob'
 import { promisify } from 'util'
-import { Command } from './utils/types'
+import { ICommand } from './utils/types'
 
 const client: Discord.Client = new Discord.Client(); // initialize client object
 const prefix = 'f!'; // declare prefix
@@ -31,7 +31,7 @@ database.connect(con);
 
 // prepare to read command files
 const globPromise = promisify(glob);
-const commands: Array<Command> = [];
+const commands: Array<ICommand> = [];
 
 // BOT EVENTS
 
