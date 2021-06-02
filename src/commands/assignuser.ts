@@ -44,7 +44,7 @@ const command: ICommand = {
         if (!user) { // check if the user supplied was valid
             console.log('User supplied was invalid. Stopping execution.');
             try {
-                await message.channel.send('Invalid user! Please check my permissions and try again.');
+                await message.channel.send('Invalid user!');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
@@ -56,7 +56,7 @@ const command: ICommand = {
             const role = getRoleFromMention(message, mention); // get the role for the mention
 
             if (!role) { // check if the role actually exists
-                console.log('A role supplied was not valid. Skipping over them.');
+                console.log('A role supplied was not valid. Skipping over it.');
                 outputEmbed.addField(`${mention}`, 'Invalid role or role not found');
                 continue;
             }
@@ -68,7 +68,7 @@ const command: ICommand = {
                 outputEmbed.addField(`${role.name}`, 'Role added successfully');
             } catch (e) {
                 console.log(`Failed to add role ${role.name} to ${user!.user.tag}.`)
-                outputEmbed.addField(`${role.name}`, 'Couldn\'t add role. Check permissions and try again.');
+                outputEmbed.addField(`${role.name}`, 'Couldn\'t add role.');
             }
 
         }

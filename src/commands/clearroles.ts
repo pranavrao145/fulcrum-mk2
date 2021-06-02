@@ -26,7 +26,7 @@ const command: ICommand = {
             }
         }
 
-        if (!args || args.length < 2 || args.length > 11) { // check if the args exist (this function requires them) and that there are not too many args
+        if (!args || args.length < 1 || args.length > 10) { // check if the args exist (this function requires them) and that there are not too many args
             console.log('Checking validity of arguments...')
             try {
                 console.log('Incorrect syntax given, stopping execution.');
@@ -36,6 +36,67 @@ const command: ICommand = {
                 console.log(e);
             }
         }
-        
+
+        for (const mention of args!) {
+            let overallSuccess = true; // var to keep track of whether the clear of this role was successful or not
+
+            const role = getRoleFromMention(message, mention); // get role from the guild role cache
+
+            if (!role) { // check if the role actually exists
+                console.log('A role supplied was not valid. Skipping over it.');
+                outputEmbed.addField(`${mention}`, 'Invalid role or role not found.');
+                continue;
+            }
+
+            const memberIDs = role.members.map(mem => mem.id); // get the mmebers of the role
+
+            if (!memberIDs) { // check if the role members actually exist
+                console.log('A role supplied did not have any members. Skipping over it.');
+                outputEmbed.addField(`${role.name}`, 'No members with this role were found.');
+                continue;
+            }
+
+
+            for (const memberID of memberIDs) { // iterate through the members that have the role
+                const member = message.guild!.members.cache.get(memberID); // get the member 
+
+                if (!member) {
+                    console.log('A member with the role did not exists. Skipping over them.');
+                    overallSuccess = false; // if a member for a role does not exists, the function has failed to remove the role for all members
+                    continue;
+                }
+
+                try {
+                    await timeout(500);
+                    await member.roles.remove(role);
+                    console.log(`Role ${role.name} was removed from user ${member.user.tag} successfully.`);
+                } catch (e) {
+                    console.log(`Failed to remove ${role.name} from ${member.user.tag}.`)
+                    overallSuccess = false; // the function has failed to remove the role for all members, so not successful
+                }
+            }
+
+            if (overallSuccess) { // check if the command was successful and add the according message
+                console.log(`Role ${role!.name} was cleared successfully.`)
+                outputEmbed.addField(`${role!.name}`, 'Role cleared successfully.');
+            } else {
+                console.log(`Failed to clear role ${role!.name}.`);
+                outputEmbed.addField(`${role!.name}`, 'Couldn\'t clear role fully.');
+            }
+        }
+
+        try { // send output embed with information about the command's success
+            if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
+                outputEmbed.setDescription(`Command executed by: ${message.member!.user.tag}`);
+                await message.channel.send(outputEmbed);
+            }
+            console.log(`Command clearroles, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
+        } catch (e) {
+            console.log(`There was an error sending an embed in the guild ${message.guild}! The error message is below:`);
+            console.log(e);
+        }
+
     }
 }
+
+export = command; // export the command to the main module

@@ -43,7 +43,7 @@ const command: ICommand = {
         if (!role) { // check if the role supplied was valid
             console.log('Role supplied was invalid. Stopping execution.');
             try {
-                await message.channel.send('Invalid role! Please check my permissions and try again.');
+                await message.channel.send('Invalid role!');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
@@ -66,7 +66,7 @@ const command: ICommand = {
                 outputEmbed.addField(`${member.user.tag}`, 'Role added successfully');
             } catch (e) {
                 console.log(`Failed to add role ${role!.name} to ${member.user.tag}.`)
-                outputEmbed.addField(`${member.user.tag}`, 'Couldn\'t add role. Check permissions and try again.');
+                outputEmbed.addField(`${member.user.tag}`, 'Couldn\'t add role.');
             }
         }
 
