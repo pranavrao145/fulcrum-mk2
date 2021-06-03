@@ -67,8 +67,7 @@ const command: ICommand = {
 
             if (!role) { // check if the role actually exists
                 console.log('A role supplied was not valid. Skipping over it.');
-                outputEmbedText += `
-                **${mention}:** Invalid role or role not found`;
+                outputEmbedText += `\n**${mention}:** Invalid role or role not found`;
                 continue;
             }
 
@@ -76,12 +75,10 @@ const command: ICommand = {
                 await timeout(300); // setting a short timeout to prevent abuse of Discord's API
                 await user!.roles.add(role); // adding role to the user
                 console.log(`Role ${role.name} added to ${user!.user.tag} successfully.`)
-                outputEmbedText += `
-                **${role.name}**: Role added successfully.`;
+                outputEmbedText += `\n**${role.name}**: Role added successfully.`;
             } catch (e) {
                 console.log(`Failed to add role ${role.name} to ${user!.user.tag}.`)
-                outputEmbedText += `
-                **${role.name}**: Couldn\'t add role.`;
+                outputEmbedText += `\n**${role.name}**: Couldn\'t add role.`;
             }
 
         }
@@ -89,8 +86,7 @@ const command: ICommand = {
         try { // send output embed with information about the command's success
             outputEmbed.addField('\u200B', outputEmbedText); // add whatever text was accumulated throughout the command to the embed
             if (outputEmbedText !== '') { // check if there is actually any text to send the embed with
-                outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}
-                                           **Assigned roles to:** ${user!.user.tag}`);
+                outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Assigned roles to:** ${user!.user.tag}`);
                 await message.channel.send(outputEmbed);
             }
             console.log(`Command assignuser, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);

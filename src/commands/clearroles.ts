@@ -13,7 +13,7 @@ const command: ICommand = {
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
         .setColor('#FFFCF4')
-        .setTitle('Assign Roles - Report')
+        .setTitle('Clear Roles - Report')
 
         let outputEmbedText: string = ''; // text that will eventually be sent as a field in outputEmbed. Mainly for formatting
 
@@ -54,8 +54,7 @@ const command: ICommand = {
 
             if (!role) { // check if the role actually exists
                 console.log('A role supplied was not valid. Skipping over it.');
-                outputEmbedText += `
-                **${mention}:** Invalid role or role not found`;
+                outputEmbedText += `\n**${mention}:** Invalid role or role not found`;
                 continue;
             }
 
@@ -63,8 +62,7 @@ const command: ICommand = {
 
             if (!memberIDs) { // check if the role members actually exist
                 console.log('A role supplied did not have any members. Skipping over it.');
-                outputEmbedText += `
-                **${role.name}:** No members with this role were found.`;
+                outputEmbedText += `\n**${role.name}:** No members with this role were found.`;
                 continue;
             }
 
@@ -90,19 +88,17 @@ const command: ICommand = {
 
             if (overallSuccess) { // check if the command was successful and add the according message
                 console.log(`Role ${role!.name} was cleared successfully.`)
-                outputEmbedText += `
-                **${role!.name}:** Role cleared successfully.`;
+                outputEmbedText += `\n**${role!.name}:** Role cleared successfully.`;
             } else {
                 console.log(`Failed to clear role ${role!.name}.`);
-                outputEmbedText += `
-                **${role!.name}:** Couldn't clear role fully.`;
+                outputEmbedText += `\n**${role!.name}:** Couldn't clear role fully.`;
             }
         }
 
         try { // send output embed with information about the command's success
             outputEmbed.addField('\u200B', outputEmbedText); // add whatever text was accumulated throughout the command to the embed
             if (outputEmbedText !== '') { // check if there is actually any text to send the embed with
-                outputEmbed.setDescription(`Command executed by: ${message.member!.user.tag}`);
+                outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
                 await message.channel.send(outputEmbed);
             }
             console.log(`Command clearroles, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);

@@ -65,8 +65,7 @@ const command: ICommand = {
 
             if (!member) { // check if the user actually exists
                 console.log('A user supplied was not valid. Skipping over them.');
-                outputEmbedText += `
-                **${mention}:** Invalid user or user not found`;
+                outputEmbedText += `\n**${mention}:** Invalid user or user not found`;
                 continue;
             }
 
@@ -74,21 +73,18 @@ const command: ICommand = {
                 await timeout(300); // setting a short timeout to prevent abuse of Discord's API
                 await member.roles.add(role!); // adding role to the member
                 console.log(`Role ${role!.name} added to ${member.user.tag} successfully.`)
-                outputEmbedText += `
-                **${member.user.tag}**: Role added successfully.`;
+                outputEmbedText += `\n**${member.user.tag}**: Role added successfully.`;
             } catch (e) {
                 console.log(`Failed to add role ${role!.name} to ${member.user.tag}.`)
-                outputEmbedText += `
-                **${member.user.tag}**: Couldn\'t add role.`;
+                outputEmbedText += `\n**${member.user.tag}**: Couldn\'t add role.`;
             }
         }
 
         try { // send output embed with information about the command's success
             outputEmbed.addField('\u200B', outputEmbedText); // add whatever text was accumulated throughout the command to the embed
             if (outputEmbedText !== '') { // check if there is actually any text to send the embed with
-                outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}
-                                            **Assigned role:** ${role!.name}`);
-                                           await message.channel.send(outputEmbed);
+                outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Assigned role:** ${role!.name}`);
+                await message.channel.send(outputEmbed);
             }
             console.log(`Command assignrole, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
         } catch (e) {
