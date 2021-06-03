@@ -17,7 +17,7 @@ const command: ICommand = {
         .setTitle(`Roles for ${message.guild!.name}`);
 
         for (let i = 0; i < roles.length; i++) { // iterate through collection
-            outputEmbed.addField(`${i + 1}. ${roles[i]}`, '\u200B', true);
+            outputEmbed.addField('\u200B', `**${i + 1}.** ${roles[i]}`, true);
         }
 
         try { // send output embed with information about the command's success

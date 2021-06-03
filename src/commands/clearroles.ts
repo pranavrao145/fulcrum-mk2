@@ -15,6 +15,8 @@ const command: ICommand = {
         .setColor('#FFFCF4')
         .setTitle('Assign Roles - Report')
 
+        let outputEmbedText: string = ''; // text that will eventually be sent as a field in outputEmbed. Mainly for formatting
+
         if (!message.member!.hasPermission('MANAGE_ROLES')) { // check for adequate permissions
             console.log('Checking permissions...')
             try {
@@ -40,11 +42,20 @@ const command: ICommand = {
         for (const mention of args!) {
             let overallSuccess = true; // var to keep track of whether the clear of this role was successful or not
 
-            const role = getRoleFromMention(message, mention); // get role from the guild role cache
+            let role; // declare role object, to be determined later using logic below
+
+            if (isNaN(parseInt(mention))) { // if the arg is a mention and not a number
+                console.log('Role is of type mention. Getting role from role cache.')
+                role = getRoleFromMention(message, mention); // then get it from the role cache
+            } else {
+                console.log('Role is of type number. Getting role using position.')
+                role = message.guild!.roles.cache.get(message.guild!.roles.cache.map(r => r.id)[parseInt(mention) - 1]); // else find the role by its position number
+            }
 
             if (!role) { // check if the role actually exists
                 console.log('A role supplied was not valid. Skipping over it.');
-                outputEmbed.addField(`${mention}`, 'Invalid role or role not found.');
+                outputEmbedText += `
+                **${mention}:** Invalid role or role not found`;
                 continue;
             }
 
@@ -52,7 +63,8 @@ const command: ICommand = {
 
             if (!memberIDs) { // check if the role members actually exist
                 console.log('A role supplied did not have any members. Skipping over it.');
-                outputEmbed.addField(`${role.name}`, 'No members with this role were found.');
+                outputEmbedText += `
+                **${role.name}:** No members with this role were found.`;
                 continue;
             }
 
@@ -67,7 +79,7 @@ const command: ICommand = {
                 }
 
                 try {
-                    await timeout(500);
+                    await timeout(300);
                     await member.roles.remove(role);
                     console.log(`Role ${role.name} was removed from user ${member.user.tag} successfully.`);
                 } catch (e) {
@@ -78,15 +90,18 @@ const command: ICommand = {
 
             if (overallSuccess) { // check if the command was successful and add the according message
                 console.log(`Role ${role!.name} was cleared successfully.`)
-                outputEmbed.addField(`${role!.name}`, 'Role cleared successfully.');
+                outputEmbedText += `
+                **${role!.name}:** Role cleared successfully.`;
             } else {
                 console.log(`Failed to clear role ${role!.name}.`);
-                outputEmbed.addField(`${role!.name}`, 'Couldn\'t clear role fully.');
+                outputEmbedText += `
+                **${role!.name}:** Couldn't clear role fully.`;
             }
         }
 
         try { // send output embed with information about the command's success
-            if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
+            outputEmbed.addField('\u200B', outputEmbedText); // add whatever text was accumulated throughout the command to the embed
+            if (outputEmbedText !== '') { // check if there is actually any text to send the embed with
                 outputEmbed.setDescription(`Command executed by: ${message.member!.user.tag}`);
                 await message.channel.send(outputEmbed);
             }

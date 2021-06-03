@@ -15,6 +15,8 @@ const command: ICommand = {
         .setColor('#FFFCF4')
         .setTitle('Assign User - Report')
 
+        let outputEmbedText: string = ''; // text that will eventually be sent as a field in outputEmbed. Mainly for formatting
+
         if (!message.member!.hasPermission('MANAGE_ROLES')) { // check for adequate permissions
             console.log('Checking permissions...')
             try {
@@ -53,30 +55,42 @@ const command: ICommand = {
 
 
         for (const mention of args!) { // iterate through all the role mentions
-            const role = getRoleFromMention(message, mention); // get the role for the mention
+            let role; // declare role object, to be determined later using logic below
+
+            if (isNaN(parseInt(mention))) { // if the arg is a mention and not a number
+                console.log('Role is of type mention. Getting role from role cache.')
+                role = getRoleFromMention(message, mention); // then get it from the role cache
+            } else {
+                console.log('Role is of type number. Getting role using position.')
+                role = message.guild!.roles.cache.get(message.guild!.roles.cache.map(r => r.id)[parseInt(mention) - 1]); // else find the role by its position number
+            }
 
             if (!role) { // check if the role actually exists
                 console.log('A role supplied was not valid. Skipping over it.');
-                outputEmbed.addField(`${mention}`, 'Invalid role or role not found');
+                outputEmbedText += `
+                **${mention}:** Invalid role or role not found`;
                 continue;
             }
 
             try {
-                await timeout(500); // setting a short timeout to prevent abuse of Discord's API
+                await timeout(300); // setting a short timeout to prevent abuse of Discord's API
                 await user!.roles.add(role); // adding role to the user
                 console.log(`Role ${role.name} added to ${user!.user.tag} successfully.`)
-                outputEmbed.addField(`${role.name}`, 'Role added successfully');
+                outputEmbedText += `
+                **${role.name}**: Role added successfully.`;
             } catch (e) {
                 console.log(`Failed to add role ${role.name} to ${user!.user.tag}.`)
-                outputEmbed.addField(`${role.name}`, 'Couldn\'t add role.');
+                outputEmbedText += `
+                **${role.name}**: Couldn\'t add role.`;
             }
 
         }
 
         try { // send output embed with information about the command's success
-            if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
-                outputEmbed.setDescription(`Command executed by: ${message.member!.user.tag}\n
-                                           Assigned roles to: ${user!.user.tag}`);
+            outputEmbed.addField('\u200B', outputEmbedText); // add whatever text was accumulated throughout the command to the embed
+            if (outputEmbedText !== '') { // check if there is actually any text to send the embed with
+                outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}
+                                           **Assigned roles to:** ${user!.user.tag}`);
                 await message.channel.send(outputEmbed);
             }
             console.log(`Command assignuser, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
