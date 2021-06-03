@@ -20,7 +20,7 @@ const command: ICommand = {
         if (!message.member!.hasPermission('MANAGE_ROLES')) { // check for adequate permissions
             console.log('Checking permissions...')
             try {
-                console.log('Insufficient permissions, stopping execution.')
+                console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the MANAGE_ROLES permission to use this command.');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
@@ -31,7 +31,7 @@ const command: ICommand = {
         if (!args || args.length < 2 || args.length > 11) { // check if the args exist (this function requires them) and that there are not too many args
             console.log('Checking validity of arguments...')
             try {
-                console.log('Incorrect syntax given, stopping execution.');
+                console.log('Incorrect syntax given. Stopping execution.');
                 return await message.channel.send(`Incorrect syntax! Correct syntax: ${this.syntax}`)
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
