@@ -7,7 +7,7 @@ const command: ICommand = {
     name: 'clearroles',
     description: 'Removes the given role from all users that have it.',
     alias: ['clr'],
-    syntax: 'f!clearroles [role mentions (10 max)]',
+    syntax: 'f!clearroles [role mentions or numbers (10 max)]',
     async execute(message: Message, con: Client, args?: string[]) {
         console.log(`Command clearroles started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
