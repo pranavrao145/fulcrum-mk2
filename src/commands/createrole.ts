@@ -1,7 +1,7 @@
 import { Message, MessageEmbed } from 'discord.js';
 import { ICommand } from '../utils/types';
 import { Client } from 'pg';
-import { getRoleFromMention } from '../utils/helpers';
+import { getChannelFromMention, getRoleFromMention, getUserFromMention } from '../utils/helpers';
 
 const command: ICommand = {
     name: 'createrole',
@@ -27,7 +27,7 @@ const command: ICommand = {
             }
         }
 
-        if (!args || args.length > 2 ) { // check if the args exist (this function requires them) and that there are not too many args
+        if (!args || args.length === 0 || args.length > 2 ) { // check if the args exist (this function requires them) and that there are not too many args
             console.log('Checking validity of arguments...')
             try {
                 console.log('Incorrect syntax given. Stopping execution.');
@@ -38,12 +38,18 @@ const command: ICommand = {
             }
         }
 
-        const roleName = args!.shift(); // find the desired name of the role
+        let roleName = args!.shift(); // find the desired name of the role
         const roleColour = args!.shift(); // find the desired colour of the role
 
-        if (getRoleFromMention(message, roleName!) || message.guild!.roles.cache.find(r => r.name === roleName)) { // checking to see if the role already exists on the server
-            console.log('Role already exists in server. Stopping execution.');
-            outputEmbed.addField(`${roleName}`, 'Role already exists on this server.');
+        if (roleName!.startsWith('@')) { // check if the role starts with an @ and get rid of it if so
+            roleName = roleName!.slice(1);
+        }
+
+        roleName = roleName!.replace(/_/g, " "); // replce all underscores with spaces
+
+        if (getRoleFromMention(message, roleName!) || message.guild!.roles.cache.find(r => r.name === roleName) || getChannelFromMention(message, roleName!) || getUserFromMention(message, roleName!)) { // checking to see if the role already exists on the server as a role or anything else
+            console.log('Invalid role name or role already exists in server. Stopping execution.');
+            outputEmbed.addField(`${roleName}`, 'Invalid role name or role already exists on this server.');
             outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
             try { // send output embed with information about the command's success
                 return await message.channel.send(outputEmbed);
@@ -53,6 +59,7 @@ const command: ICommand = {
             }
         }
 
+
         if (roleColour) { // in the case there is a role colour specified
             try {
                 await message.guild!.roles.create({ // create the role with the needed data
@@ -61,10 +68,12 @@ const command: ICommand = {
                         color: roleColour
                     }
                 })
+                outputEmbed.addField(`${roleName}`, 'Role created successfully.');
+                console.log(`Role ${roleName} created successfully in ${message.guild!.name}.`)
             }
             catch (e) {
                 outputEmbed.addField(`${roleName}`, 'Couldn\'t create role.');
-                console.log(`There was an error creating the role ${roleName} in server ${message.guild!.name}. The error message is below:`)
+                console.log(`Failed to create role ${roleName} in server ${message.guild!.name}. The error message is below:`)
                 console.log(e);
             }
         } else {
@@ -74,6 +83,8 @@ const command: ICommand = {
                         name: roleName,
                     }
                 })
+                outputEmbed.addField(`${roleName}`, 'Role created successfully.');
+                console.log(`Role ${roleName} created successfully in ${message.guild!.name}.`)
             }
             catch (e) {
                 console.log(`Failed to create role ${roleName} in server ${message.guild!.name}. The error message is below:`)
