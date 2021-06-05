@@ -2,3 +2,4 @@ dist/
 .env
 node_modules/
 postgres-data/
+yarn-error.log
