@@ -45,7 +45,7 @@ const command: ICommand = {
             roleName = roleName!.slice(1);
         }
 
-        roleName = roleName!.replace(/_/g, " "); // replce all underscores with spaces
+        roleName = roleName!.replace(/_/g, ' '); // replce all underscores with spaces
 
         if (getRoleFromMention(message, roleName!) || message.guild!.roles.cache.find(r => r.name === roleName) || getChannelFromMention(message, roleName!) || getUserFromMention(message, roleName!)) { // checking to see if the role already exists on the server as a role or anything else
             console.log('Invalid role name or role already exists in server. Stopping execution.');

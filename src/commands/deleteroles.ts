@@ -1,19 +1,19 @@
 import { ICommand } from '../utils/types';
 import { Message, MessageEmbed } from 'discord.js';
 import { Client } from 'pg';
-import { getChannelFromMention, getRoleFromMention, getUserFromMention } from '../utils/helpers';
+import { getRoleFromMention, timeout } from '../utils/helpers';
 
 const command: ICommand = {
-    name: 'createroles',
-    description: 'Creates role(s) with the given name(s)',
-    alias: ['crs'],
-    syntax: 'f!createroles [role names (10 max)]', 
+    name: 'deleteroles',
+    description: 'Deletes the role(s) given.',
+    alias: ['dr', 'drs'],
+    syntax: 'f!deleteroles [role names (10 max)]', 
     async execute(message: Message, con: Client, args?: string[]) {
-        console.log(`Command createroles started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
+        console.log(`Command deleteroles started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
         .setColor('#FFFCF4')
-        .setTitle('Create Roles - Report')
+        .setTitle('Delete Roles - Report')
 
         let outputEmbedText: string = ''; // text that will eventually be sent as a field in outputEmbed. Mainly for formatting
 
@@ -39,25 +39,23 @@ const command: ICommand = {
             }
         }
 
-        for (let roleName of args!) { // iterate through each of the role names given
-            roleName = roleName!.replace(/_/g, ' '); // replce all underscores with spaces
-            if (getRoleFromMention(message, roleName!) || message.guild!.roles.cache.find(r => r.name === roleName) || getChannelFromMention(message, roleName!) || getUserFromMention(message, roleName!)) {
-                console.log(`Role with name ${roleName} already exists in guild. Skipping over it.`);
-                outputEmbedText += `\n**${roleName}:** Invalid role or role already exists on server.`;
+        for (const mention of args!) { // iterate through all the mentions given
+            const role = getRoleFromMention(message, mention); // get the role from the guild's role cache
+
+            if (!role) { // check if the role exists or not
+                console.log('A role supplied was not valid. Skipping over it.');
+                outputEmbedText += `\n**${mention}:** Invalid role or role not found`;
                 continue;
             }
-            try {
-                await message.guild!.roles.create({ // create the role with the needed data
-                    data: {
-                        name: roleName,
-                    }
-                });
-                outputEmbedText += `\n**${roleName}:** Role created successfully.`;
-                console.log(`Role ${roleName} created successfully in ${message.guild!.name}.`)
+
+            try { 
+                await timeout(300); // setting a short timeout to prevent abuse of Discord's API
+                await role.delete(); // attempt to delete the role
+                console.log(`Role ${role.name} deleted successfully.`)
+                outputEmbedText += `\n**${role.name}**: Role deleted successfully.`;
             } catch (e) {
-                console.log(`Failed to create role ${roleName} in server ${message.guild!.name}. The error message is below:`)
-                console.log(e);
-                outputEmbedText += `\n**${roleName}:** Couldn't create role.`;
+                console.log(`Failed to delete role ${role.name}.`)
+                outputEmbedText += `\n**${role.name}**: Couldn\'t delete role.`;
             }
         }
 
@@ -67,7 +65,7 @@ const command: ICommand = {
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
                 await message.channel.send(outputEmbed);
             }
-            console.log(`Command createroles, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
+            console.log(`Command deleteroles, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
         } catch (e) {
             console.log(`There was an error sending an embed in the guild ${message.guild}! The error message is below:`);
             console.log(e);
