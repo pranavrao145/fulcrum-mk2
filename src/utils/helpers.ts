@@ -1,4 +1,4 @@
-import { Channel, GuildMember, Message, Role } from 'discord.js'
+import { Channel, Client, GuildMember, Message, Role, User } from 'discord.js'
 
 export function getRoleFromMention(message: Message, mention: string): Role | undefined {
     if (mention.startsWith('<@') && mention.endsWith('>')) {
@@ -37,3 +37,4 @@ export function getChannelFromMention (message: Message, mention: string): Chann
 export function timeout(ms: number) : Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+

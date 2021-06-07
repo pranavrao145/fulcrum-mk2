@@ -57,6 +57,7 @@ const command: ICommand = {
             console.log("Checking validity of value given for argument 'days'.")
             const daysNum = parseInt(days, 10)
             if (isNaN(daysNum)) { // checks if the value for days is a number
+                // TODO: Figure out why this check doesn't work
                 console.log("Invalid input for argument 'days'. Stopping execution.")
                 try {
                     await message.channel.send("Invalid argument for days! Must be a number from 0-7.");
