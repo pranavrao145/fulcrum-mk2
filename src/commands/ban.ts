@@ -40,9 +40,9 @@ const command: ICommand = {
         const days = args!.shift(); // get the days the user wants to ban the member for
         const reasonToBan = args!.join(' '); // get the potential reason to ban by joining the rest of the args
 
-        const user = getUserFromMention(message, userMention!);
+        const member = getUserFromMention(message, userMention!);
 
-        if (!user) { // check if the user supplied was valid
+        if (!member) { // check if the user supplied was valid
             console.log('User supplied was invalid. Stopping execution.');
             try {
                 await message.channel.send('Invalid user!');
@@ -55,7 +55,8 @@ const command: ICommand = {
 
         if (days) { // check if the number of days was given
             console.log("Checking validity of value given for argument 'days'.")
-            if (isNaN(parseInt(days))) { // checks if the value for days is a number
+            if (isNaN(parseInt(days, 10))) { // checks if the value for days is a number
+                // TODO: Figure out why this check doesn't work
                 console.log("Invalid input for argument 'days'. Stopping execution.")
                 try {
                     await message.channel.send("Invalid number for days! Must be a number from 0-7.");
@@ -68,12 +69,53 @@ const command: ICommand = {
         }
 
         if (reasonToBan) { // checks if there is a reason to ban (and by extension a value for days given)
-            await user!.ban();
+            try {
+                await member!.ban({ // ban the user with the number of days and the reason
+                    days: parseInt(days!, 10),
+                    reason: reasonToBan
+                });
+                console.log(`User ${member!.user.tag} banned successfully.`);
+                outputEmbed.addField('Status', 'Success');
+                outputEmbed.addField('Days', `${days}`);
+                outputEmbed.addField('Reason', `${reasonToBan}`);
+            } catch (e) {
+                console.log(`Failed to ban user ${member!.user.tag}.`)
+                outputEmbed.addField('Status', 'Failed');
+            }
         } else if (days) { // if a reason was not provided, but the number of days was
-
+            try {
+                await member!.ban({ // ban the user with the number of days and the reason
+                    days: parseInt(days!, 10),
+                });
+                console.log(`User ${member!.user.tag} banned successfully.`);
+                outputEmbed.addField('Status', 'Success');
+                outputEmbed.addField('Days', `${days}`);
+            } catch (e) {
+                console.log(`Failed to ban user ${member!.user.tag}.`)
+                outputEmbed.addField('Status', 'Failed');
+            }
         } else { // if nothing but the user was provided
-
+            try {
+                await member!.ban();
+                console.log(`User ${member!.user.tag} banned successfully.`);
+                outputEmbed.addField('Status', 'Success');
+            } catch (e) {
+                console.log(`Failed to ban user ${member!.user.tag}.`)
+                outputEmbed.addField('Status', 'Failed');
+            }
         }
 
+        try { // send output embed with information about the command's success
+            if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
+                outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**User banned:** ${member!.user.tag}`);
+                await message.channel.send(outputEmbed);
+            }
+            console.log(`Command ban, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
+        } catch (e) {
+            console.log(`There was an error sending an embed in the guild ${message.guild}! The error message is below:`);
+            console.log(e);
+        }
     }
 }
+
+export = command; // export the command to the main module
