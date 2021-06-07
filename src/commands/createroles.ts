@@ -41,11 +41,17 @@ const command: ICommand = {
 
         for (let roleName of args!) { // iterate through each of the role names given
             roleName = roleName!.replace(/_/g, ' '); // replce all underscores with spaces
+
+            if (roleName!.startsWith('@')) { // check if the role starts with an @ and get rid of it if so
+                roleName = roleName!.slice(1);
+            }
+
             if (getRoleFromMention(message, roleName!) || message.guild!.roles.cache.find(r => r.name === roleName) || getChannelFromMention(message, roleName!) || getUserFromMention(message, roleName!)) {
                 console.log(`Role with name ${roleName} already exists in guild. Skipping over it.`);
                 outputEmbedText += `\n**${roleName}:** Invalid role or role already exists on server.`;
                 continue;
             }
+
             try {
                 await message.guild!.roles.create({ // create the role with the needed data
                     data: {
