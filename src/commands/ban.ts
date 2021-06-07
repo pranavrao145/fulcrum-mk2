@@ -55,9 +55,19 @@ const command: ICommand = {
 
         if (days) { // check if the number of days was given
             console.log("Checking validity of value given for argument 'days'.")
-            if (isNaN(parseInt(days, 10))) { // checks if the value for days is a number
-                // TODO: Figure out why this check doesn't work
+            const daysNum = parseInt(days, 10)
+            if (isNaN(daysNum)) { // checks if the value for days is a number
                 console.log("Invalid input for argument 'days'. Stopping execution.")
+                try {
+                    await message.channel.send("Invalid argument for days! Must be a number from 0-7.");
+                    return;
+                } catch (e) {
+                    console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                    console.log(e);
+                }
+            }
+
+            if (daysNum < 0 || daysNum > 7) { // check if the value of days (which is definitely a number) is in the allowed range
                 try {
                     await message.channel.send("Invalid number for days! Must be a number from 0-7.");
                     return;
