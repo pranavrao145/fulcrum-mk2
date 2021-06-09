@@ -25,6 +25,7 @@ const command: ICommand = {
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
+                return;
             }
         }
 
@@ -36,6 +37,7 @@ const command: ICommand = {
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
+                return;
             }
         }
 
@@ -45,10 +47,11 @@ const command: ICommand = {
         if (!role) { // check if the role supplied was valid 
             console.log('Role supplied was invalid. Stopping execution.');
             try {
-                await message.channel.send('Invalid role!');
+                return await message.channel.send('Invalid role!');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
+                return;
             }
         }
 
@@ -57,10 +60,11 @@ const command: ICommand = {
         if (!voiceChannel) { // check if there is actually a voice channel associated with the role supplied
             console.log('No voice channel found associated with the role supplied. Stopping execution.');
             try {
-                await message.channel.send('No voice channel found for that role!');
+                return await message.channel.send('No voice channel found for that role!');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
+                return;
             }
         }
 

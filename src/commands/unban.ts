@@ -22,6 +22,7 @@ const command: ICommand = {
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
+                return;
             }
         }
 
@@ -33,6 +34,7 @@ const command: ICommand = {
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
+                return;
             }
         }
 
@@ -46,11 +48,11 @@ const command: ICommand = {
         } catch (e) {
             console.log('User ID supplied was invalid or couldn\'t find ban. Stopping execution.');
             try {
-                await message.channel.send('Invalid user ID or user not banned!');
-                return;
+                return await message.channel.send('Invalid user ID or user not banned!');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
+                return;
             }
         }
 

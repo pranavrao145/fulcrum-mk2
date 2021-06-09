@@ -26,6 +26,7 @@ const command: ICommand = {
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
+                return;
             }
         }
 
@@ -37,6 +38,7 @@ const command: ICommand = {
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
+                return;
             }
         }
 
@@ -47,11 +49,11 @@ const command: ICommand = {
         if (!user) { // check if the user supplied was valid
             console.log('User supplied was invalid. Stopping execution.');
             try {
-                await message.channel.send('Invalid user!');
-                return;
+                return await message.channel.send('Invalid user!');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
+                return;
             }
         }
 
