@@ -17,7 +17,6 @@ const command: ICommand = {
 
 
         if (!message.member!.hasPermission('MANAGE_ROLES')) { // check for adequate permissions
-            console.log('Checking permissions...')
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the MANAGE_ROLES permission to use this command.');

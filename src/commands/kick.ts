@@ -15,7 +15,6 @@ const command: ICommand = {
         .setTitle('Kick - Report')
 
         if (!message.member!.hasPermission('KICK_MEMBERS')) { // check for adequate permissions
-            console.log('Checking permissions...')
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the KICK_MEMBERS permission to use this command.');

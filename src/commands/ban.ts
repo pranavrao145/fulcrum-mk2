@@ -15,7 +15,6 @@ const command: ICommand = {
         .setTitle('Ban - Report')
 
         if (!message.member!.hasPermission('BAN_MEMBERS')) { // check for adequate permissions
-            console.log('Checking permissions...')
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the BAN_MEMBERS permission to use this command.');
