@@ -5,7 +5,7 @@ import { getRoleFromMention, timeout } from '../utils/helpers';
 
 const command: ICommand = {
     name: 'clearvoice',
-    description: 'Adds the given role to the given user(s). Max 10 users mentionable with one command.',
+    description: 'Clears the given voice channel.',
     alias: ['cv'],
     syntax: 'f!clearvoice [vc role mention]',
     async execute(message: Message, con: Client, args?: string[]) {
