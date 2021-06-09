@@ -29,7 +29,6 @@ const command: ICommand = {
         }
 
         if (!args || args.length === 0 || args.length < 2 || args.length > 11) { // check if the args exist (this function requires them) and that there are not too many args
-            console.log('Checking validity of arguments...')
             try {
                 console.log('Incorrect syntax given. Stopping execution.');
                 return await message.channel.send(`Incorrect syntax! Correct syntax: ${this.syntax}`)
