@@ -1,7 +1,7 @@
 import { Message, MessageEmbed } from 'discord.js';
 import { ICommand } from '../utils/types';
 import { Client } from 'pg';
-import { getRoleFromMention, getUserFromMention, timeout } from '../utils/helpers';
+import { getRoleFromMention, timeout } from '../utils/helpers';
 
 const command: ICommand = {
     name: 'clearvoice',
@@ -71,10 +71,12 @@ const command: ICommand = {
 
             if (!guildMember) { // check if the guild member actually exists
                 console.log(`A user in the voice channel was invalid. Skipping over them.`);
+                overallSuccess = false; // the function has failed, so set overall success to false
                 continue;
             }
 
             try {
+                await timeout(300);
                 await guildMember.voice.setChannel(null);
                 console.log(`Removed ${guildMember.user.tag} from channel ${voiceChannel!.name}.`)
             } catch (e) {
@@ -83,7 +85,23 @@ const command: ICommand = {
             }
 
         }
+        
+        try { // send output embed with information about the command's success
+            if (overallSuccess) { // check if the function was successful and add the right output message
+                outputEmbed.addField('Status', 'Success');
+            } else {
+                outputEmbed.addField('Status', 'Failed - some members may not have been removed');
+            }
+
+            outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Voice channel cleared:** ${voiceChannel!.name}`);
+            await message.channel.send(outputEmbed);
+            console.log(`Command clearvoice, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
+        } catch (e) {
+            console.log(`There was an error sending an embed in the guild ${message.guild}! The error message is below:`);
+            console.log(e);
+        }
 
     }
 }
 
+export = command; // export the command to the main module
