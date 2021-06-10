@@ -1,7 +1,6 @@
 import { Message, MessageEmbed } from 'discord.js';
 import { ICommand } from '../utils/types';
-import { Client } from 'pg';
-import { getRoleFromMention, getUserFromMention, timeout } from '../utils/helpers';
+import { Client } from 'pg'; import { getRoleFromMention, getUserFromMention, timeout } from '../utils/helpers';
 
 const command: ICommand = {
     name: 'assignrole',
@@ -25,6 +24,7 @@ const command: ICommand = {
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
+                return;
             }
         }
 
@@ -36,6 +36,7 @@ const command: ICommand = {
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
+                return;
             }
         }
 
@@ -50,13 +51,14 @@ const command: ICommand = {
             role = message.guild!.roles.cache.get(message.guild!.roles.cache.map(r => r.id)[parseInt(roleMention!) - 1]); // else find the role by its position number
         }
 
-        if (!role) { // check if the role supplied was valid
+        if (!role) { // check if the role supplied was valid 
             console.log('Role supplied was invalid. Stopping execution.');
             try {
-                await message.channel.send('Invalid role!');
+                return await message.channel.send('Invalid role!');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
+                return;
             }
         }
 

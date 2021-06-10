@@ -25,6 +25,7 @@ const command: ICommand = {
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
+                return;
             }
         }
 
@@ -36,6 +37,7 @@ const command: ICommand = {
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
+                return;
             }
         }
 

@@ -22,6 +22,7 @@ const command: ICommand = {
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
+                return;
             }
         }
 
@@ -33,6 +34,7 @@ const command: ICommand = {
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
+                return;
             }
         }
 
@@ -45,36 +47,36 @@ const command: ICommand = {
         if (!member) { // check if the user supplied was valid
             console.log('User supplied was invalid. Stopping execution.');
             try {
-                await message.channel.send('Invalid user!');
-                return;
+                return await message.channel.send('Invalid user!');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
+                return;
             }
         }
 
         if (days) { // check if the number of days was given
-            console.log("Checking validity of value given for argument 'days'.")
+            console.log('Checking validity of value given for argument \'days\'.')
             const daysNum = parseInt(days, 10)
             if (isNaN(daysNum)) { // checks if the value for days is a number
-                // TODO: Figure out why this check doesn't work
-                console.log("Invalid input for argument 'days'. Stopping execution.")
+                console.log('Invalid number was given for argument \'days.\' Stopping execution.');
                 try {
-                    await message.channel.send("Invalid argument for days! Must be a number from 0-7.");
-                    return;
+                    return await message.channel.send('Invalid argument for days! Must be a number from 0-7.');
                 } catch (e) {
                     console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                     console.log(e);
+                    return;
                 }
             }
 
             if (daysNum < 0 || daysNum > 7) { // check if the value of days (which is definitely a number) is in the allowed range
                 try {
-                    await message.channel.send("Invalid number for days! Must be a number from 0-7.");
-                    return;
+                    console.log('Invalid number was given for argument \'days.\' Stopping execution.');
+                    return await message.channel.send('Invalid number for days! Must be a number from 0-7.');
                 } catch (e) {
                     console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                     console.log(e);
+                    return;
                 }
             }
         }
