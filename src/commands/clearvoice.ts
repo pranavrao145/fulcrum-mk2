@@ -75,7 +75,7 @@ const command: ICommand = {
 
             try {
                 await timeout(300);
-                await guildMember.voice.setChannel(null);
+                await guildMember.voice.setChannel(null); // remove user from channel
                 console.log(`Removed ${guildMember.user.tag} from channel ${voiceChannel!.name}.`)
             } catch (e) {
                 console.log(`Error removing ${guildMember.user.tag} from voice channel ${voiceChannel!.name}.`);
