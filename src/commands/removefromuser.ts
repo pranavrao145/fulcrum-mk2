@@ -19,7 +19,6 @@ const command: ICommand = {
         let outputEmbedText: string = ''; // text that will eventually be sent as a field in outputEmbed. Mainly for formatting
 
         if (!message.member!.hasPermission('MANAGE_ROLES')) { // check for adequate permissions
-            console.log('Checking permissions...')
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the MANAGE_ROLES permission to use this command.');
@@ -31,7 +30,6 @@ const command: ICommand = {
         }
 
         if (!args || args.length === 0 || args.length < 2 || args.length > 11) { // check if the args exist (this function requires them) and that there are not too many args
-            console.log('Checking validity of arguments...')
             try {
                 console.log('Incorrect syntax given. Stopping execution.');
                 return await message.channel.send(`Incorrect syntax! Correct syntax: ${this.syntax}`)
