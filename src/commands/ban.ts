@@ -7,7 +7,7 @@ const command: ICommand = {
     name: 'ban',
     description: 'Bans the given user from the server.',
     syntax: 'f!ban [user mention] (days 0-7, 0 default) (reason)',
-    async execute(message: Message, con: Client, args?: string[]) {
+    async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command ban started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
@@ -54,12 +54,12 @@ const command: ICommand = {
         }
 
         if (days) { // check if the number of days was given
-            console.log('Checking validity of value given for argument \'days\'.')
+            console.log('Checking validity of value given for days.')
             const daysNum = parseInt(days, 10)
             if (isNaN(daysNum)) { // checks if the value for days is a number
-                console.log('Invalid number was given for argument \'days.\' Stopping execution.');
+                console.log('Invalid number was given for days. Stopping execution.');
                 try {
-                    return await message.channel.send('Invalid argument for days! Must be a number from 0-7.');
+                    return await message.channel.send('Invalid value for days! Must be a number from 0-7.');
                 } catch (e) {
                     console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                     console.log(e);
@@ -69,7 +69,7 @@ const command: ICommand = {
 
             if (daysNum < 0 || daysNum > 7) { // check if the value of days (which is definitely a number) is in the allowed range
                 try {
-                    console.log('Invalid number was given for argument \'days.\' Stopping execution.');
+                    console.log('Invalid number was given for days. Stopping execution.');
                     return await message.channel.send('Invalid number for days! Must be a number from 0-7.');
                 } catch (e) {
                     console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);

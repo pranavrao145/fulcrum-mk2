@@ -12,7 +12,6 @@ import { ICommand } from './utils/types'
 
 const client: Discord.Client = new Discord.Client(); // initialize client object
 const prefix = 'f!'; // declare prefix
-const development = process.env.NODE_ENV === 'development'; // true if development environment else false
 
 // DATABASE CONNECTION
 

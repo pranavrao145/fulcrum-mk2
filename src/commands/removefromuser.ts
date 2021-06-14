@@ -9,7 +9,7 @@ const command: ICommand = {
     alias: ['rfu', 'ru'],
     syntax: 'f!removefromuser [user mention] [role mentions or numbers (10 max)]',
 
-    async execute(message: Message, con: Client, args?: string[]) {
+    async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command removefromuser started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command

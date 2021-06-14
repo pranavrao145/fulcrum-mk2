@@ -7,8 +7,8 @@ const command: ICommand = {
     name: 'createrole',
     description: 'Creates a role with the given name and colour.',
     alias: ['cr'],
-    syntax: 'f!createrole [role name] (colour code)',
-    async execute(message: Message, con: Client, args?: string[]) { 
+    syntax: 'f!createrole [role name, underscores for spaces] (colour code)',
+    async execute(message: Message, _con: Client, args?: string[]) { 
         console.log(`Command createrole started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
@@ -62,6 +62,7 @@ const command: ICommand = {
 
 
         if (roleColour) { // in the case there is a role colour specified
+            console.log('Role colour detected. Attempting to create role with colour.')
             try {
                 await message.guild!.roles.create({ // create the role with the needed data
                     data: {
@@ -69,34 +70,34 @@ const command: ICommand = {
                         color: roleColour
                     }
                 })
-                outputEmbed.addField(`${roleName}`, 'Role created successfully.');
+                outputEmbed.addField('Status', 'Success');
+                outputEmbed.addField('Colour', `${roleColour}`);
                 console.log(`Role ${roleName} created successfully in ${message.guild!.name}.`)
             }
             catch (e) {
-                outputEmbed.addField(`${roleName}`, 'Couldn\'t create role.');
+                outputEmbed.addField('Status', 'Failed');
                 console.log(`Failed to create role ${roleName} in server ${message.guild!.name}. The error message is below:`)
-                console.log(e);
             }
         } else {
             try {
+            console.log('No role colour detected. Attempting to create role without colour.')
                 await message.guild!.roles.create({ // create the role with the needed data
                     data: {
                         name: roleName,
                     }
                 })
-                outputEmbed.addField(`${roleName}`, 'Role created successfully.');
+                outputEmbed.addField(`Status`, 'Success');
                 console.log(`Role ${roleName} created successfully in ${message.guild!.name}.`)
             }
             catch (e) {
                 console.log(`Failed to create role ${roleName} in server ${message.guild!.name}. The error message is below:`)
-                console.log(e);
                 outputEmbed.addField(`${roleName}`, 'Couldn\'t create role.');
             }
         }
 
         try { // send output embed with information about the command's success
             if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
-                outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
+                outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Role created:** ${roleName}`);
                 await message.channel.send(outputEmbed);
             }
             console.log(`Command createrole, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
