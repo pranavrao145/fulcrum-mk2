@@ -7,7 +7,7 @@ const command: ICommand = {
     description: 'Unbans the given user for the given reason.',
     alias: ['ub'],
     syntax: 'f!unban [user ID] (reason)',
-    async execute(message: Message, con: Client, args?: string[]) {
+    async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command unban started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command

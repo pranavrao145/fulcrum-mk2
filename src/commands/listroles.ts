@@ -7,7 +7,7 @@ const command: ICommand = {
     description: 'Displays all the roles in the server in a list with numbers. For use with other role management commands.',
     alias: ['lr'],
     syntax: 'f!listroles',
-    async execute(message: Message, con: Client, args?: string[]) {
+    async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command listroles started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         const roles = message.guild!.roles.cache.map(r => r.name); // get roles of the server and map them to their names

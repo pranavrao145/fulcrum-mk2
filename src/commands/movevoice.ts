@@ -7,8 +7,8 @@ const command: ICommand = {
     name: 'movevoice',
     description: 'Moves the members in the first given voice channel to the other.',
     alias: ['mv'],
-    syntax: 'f!movevoice [vc role mention (from)] [vc role mention (to)]',
-    async execute(message: Message, con: Client, args?: string[]) {
+    syntax: 'f!movevoice [voice channel role mention (from)] [voice channel role mention (to)]',
+    async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command movevoice started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
@@ -39,15 +39,15 @@ const command: ICommand = {
             }
         }
 
-        const roleMentionFrom = args!.shift(); // get the vc role mention for the voice channel the user is moving from
-        const roleMentionTo = args!.shift(); // get the vc role mention for the voice channel the user is moving to
+        const roleMentionFrom = args!.shift(); // get the voice channel role mention for the voice channel the user is moving from
+        const roleMentionTo = args!.shift(); // get the voice channel role mention for the voice channel the user is moving to
 
         const roleFrom = getRoleFromMention(message, roleMentionFrom!); // actually get the role from
         const roleTo = getRoleFromMention(message, roleMentionTo!); // actually get the role to
 
         if (!roleFrom || !roleTo) { // check if the roles actually exist
             try {
-                console.log('One or more VC roles supplied was invalid. Stopping execution.');
+                console.log('One or more voice channel roles supplied was invalid. Stopping execution.');
                 return await message.channel.send('One or more roles supplied was invalid!');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
@@ -61,8 +61,8 @@ const command: ICommand = {
     
         if (!vcFrom || !vcTo) { // check if the roles are actually associated with a voice channel
             try {
-                console.log('One or more VC roles supplied was not associated with a voice channel. Stopping execution.');
-                return await message.channel.send('One or more not associated with a voice channel!');
+                console.log('One or more voice channel roles supplied was not associated with a voice channel. Stopping execution.');
+                return await message.channel.send('One or more roles not associated with a voice channel!');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);

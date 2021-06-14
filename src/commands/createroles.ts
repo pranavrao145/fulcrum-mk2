@@ -8,7 +8,7 @@ const command: ICommand = {
     description: 'Creates role(s) with the given name(s)',
     alias: ['crs'],
     syntax: 'f!createroles [role names (10 max, underscores for spaces)]', 
-    async execute(message: Message, con: Client, args?: string[]) {
+    async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command createroles started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
