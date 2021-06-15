@@ -70,8 +70,6 @@ const command: ICommand = {
                 }
             }
 
-            const channelType = typeFormatted === "text" ? ChannelType.text : ChannelType.voice; // assign the right channel type using the given input 
-
             if (getRoleFromMention(message, channelName) || getUserFromMention(message, channelName) || getChannelFromMention(message, channelName) || message.guild!.channels.cache.find(c => c.name === channelName && c.type === typeFormatted)) { // checking to see if the channel already exists on the server as a role or anything else
                 console.log('Invalid channel name or channel already exists in server. Stopping execution.');
                 outputEmbed.addField(`${channelName}`, 'Invalid channel name or channel already exists on this server.');
@@ -88,7 +86,7 @@ const command: ICommand = {
             if (permissionFormatted === 'private') { // if the permission specified is private
                 try {
                     const channel = await message.guild!.channels.create(channelName, { // create a channel with the given options (private)
-                        type: channelType,
+                        type: typeFormatted,
                         permissionOverwrites: [
                             {
                                 id: message.guild!.roles.everyone.id,
@@ -108,7 +106,7 @@ const command: ICommand = {
             } else { // else if it is public
                 try {
                     const channel = await message.guild!.channels.create(channelName, { // create a channel with the given options (public)
-                        type: channelType,
+                        type: typeFormatted,
                     });
                     outputEmbed.addField(`Status`, 'Success');
                     outputEmbed.addField('Type', `${channel.type.replace(/^\w/, (c) => c.toUpperCase())}`);
@@ -135,8 +133,6 @@ const command: ICommand = {
                 }
             }
 
-            const channelType = typeFormatted === "text" ? ChannelType.text : ChannelType.voice; // assign the right channel type using the given input 
-
             if (getRoleFromMention(message, channelName) || getUserFromMention(message, channelName) || getChannelFromMention(message, channelName) || message.guild!.channels.cache.find(c => c.name === channelName && c.type === typeFormatted)) { // checking to see if the channel already exists on the server as a role or anything else
                 console.log('Invalid channel name or channel already exists in server. Stopping execution.');
                 outputEmbed.addField(`${channelName}`, 'Invalid channel name or channel already exists on this server.');
@@ -152,7 +148,7 @@ const command: ICommand = {
 
             try {
                 const channel = await message.guild!.channels.create(channelName, { // create a channel with the given options (private)
-                    type: channelType,
+                    type: typeFormatted,
                 });
                 outputEmbed.addField(`Status`, 'Success');
                 outputEmbed.addField('Type', `${channel.type.replace(/^\w/, (c) => c.toUpperCase())}`);
