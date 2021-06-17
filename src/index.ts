@@ -91,4 +91,15 @@ client.on('message', async (message: Discord.Message) => {
     else {
         console.log('No command found, ignoring message.')
     }
-})
+});
+
+client.on('voiceStateUpdate', (oldState, newState) => { // detect when voice state changes to add/remove voice channel roles // detect when voice state changes to add/remove voice channel roles // detect when voice state changes to add/remove voice channel roles // detect when voice state changes to add/remove voice channel roles
+    // three situations exist:
+    // 1. User leaves all voice channels
+    // 2. User joins a voice channel from no voice channel
+    // 3. User joins a voice channel from another voice channel
+
+    if (oldState.channel && !newState.channel) { // if the user leaves all voice channels
+        const oldRole = oldState.guild.roles.cache.find(r => r.name === oldState.channel!.name); // find the voice channel role associated with the voice channel   
+    }
+}) 
