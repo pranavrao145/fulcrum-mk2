@@ -56,8 +56,8 @@ const command: ICommand = {
             }
         }
 
-        const vcFrom = message.guild!.channels.cache.filter(c => c.type === "voice").find(c => c.name === roleFrom.name); // find the voice channel associated with the from role
-        const vcTo = message.guild!.channels.cache.filter(c => c.type === "voice").find(c => c.name === roleTo.name); // find the voice channel associated with the to role
+        const vcFrom = message.guild!.channels.cache.filter(c => c.type === 'voice').find(c => c.name === roleFrom.name); // find the voice channel associated with the from role
+        const vcTo = message.guild!.channels.cache.filter(c => c.type === 'voice').find(c => c.name === roleTo.name); // find the voice channel associated with the to role
     
         if (!vcFrom || !vcTo) { // check if the roles are actually associated with a voice channel
             try {

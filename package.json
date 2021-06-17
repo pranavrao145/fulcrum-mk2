@@ -3,18 +3,20 @@
   "version": "2.0.0",
   "description": "A Discord bot for all the features you never knew you needed on your server.",
   "main": "index.js",
-  "author": "Pranav Rao <pranavrao145@gmail.com>",
+  "author": "Pranav Rao",
   "license": "MIT",
   "devDependencies": {
+    "@types/glob": "^7.1.3",
     "@types/node": "^15.6.1",
     "@types/node-schedule": "^1.3.1",
+    "@types/pg": "^8.6.0",
     "nodemon": "^2.0.7",
     "ts-node": "^10.0.0",
     "typescript": "^4.3.2"
   },
   "dependencies": {
-    "@types/glob": "^7.1.3",
-    "@types/pg": "^8.6.0",
+    "@iamtraction/google-translate": "^1.1.2",
+    "axios": "^0.21.1",
     "discord.js": "^12.5.3",
     "dotenv": "^10.0.0",
     "fs": "^0.0.1-security",
