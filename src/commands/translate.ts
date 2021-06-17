@@ -30,7 +30,6 @@ const command: ICommand = {
         const phrase = args.join(' '); // join the rest of the message to get the phrase to translate
 
         try {
-            console.log(`Attempting to find translations to ${toLang} for phrase ${phrase}.`);
             const translation = await translate(phrase, {to: toLang}); // request api for translation with the given data
             outputEmbed.addField(`Translation to ${toLang}`, translation.text);
         } catch (e) {

@@ -29,7 +29,6 @@ const command: ICommand = {
         const word = args.shift(); // get the word from the arguments
 
         try { // attempt to get the definition from the api  
-            console.log(`Attempting to find definitions for word ${word}.`);
             const response = await get(`https://api.dictionaryapi.dev/api/v2/entries/en_US/${word}`);
 
             const meanings = response.data[0]['meanings']; // extract the data from the api response
