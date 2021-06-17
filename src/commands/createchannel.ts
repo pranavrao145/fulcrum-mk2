@@ -37,7 +37,7 @@ const command: ICommand = {
             }
         }
 
-        const channelName = args.shift()!.replace(/_/g, " "); // get the channel name and replace all underscores with spaces
+        const channelName = args.shift()!.replace(/_/g, ' '); // get the channel name and replace all underscores with spaces
         const type = args.shift(); // get the potential type
         const permission = args.shift(); // get the potential permission
 
