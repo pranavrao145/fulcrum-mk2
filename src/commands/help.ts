@@ -84,10 +84,6 @@ const command: ICommand = {
             const adminCommands = commands.filter(c => c.admin === true).map(c => c.name); // get the admin commands
             const nonAdminCommands = commands.filter(c => c.admin === false).map(c => c.name); // get the non admin commands
 
-            console.log(adminCommands.length);
-            console.log(nonAdminCommands.length);
-
-
             let adminOutputEmbedText = '';
             let nonAdminOutputEmbedText = '';
 
