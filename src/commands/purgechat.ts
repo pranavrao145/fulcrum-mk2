@@ -77,7 +77,6 @@ const command: ICommand = {
         try {
             await message.delete(); // attempt to delete the original message
             await message.channel.bulkDelete(parsedNum); // attempt to delete the number of messages specified
-            outputEmbed.addField('Status', 'Success');
         } catch (e) {
             console.log(`Failed to delete messages in ${message.channel.name}`);
             outputEmbed.addField('Status', 'Failed');
