@@ -1,26 +1,27 @@
-import { Message, MessageEmbed } from 'discord.js';
-import { ICommand } from '../utils/types';
-import { Client } from 'pg'; 
-import { getRoleFromMention, getUserFromMention, timeout } from '../utils/helpers';
+import {Message, MessageEmbed} from 'discord.js';
+import {ICommand} from '../utils/types';
+import {Client} from 'pg';
+import {getRoleFromMention, getUserFromMention, timeout} from '../utils/helpers';
 
 const command: ICommand = {
     name: 'assignrole',
     description: 'Adds the given role to the given user(s). Max 10 users mentionable with one command.',
     alias: ['ar'],
     syntax: 'f!assignrole [role mention or number] [user mentions (10 max)]',
+    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command assignrole started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
-        .setColor('#FFFCF4')
-        .setTitle('Assign Roles - Report')
+            .setColor('#FFFCF4')
+            .setTitle('Assign Roles - Report')
 
         let outputEmbedText: string = ''; // text that will eventually be sent as a field in outputEmbed. Mainly for formatting
 
         if (!message.member!.hasPermission('MANAGE_ROLES')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
-                return await message.reply('sorry, you need to have the MANAGE_ROLES permission to use this command.');
+                return await message.reply('sorry, you need to have the `MANAGE_ROLES` permission to use this command.');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
@@ -31,7 +32,7 @@ const command: ICommand = {
         if (!args || args.length === 0 || args.length < 2 || args.length > 11) { // check if the args exist (this function requires them) and that there are not too many args
             try {
                 console.log('Incorrect syntax given. Stopping execution.');
-                return await message.channel.send(`Incorrect syntax! Correct syntax: ${this.syntax}`)
+                return await message.channel.send(`Incorrect syntax! Correct syntax: \`${this.syntax}\``)
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);

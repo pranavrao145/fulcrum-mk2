@@ -1,23 +1,24 @@
-import { Message, MessageEmbed } from 'discord.js';
-import { ICommand } from '../utils/types';
-import { Client } from 'pg';
-import { getUserFromMention } from '../utils/helpers';
+import {Message, MessageEmbed} from 'discord.js';
+import {ICommand} from '../utils/types';
+import {Client} from 'pg';
+import {getUserFromMention} from '../utils/helpers';
 
 const command: ICommand = {
     name: 'kick',
     description: 'Kicks the given user from the server.',
     syntax: 'f!kick [user mention] (reason)',
+    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command kick started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
-        .setColor('#FFFCF4')
-        .setTitle('Kick - Report')
+            .setColor('#FFFCF4')
+            .setTitle('Kick - Report')
 
         if (!message.member!.hasPermission('KICK_MEMBERS')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
-                return await message.reply('sorry, you need to have the KICK_MEMBERS permission to use this command.');
+                return await message.reply('sorry, you need to have the `KICK_MEMBERS` permission to use this command.');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
@@ -28,7 +29,7 @@ const command: ICommand = {
         if (!args || args.length === 0) { // check if the args exist (this function requires them) and that there are not too many args
             try {
                 console.log('Incorrect syntax given. Stopping execution.');
-                return await message.channel.send(`Incorrect syntax! Correct syntax: ${this.syntax}`)
+                return await message.channel.send(`Incorrect syntax! Correct syntax: \`${this.syntax}\``)
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
@@ -39,7 +40,7 @@ const command: ICommand = {
         const userMention = args!.shift(); // get the user mention
         const reasonToKick = args!.join(' '); // get the potential reason to kick by joining the rest of the args
 
-        const user = getUserFromMention(message, userMention!); 
+        const user = getUserFromMention(message, userMention!);
 
         if (!user) { // check if the user supplied was valid
             console.log('User supplied was invalid. Stopping execution.');

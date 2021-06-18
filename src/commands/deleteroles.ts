@@ -1,26 +1,27 @@
-import { ICommand } from '../utils/types';
-import { Message, MessageEmbed } from 'discord.js';
-import { Client } from 'pg';
-import { getRoleFromMention, timeout } from '../utils/helpers';
+import {ICommand} from '../utils/types';
+import {Message, MessageEmbed} from 'discord.js';
+import {Client} from 'pg';
+import {getRoleFromMention, timeout} from '../utils/helpers';
 
 const command: ICommand = {
     name: 'deleteroles',
     description: 'Deletes the role(s) given.',
     alias: ['dr', 'drs'],
-    syntax: 'f!deleteroles [role names (10 max)]', 
+    syntax: 'f!deleteroles [role names (10 max)]',
+    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command deleteroles started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
-        .setColor('#FFFCF4')
-        .setTitle('Delete Roles - Report')
+            .setColor('#FFFCF4')
+            .setTitle('Delete Roles - Report')
 
         let outputEmbedText: string = ''; // text that will eventually be sent as a field in outputEmbed. Mainly for formatting
 
         if (!message.member!.hasPermission('MANAGE_ROLES')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
-                return await message.reply('sorry, you need to have the MANAGE_ROLES permission to use this command.');
+                return await message.reply('sorry, you need to have the `MANAGE_ROLES` permission to use this command.');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
@@ -31,13 +32,15 @@ const command: ICommand = {
         if (!args || args.length === 0 || args.length < 1 || args.length > 10) { // check if the args exist (this function requires them) and that there are not too many args
             try {
                 console.log('Incorrect syntax given. Stopping execution.');
-                return await message.channel.send(`Incorrect syntax! Correct syntax: ${this.syntax}`)
+                return await message.channel.send(`Incorrect syntax! Correct syntax: \`${this.syntax}\``)
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
                 return;
             }
         }
+
+        const roleList = message.guild!.roles.cache.map(r => r.id);
 
         for (const mention of args!) { // iterate through all the mentions given
             let role; // declare role object, to be determined later using logic below
@@ -47,7 +50,7 @@ const command: ICommand = {
                 role = getRoleFromMention(message, mention); // then get it from the role cache
             } else {
                 console.log('Role is of type number. Getting role using position.')
-                role = message.guild!.roles.cache.get(message.guild!.roles.cache.map(r => r.id)[parseInt(mention) - 1]); // else find the role by its position number
+                role = message.guild!.roles.cache.get(roleList[parseInt(mention) - 1]); // else find the role by its position number
             }
 
             if (!role) { // check if the role exists or not
@@ -56,7 +59,7 @@ const command: ICommand = {
                 continue;
             }
 
-            try { 
+            try {
                 await timeout(300); // setting a short timeout to prevent abuse of Discord's API
                 await role.delete(); // attempt to delete the role
                 console.log(`Role ${role.name} deleted successfully.`)

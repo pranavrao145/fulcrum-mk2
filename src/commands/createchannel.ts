@@ -1,13 +1,14 @@
-import { Message, MessageEmbed } from 'discord.js';
-import { ICommand } from '../utils/types';
-import { Client } from 'pg';
-import { getChannelFromMention, getRoleFromMention, getUserFromMention } from '../utils/helpers';
+import {Message, MessageEmbed} from 'discord.js';
+import {ICommand} from '../utils/types';
+import {Client} from 'pg';
+import {getChannelFromMention, getRoleFromMention, getUserFromMention} from '../utils/helpers';
 
 const command: ICommand = {
     name: 'createchannel',
     description: 'Creates a channel based on the given information.',
     alias: ['cc'],
     syntax: 'f!createchannel [name (underscores for spaces)] (*text*/voice) (*public*/private)',
+    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command createchannel started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
@@ -18,7 +19,7 @@ const command: ICommand = {
         if (!message.member!.hasPermission('MANAGE_CHANNELS')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
-                return await message.reply('sorry, you need to have the MANAGE_CHANNELS permission to use this command.');
+                return await message.reply('sorry, you need to have the `MANAGE_CHANNELS` permission to use this command.');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
@@ -29,7 +30,7 @@ const command: ICommand = {
         if (!args || args.length === 0 || args.length > 3) { // check if the args exist (this function requires them) and that there are not too many args
             try {
                 console.log('Incorrect syntax given. Stopping execution.');
-                return await message.channel.send(`Incorrect syntax! Correct syntax: ${this.syntax}`)
+                return await message.channel.send(`Incorrect syntax! Correct syntax: \`${this.syntax}\``)
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
@@ -177,7 +178,7 @@ const command: ICommand = {
 
             try {
                 await message.guild!.channels.create(channelName);  // create a channel with the defualt options 
-                
+
                 outputEmbed.addField(`Status`, 'Success');
                 outputEmbed.addField('Type', 'Text');
                 outputEmbed.addField('Permission', 'Public');
