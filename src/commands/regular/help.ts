@@ -19,16 +19,34 @@ const command: ICommand = {
 
         // the way the program is written means there is no direct access to the client's commands, so they must be read again
 
-        // prepare to read command files
+        // prepare to read command files for different categories of commands
         const globPromise = promisify(glob);
-        const commands: Array<ICommand> = [];
+        const allComands: Array<ICommand> = [];
+        const adminCommands: Array<ICommand> = [];
+        const regularCommands: Array<ICommand> = [];
+        const serviceCommands: Array<ICommand> = [];
 
-        // load in command files
-        const commandFiles = await globPromise(`${__dirname}/../**/*.{js,ts}`); // identify command files
+        // load in command files for different categories of commands
+        const adminCommandFiles = await globPromise(`${__dirname}/../admin/*.{js,ts}`); // identify command files
+        const regularCommandFiles = await globPromise(`${__dirname}/../regular/*.{js,ts}`); // identify command files
+        const serviceCommandFiles = await globPromise(`${__dirname}/../service/*.{js,ts}`); // identify command files
 
-        for (const file of commandFiles) {
+        for (const file of adminCommandFiles) {
             const command = await import(file);
-            commands.push(command);
+            adminCommands.push(command);
+            allComands.push(command);
+        }
+
+        for (const file of regularCommandFiles) {
+            const command = await import(file);
+            regularCommands.push(command);
+            allComands.push(command);
+        }
+
+        for (const file of serviceCommandFiles) {
+            const command = await import(file);
+            serviceCommands.push(command);
+            allComands.push(command);
         }
 
 
@@ -36,7 +54,7 @@ const command: ICommand = {
             console.log('Found argument supplied, attempting to find help for specific command.');
 
             const commandName = args!.shift(); // get the name of the command specified
-            const command = commands.find(c => c.name === commandName || (c.alias ? c.alias!.includes(commandName!) : false)); // attempt to find the command by name or alias
+            const command = allComands.find(c => c.name === commandName || (c.alias ? c.alias!.includes(commandName!) : false)); // attempt to find the command by name or alias
 
             if (command) { // if a command is found
                 // extract info about the command
@@ -79,28 +97,35 @@ const command: ICommand = {
                 }
             }
         } else { // if the original message does not contain any arguments (general help message)
-            outputEmbed.setDescription('General Help\nFor information on a specific command, type f!help [command]');
+            outputEmbed.setDescription('General Help\nUse the prefix **f!** before any of these commands\nFor information on a specific command, type f!help [command]');
 
-            const adminCommands = commands.filter(c => c.admin === true).map(c => c.name); // get the admin commands
-            const nonAdminCommands = commands.filter(c => c.admin === false).map(c => c.name); // get the non admin commands
 
             let adminOutputEmbedText = '';
-            let nonAdminOutputEmbedText = '';
+            let regularOutputEmbedText = '';
+            let serviceOutputEmbedText = '';
 
-            for (const commandName of adminCommands) {
-                adminOutputEmbedText += `\`${commandName}\` `; // add the command to the output text with a space
+            for (const command of adminCommands) {
+                adminOutputEmbedText += `\`${command.name}\` `; // add the command to the output text with a space
             }
 
-            for (const commandName of nonAdminCommands) {
-                nonAdminOutputEmbedText += `\`${commandName}\` `; // add the command to the output text with a space
+            for (const command of regularCommands) {
+                regularOutputEmbedText += `\`${command.name}\` `; // add the command to the output text with a space
+            }
+
+            for (const command of serviceCommands) {
+                serviceOutputEmbedText += `\`${command.name}\` `; // add the command to the output text with a space
             }
 
             if (adminOutputEmbedText) { // check if there are actually admin commands to output
                 outputEmbed.addField('Admin Commands', adminOutputEmbedText);
             }
 
-            if (nonAdminOutputEmbedText) { // check if there are actually regular commands to output
-                outputEmbed.addField('Regular Commands', nonAdminOutputEmbedText);
+            if (regularOutputEmbedText) { // check if there are actually regular commands to output
+                outputEmbed.addField('Regular Commands', regularOutputEmbedText);
+            }
+
+            if (serviceOutputEmbedText) { // check if there are actually service commands to output
+                outputEmbed.addField('Service Commands', serviceOutputEmbedText);
             }
 
             try { // send output embed with information about the command's success
