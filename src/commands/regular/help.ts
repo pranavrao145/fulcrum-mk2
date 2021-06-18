@@ -24,7 +24,7 @@ const command: ICommand = {
         const commands: Array<ICommand> = [];
 
         // load in command files
-        const commandFiles = await globPromise(`${__dirname}/*.{js,ts}`); // identify command files
+        const commandFiles = await globPromise(`${__dirname}/../**/*.{js,ts}`); // identify command files
 
         for (const file of commandFiles) {
             const command = await import(file);
