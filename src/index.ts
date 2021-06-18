@@ -51,7 +51,7 @@ client.on('ready', async () => {
     }
 
     console.log(`Logged in as ${client.user!.tag}!`);
-    console.log(client.guilds.cache.size);
+    console.log(`Currently in ${client.guilds.cache.size} guilds!`);
 
     try {
         await client.user!.setPresence({
@@ -68,6 +68,7 @@ client.on('ready', async () => {
     }
 });
 
+// on a message, parse message for commands and execute accordingly
 client.on('message', async (message: Discord.Message) => {
     // check if the message contains the prefix, and is not by a bot or in a dm 
     if (!message.content.toLowerCase().startsWith(prefix) || message.author.bot || message.guild === null) return;
@@ -93,7 +94,8 @@ client.on('message', async (message: Discord.Message) => {
     }
 });
 
-client.on('voiceStateUpdate', async (oldState: Discord.VoiceState, newState: Discord.VoiceState) => { // detect when voice state changes to add/remove voice channel roles // detect when voice state changes to add/remove voice channel roles // detect when voice state changes to add/remove voice channel roles // detect when voice state changes to add/remove voice channel roles
+// on a voice state change, add/remove the appropriate voice channel roles 
+client.on('voiceStateUpdate', async (oldState: Discord.VoiceState, newState: Discord.VoiceState) => {     
     // three situations exist:
     // 1. User leaves all voice channels
     // 2. User joins a voice channel from no voice channel
@@ -160,5 +162,6 @@ client.on('voiceStateUpdate', async (oldState: Discord.VoiceState, newState: Dis
             }
         }
     }
-    console.log('Voice channel role update sequence completed successfully.');
+
+    console.log('Voice channel role update sequence completed successfully.')
 })
