@@ -16,12 +16,16 @@ const command: ICommand = {
         .setColor('#FFFCF4')
         .setTitle(`Roles for ${message.guild!.name}`);
 
+        let outputEmbedText = '';
+
         for (let i = 0; i < roles.length; i++) { // iterate through collection
-            outputEmbed.addField('\u200B', `**${i + 1}.** ${roles[i]}`, true);
+            outputEmbedText += `**${i + 1}.** ${roles[i]}\n` // add the role to the list
         }
 
         try { // send output embed with information about the command's success
-            if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
+            outputEmbed.addField('\u200B', outputEmbedText); // add whatever text was accumulated throughout the command to the embed
+            if (outputEmbedText !== '') { // check if there is actually any text to send the embed with
+                outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
                 await message.channel.send(outputEmbed);
             }
             console.log(`Command listroles, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
@@ -29,7 +33,6 @@ const command: ICommand = {
             console.log(`There was an error sending an embed in the guild ${message.guild}! The error message is below:`);
             console.log(e);
         }
-
     }
 }
 

@@ -39,6 +39,8 @@ const command: ICommand = {
             }
         }
 
+        const roleList = message.guild!.roles.cache.map(r => r.id);
+
         for (const mention of args!) { // iterate through all the mentions given
             let role; // declare role object, to be determined later using logic below
 
@@ -47,7 +49,7 @@ const command: ICommand = {
                 role = getRoleFromMention(message, mention); // then get it from the role cache
             } else {
                 console.log('Role is of type number. Getting role using position.')
-                role = message.guild!.roles.cache.get(message.guild!.roles.cache.map(r => r.id)[parseInt(mention) - 1]); // else find the role by its position number
+                role = message.guild!.roles.cache.get(roleList[parseInt(mention) - 1]); // else find the role by its position number
             }
 
             if (!role) { // check if the role exists or not
