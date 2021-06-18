@@ -1,4 +1,4 @@
-Fulcrum Prime
+# Fulcrum Prime
 A Discord bot for all the features you never knew you needed on your server!
 
 ## Version 2
