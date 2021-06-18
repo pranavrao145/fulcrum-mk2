@@ -1,4 +1,4 @@
-import { ICommand } from '../utils/types';
+import { ICommand } from '../../utils/types';
 import { Message, MessageEmbed } from 'discord.js';
 import { Client } from 'pg';
 

@@ -1,7 +1,7 @@
 import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../utils/types';
+import {ICommand} from '../../utils/types';
 import {Client} from 'pg';
-import {getRandomInteger} from '../utils/helpers';
+import {getRandomInteger} from '../../utils/helpers';
 
 
 const command: ICommand = {

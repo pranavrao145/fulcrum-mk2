@@ -42,7 +42,7 @@ client.login(process.env.BOT_TOKEN).catch((err: any) => {
 // on ready, set status and log presence data
 client.on('ready', async () => {
     // load in command files
-    const commandFiles = await globPromise(`${__dirname}/commands/*.{js,ts}`); // identify command files
+    const commandFiles = await globPromise(`${__dirname}/commands/**/*.{js,ts}`); // identify command files
 
     for (const file of commandFiles) {
         const command = await import(file);

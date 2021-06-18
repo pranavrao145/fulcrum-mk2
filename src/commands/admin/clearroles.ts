@@ -1,20 +1,20 @@
 import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../utils/types';
+import {ICommand} from '../../utils/types';
 import {Client} from 'pg';
-import {getRoleFromMention, getUserFromMention, timeout} from '../utils/helpers';
+import {getRoleFromMention, timeout} from '../../utils/helpers';
 
 const command: ICommand = {
-    name: 'assignuser',
-    description: 'Assigns all the given roles to the given user',
-    alias: ['au'],
-    syntax: 'f!assignuser [user mention] [role mentions or numbers (10 max)]',
+    name: 'clearroles',
+    description: 'Removes the given role from all users that have it.',
+    alias: ['clr'],
+    syntax: 'f!clearroles [role mentions or numbers (10 max)]',
     admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
-        console.log(`Command assignuser started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
+        console.log(`Command clearroles started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
             .setColor('#FFFCF4')
-            .setTitle('Assign User - Report')
+            .setTitle('Clear Roles - Report')
 
         let outputEmbedText: string = ''; // text that will eventually be sent as a field in outputEmbed. Mainly for formatting
 
@@ -29,7 +29,7 @@ const command: ICommand = {
             }
         }
 
-        if (!args || args.length === 0 || args.length < 2 || args.length > 11) { // check if the args exist (this function requires them) and that there are not too many args
+        if (!args || args.length === 0 || args.length < 1 || args.length > 10) { // check if the args exist (this function requires them) and that there are not too many args
             try {
                 console.log('Incorrect syntax given. Stopping execution.');
                 return await message.channel.send(`Incorrect syntax! Correct syntax: \`${this.syntax}\``)
@@ -40,23 +40,9 @@ const command: ICommand = {
             }
         }
 
-        const userMention = args!.shift(); // find the mention of the user in the args
-        const user = getUserFromMention(message, userMention!);
+        for (const mention of args!) {
+            let overallSuccess = true; // var to keep track of whether the clear of this role was successful or not
 
-
-        if (!user) { // check if the user supplied was valid
-            console.log('User supplied was invalid. Stopping execution.');
-            try {
-                return await message.channel.send('Invalid user!');
-            } catch (e) {
-                console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
-                console.log(e);
-                return;
-            }
-        }
-
-
-        for (const mention of args!) { // iterate through all the role mentions
             let role; // declare role object, to be determined later using logic below
 
             if (isNaN(parseInt(mention))) { // if the arg is a mention and not a number
@@ -73,29 +59,55 @@ const command: ICommand = {
                 continue;
             }
 
-            try {
-                await timeout(300); // setting a short timeout to prevent abuse of Discord's API
-                await user!.roles.add(role); // adding role to the user
-                console.log(`Role ${role.name} added to ${user!.user.tag} successfully.`)
-                outputEmbedText += `\n**${role.name}**: Role added successfully.`;
-            } catch (e) {
-                console.log(`Failed to add role ${role.name} to ${user!.user.tag}.`)
-                outputEmbedText += `\n**${role.name}**: Couldn\'t add role.`;
+            const memberIDs = role.members.map(mem => mem.id); // get the mmebers of the role
+
+            if (!memberIDs) { // check if the role members actually exist
+                console.log('A role supplied did not have any members. Skipping over it.');
+                outputEmbedText += `\n**${role.name}:** No members with this role were found.`;
+                continue;
             }
 
+
+            for (const memberID of memberIDs) { // iterate through the members that have the role
+                const member = message.guild!.members.cache.get(memberID); // get the member 
+
+                if (!member) {
+                    console.log('A member with the role did not exists. Skipping over them.');
+                    overallSuccess = false; // if a member for a role does not exists, the function has failed to remove the role for all members
+                    continue;
+                }
+
+                try {
+                    await timeout(300);
+                    await member.roles.remove(role);
+                    console.log(`Role ${role.name} was removed from user ${member.user.tag} successfully.`);
+                } catch (e) {
+                    console.log(`Failed to remove ${role.name} from ${member.user.tag}.`)
+                    overallSuccess = false; // the function has failed to remove the role for all members, so not successful
+                }
+            }
+
+            if (overallSuccess) { // check if the command was successful and add the according message
+                console.log(`Role ${role!.name} was cleared successfully.`)
+                outputEmbedText += `\n**${role!.name}:** Role cleared successfully.`;
+            } else {
+                console.log(`Failed to clear role ${role!.name}.`);
+                outputEmbedText += `\n**${role!.name}:** Couldn't clear role fully.`;
+            }
         }
 
         try { // send output embed with information about the command's success
             outputEmbed.addField('\u200B', outputEmbedText); // add whatever text was accumulated throughout the command to the embed
             if (outputEmbedText !== '') { // check if there is actually any text to send the embed with
-                outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Assigned roles to:** ${user!.user.tag}`);
+                outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
                 await message.channel.send(outputEmbed);
             }
-            console.log(`Command assignuser, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
+            console.log(`Command clearroles, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
         } catch (e) {
             console.log(`There was an error sending an embed in the guild ${message.guild}! The error message is below:`);
             console.log(e);
         }
+
     }
 }
 

@@ -1,5 +1,5 @@
 import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../utils/types';
+import {ICommand} from '../../utils/types';
 import {Client} from 'pg';
 import {promisify} from 'util'
 import glob from 'glob';
