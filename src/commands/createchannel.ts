@@ -1,13 +1,14 @@
-import { Message, MessageEmbed } from 'discord.js';
-import { ICommand } from '../utils/types';
-import { Client } from 'pg';
-import { getChannelFromMention, getRoleFromMention, getUserFromMention } from '../utils/helpers';
+import {Message, MessageEmbed} from 'discord.js';
+import {ICommand} from '../utils/types';
+import {Client} from 'pg';
+import {getChannelFromMention, getRoleFromMention, getUserFromMention} from '../utils/helpers';
 
 const command: ICommand = {
     name: 'createchannel',
     description: 'Creates a channel based on the given information.',
     alias: ['cc'],
     syntax: 'f!createchannel [name (underscores for spaces)] (*text*/voice) (*public*/private)',
+    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command createchannel started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
@@ -177,7 +178,7 @@ const command: ICommand = {
 
             try {
                 await message.guild!.channels.create(channelName);  // create a channel with the defualt options 
-                
+
                 outputEmbed.addField(`Status`, 'Success');
                 outputEmbed.addField('Type', 'Text');
                 outputEmbed.addField('Permission', 'Public');

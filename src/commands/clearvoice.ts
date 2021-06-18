@@ -1,19 +1,20 @@
-import { Message, MessageEmbed } from 'discord.js';
-import { ICommand } from '../utils/types';
-import { Client } from 'pg';
-import { getRoleFromMention, timeout } from '../utils/helpers';
+import {Message, MessageEmbed} from 'discord.js';
+import {ICommand} from '../utils/types';
+import {Client} from 'pg';
+import {getRoleFromMention, timeout} from '../utils/helpers';
 
 const command: ICommand = {
     name: 'clearvoice',
     description: 'Clears the given voice channel.',
     alias: ['cv'],
     syntax: 'f!clearvoice [voice channel role mention]',
+    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command clearvoice started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
-        .setColor('#FFFCF4')
-        .setTitle('Clear Voice - Report');
+            .setColor('#FFFCF4')
+            .setTitle('Clear Voice - Report');
 
         let overallSuccess = true; // to keep track of whether or not the function was overall successful
 
@@ -87,7 +88,7 @@ const command: ICommand = {
             }
 
         }
-        
+
         try { // send output embed with information about the command's success
             if (overallSuccess) { // check if the function was successful and add the right output message
                 outputEmbed.addField('Status', 'Success');

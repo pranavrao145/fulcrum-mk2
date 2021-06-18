@@ -1,19 +1,20 @@
-import { ICommand } from '../utils/types';
-import { Message, MessageEmbed } from 'discord.js';
-import { Client } from 'pg';
-import { getRoleFromMention, timeout } from '../utils/helpers';
+import {ICommand} from '../utils/types';
+import {Message, MessageEmbed} from 'discord.js';
+import {Client} from 'pg';
+import {getRoleFromMention, timeout} from '../utils/helpers';
 
 const command: ICommand = {
     name: 'deleteroles',
     description: 'Deletes the role(s) given.',
     alias: ['dr', 'drs'],
-    syntax: 'f!deleteroles [role names (10 max)]', 
+    syntax: 'f!deleteroles [role names (10 max)]',
+    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command deleteroles started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
-        .setColor('#FFFCF4')
-        .setTitle('Delete Roles - Report')
+            .setColor('#FFFCF4')
+            .setTitle('Delete Roles - Report')
 
         let outputEmbedText: string = ''; // text that will eventually be sent as a field in outputEmbed. Mainly for formatting
 
@@ -58,7 +59,7 @@ const command: ICommand = {
                 continue;
             }
 
-            try { 
+            try {
                 await timeout(300); // setting a short timeout to prevent abuse of Discord's API
                 await role.delete(); // attempt to delete the role
                 console.log(`Role ${role.name} deleted successfully.`)

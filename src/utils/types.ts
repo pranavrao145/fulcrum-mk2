@@ -7,5 +7,6 @@ export interface ICommand {
     description: string
     alias?: string[]
     syntax: string
+    admin: boolean,
     execute(message: Message, _con: Client, args?: string[]): any
 }

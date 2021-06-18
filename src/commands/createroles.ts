@@ -1,19 +1,20 @@
-import { ICommand } from '../utils/types';
-import { Message, MessageEmbed } from 'discord.js';
-import { Client } from 'pg';
-import { getChannelFromMention, getRoleFromMention, getUserFromMention } from '../utils/helpers';
+import {ICommand} from '../utils/types';
+import {Message, MessageEmbed} from 'discord.js';
+import {Client} from 'pg';
+import {getChannelFromMention, getRoleFromMention, getUserFromMention} from '../utils/helpers';
 
 const command: ICommand = {
     name: 'createroles',
     description: 'Creates role(s) with the given name(s)',
     alias: ['crs'],
-    syntax: 'f!createroles [role names (10 max, underscores for spaces)]', 
+    syntax: 'f!createroles [role names (10 max, underscores for spaces)]',
+    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command createroles started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
-        .setColor('#FFFCF4')
-        .setTitle('Create Roles - Report')
+            .setColor('#FFFCF4')
+            .setTitle('Create Roles - Report')
 
         let outputEmbedText: string = ''; // text that will eventually be sent as a field in outputEmbed. Mainly for formatting
 

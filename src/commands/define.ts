@@ -8,6 +8,7 @@ const command: ICommand = {
     description: 'Defines the given English word.',
     alias: ['df'],
     syntax: 'f!define [word]',
+    admin: false,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command define started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
@@ -33,8 +34,8 @@ const command: ICommand = {
             const response = await get(`https://api.dictionaryapi.dev/api/v2/entries/en_US/${word}`);
 
             const meanings = response.data[0]['meanings']; // extract the data from the api response
- 
-            for (const meaning of meanings ) {
+
+            for (const meaning of meanings) {
                 const partOfSpeech = meaning['partOfSpeech']; // get the part of speech
                 const definition = meaning['definitions'][0]['definition']; // get the defintion
 
@@ -46,7 +47,7 @@ const command: ICommand = {
             outputEmbed.addField('\u200B', 'No definitions found.');
         }
 
-        
+
         try { // send output embed with information about the command's success
             if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Word defined:** ${word}`);

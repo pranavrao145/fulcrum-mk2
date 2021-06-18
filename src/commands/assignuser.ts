@@ -1,19 +1,20 @@
-import { Message, MessageEmbed } from 'discord.js';
-import { ICommand } from '../utils/types';
-import { Client } from 'pg';
-import { getRoleFromMention, getUserFromMention, timeout } from '../utils/helpers';
+import {Message, MessageEmbed} from 'discord.js';
+import {ICommand} from '../utils/types';
+import {Client} from 'pg';
+import {getRoleFromMention, getUserFromMention, timeout} from '../utils/helpers';
 
 const command: ICommand = {
     name: 'assignuser',
     description: 'Assigns all the given roles to the given user',
     alias: ['au'],
     syntax: 'f!assignuser [user mention] [role mentions or numbers (10 max)]',
+    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command assignuser started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
-        .setColor('#FFFCF4')
-        .setTitle('Assign User - Report')
+            .setColor('#FFFCF4')
+            .setTitle('Assign User - Report')
 
         let outputEmbedText: string = ''; // text that will eventually be sent as a field in outputEmbed. Mainly for formatting
 

@@ -1,18 +1,19 @@
-import { Message, MessageEmbed } from 'discord.js';
-import { ICommand } from '../utils/types';
-import { Client } from 'pg';
+import {Message, MessageEmbed} from 'discord.js';
+import {ICommand} from '../utils/types';
+import {Client} from 'pg';
 
 const command: ICommand = {
     name: 'unban',
     description: 'Unbans the given user for the given reason.',
     alias: ['ub'],
     syntax: 'f!unban [user ID] (reason)',
+    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command unban started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
-        .setColor('#FFFCF4')
-        .setTitle('Unban - Report')
+            .setColor('#FFFCF4')
+            .setTitle('Unban - Report')
 
         if (!message.member!.hasPermission('BAN_MEMBERS')) { // check for adequate permissions
             try {
@@ -40,7 +41,7 @@ const command: ICommand = {
         const reasonToUnban = args!.join(' '); // get the potential reason to ban by joining the rest of the args
 
         let ban: any; // declaring ban object for use with logic below
- 
+
         try {
             ban = await message.guild!.fetchBan(userID!); // attempt to get the user's ban info
         } catch (e) {
@@ -54,7 +55,7 @@ const command: ICommand = {
             }
         }
 
-        
+
         if (reasonToUnban) { // check if the user has provided a reason to unban
             try {
                 await message.guild!.members.unban(ban!.user, reasonToUnban);
@@ -64,7 +65,7 @@ const command: ICommand = {
             } catch (e) {
                 console.log(`Failed to unban user ${ban!.user.tag}.`)
                 outputEmbed.addField('Status', 'Failed');
-            } 
+            }
         } else { // if there is no reason
             try {
                 await message.guild!.members.unban(ban!.user);
@@ -73,7 +74,7 @@ const command: ICommand = {
             } catch (e) {
                 console.log(`Failed to unban user ${ban!.user.tag}.`)
                 outputEmbed.addField('Status', 'Failed');
-            } 
+            }
         }
 
         try { // send output embed with information about the command's success

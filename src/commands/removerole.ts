@@ -1,19 +1,20 @@
-import { Message, MessageEmbed } from 'discord.js';
-import { ICommand } from '../utils/types';
-import { Client } from 'pg';
-import { getRoleFromMention, getUserFromMention, timeout } from '../utils/helpers';
+import {Message, MessageEmbed} from 'discord.js';
+import {ICommand} from '../utils/types';
+import {Client} from 'pg';
+import {getRoleFromMention, getUserFromMention, timeout} from '../utils/helpers';
 
 const command: ICommand = {
     name: 'removerole',
     description: 'Removes the given role from the users mentioned.',
     alias: ['rr'],
     syntax: 'f!removerole [role mention] [user mentions (10 max)]',
+    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command removerole started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
-        .setColor('#FFFCF4')
-        .setTitle('Remove Roles - Report')
+            .setColor('#FFFCF4')
+            .setTitle('Remove Roles - Report')
 
         let outputEmbedText: string = ''; // text that will eventually be sent as a field in outputEmbed. Mainly for formatting
 

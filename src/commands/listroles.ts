@@ -7,7 +7,8 @@ const command: ICommand = {
     description: 'Displays all the roles in the server in a list with numbers. For use with other role management commands.',
     alias: ['lr'],
     syntax: 'f!listroles',
-    async execute(message: Message, _con: Client, args?: string[]) {
+    admin: true,
+    async execute(message: Message, _con: Client, _args?: string[]) {
         console.log(`Command listroles started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         const roles = message.guild!.roles.cache.map(r => r.name); // get roles of the server and map them to their names
@@ -17,6 +18,18 @@ const command: ICommand = {
         .setTitle(`Roles for ${message.guild!.name}`);
 
         let outputEmbedText = '';
+
+
+        if (!message.member!.hasPermission('MANAGE_ROLES')) { // check for adequate permissions
+            try {
+                console.log('Insufficient permissions. Stopping execution.')
+                return await message.reply('sorry, you need to have the MANAGE_ROLES permission to use this command.');
+            } catch (e) {
+                console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                console.log(e);
+                return;
+            }
+        }
 
         for (let i = 0; i < roles.length; i++) { // iterate through collection
             outputEmbedText += `**${i + 1}.** ${roles[i]}\n` // add the role to the list

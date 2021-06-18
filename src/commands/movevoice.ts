@@ -1,19 +1,20 @@
-import { Message, MessageEmbed } from 'discord.js';
-import { ICommand } from '../utils/types';
-import { Client } from 'pg';
-import { getRoleFromMention, timeout } from '../utils/helpers';
+import {Message, MessageEmbed} from 'discord.js';
+import {ICommand} from '../utils/types';
+import {Client} from 'pg';
+import {getRoleFromMention, timeout} from '../utils/helpers';
 
 const command: ICommand = {
     name: 'movevoice',
     description: 'Moves the members in the first given voice channel to the other.',
     alias: ['mv'],
     syntax: 'f!movevoice [voice channel role mention (from)] [voice channel role mention (to)]',
+    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command movevoice started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
-        .setColor('#FFFCF4')
-        .setTitle('Move Voice - Report');
+            .setColor('#FFFCF4')
+            .setTitle('Move Voice - Report');
 
         let overallSuccess = true; // to keep track of whether or not the function was overall successful
 
@@ -58,7 +59,7 @@ const command: ICommand = {
 
         const vcFrom = message.guild!.channels.cache.filter(c => c.type === 'voice').find(c => c.name === roleFrom.name); // find the voice channel associated with the from role
         const vcTo = message.guild!.channels.cache.filter(c => c.type === 'voice').find(c => c.name === roleTo.name); // find the voice channel associated with the to role
-    
+
         if (!vcFrom || !vcTo) { // check if the roles are actually associated with a voice channel
             try {
                 console.log('One or more voice channel roles supplied was not associated with a voice channel. Stopping execution.');
