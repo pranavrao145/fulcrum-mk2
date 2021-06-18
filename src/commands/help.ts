@@ -6,8 +6,7 @@ import glob from 'glob';
 
 const command: ICommand = {
     name: 'help',
-    description: 'Displays a general help message, or for a specific command if specified.',
-    alias: ['h'],
+    description: 'Displays a general help message, or for a specific command if specified.', alias: ['h'],
     syntax: 'f!help (command name)',
     admin: false,
     async execute(message: Message, _con: Client, args?: string[]) {
@@ -80,11 +79,11 @@ const command: ICommand = {
         } else { // if the original message does not contain any arguments (general help message)
             outputEmbed.setDescription('General Help\nFor information on a specific command, type f!help [command]');
 
+            const adminCommands = commands.filter(c => c.admin === true).map(c => c.name); // get the admin commands
+            const nonAdminCommands = commands.filter(c => c.admin === false); // get the non admin commands
+
             let outputEmbedText = '';
 
-            for (const command of commands) {
-
-            }
         }
     }
 }
