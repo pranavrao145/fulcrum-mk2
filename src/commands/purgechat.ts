@@ -7,6 +7,7 @@ const command: ICommand = {
     description: 'Clears the amount of messages given between 2 and 100.',
     alias: ['pc'],
     syntax: 'f!purgechat [number of messages to clear (2-100)]',
+    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command purgechat by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
@@ -17,7 +18,7 @@ const command: ICommand = {
         if (!message.member!.hasPermission('MANAGE_MESSAGES')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
-                return await message.reply('sorry, you need to have the MANAGE_MESSAGES permission to use this command.');
+                return await message.reply('sorry, you need to have the `MANAGE_MESSAGES` permission to use this command.');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
@@ -28,7 +29,7 @@ const command: ICommand = {
         if (!args || args.length === 0) { // check if the args exist (this function requires them) and that there are not too many args
             try {
                 console.log('Incorrect syntax given. Stopping execution.');
-                return await message.channel.send(`Incorrect syntax! Correct syntax: ${this.syntax}`)
+                return await message.channel.send(`Incorrect syntax! Correct syntax: \`${this.syntax}\``)
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
