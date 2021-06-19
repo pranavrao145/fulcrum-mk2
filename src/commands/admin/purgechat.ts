@@ -7,7 +7,6 @@ const command: ICommand = {
     description: 'Clears the amount of messages given between 2 and 100.',
     alias: ['pc'],
     syntax: 'f!purgechat [number of messages to clear (2-100)]',
-    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command purgechat by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 

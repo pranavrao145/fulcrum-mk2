@@ -8,7 +8,6 @@ const command: ICommand = {
     description: 'Deletes the role(s) given.',
     alias: ['dr', 'drs'],
     syntax: 'f!deleteroles [role names (10 max)]',
-    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command deleteroles started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 

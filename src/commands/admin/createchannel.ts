@@ -8,7 +8,6 @@ const command: ICommand = {
     description: 'Creates a channel based on the given information.',
     alias: ['cc'],
     syntax: 'f!createchannel [name (underscores for spaces)] (*text*/voice) (*public*/private)',
-    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command createchannel started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 

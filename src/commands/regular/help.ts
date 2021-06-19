@@ -9,7 +9,6 @@ const command: ICommand = {
     description: 'Displays a general help message, or for a specific command if specified.',
     alias: ['h'],
     syntax: 'f!help (command name)',
-    admin: false,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command help started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 

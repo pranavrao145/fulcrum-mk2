@@ -8,7 +8,6 @@ const command: ICommand = {
     description: 'Assigns all the given roles to the given user',
     alias: ['au'],
     syntax: 'f!assignuser [user mention] [role mentions or numbers (10 max)]',
-    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command assignuser started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 

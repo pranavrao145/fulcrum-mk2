@@ -8,7 +8,6 @@ const command: ICommand = {
     description: 'Translates the given phrase into the language given.',
     alias: ['tr'],
     syntax: 'f!translate [2 letter code of lang to which to translate]  [phrase]',
-    admin: false,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command translate started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 

@@ -8,7 +8,6 @@ const command: ICommand = {
     description: 'Removes the given role from the users mentioned.',
     alias: ['rr'],
     syntax: 'f!removerole [role mention] [user mentions (10 max)]',
-    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command removerole started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 

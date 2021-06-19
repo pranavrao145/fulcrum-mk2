@@ -8,7 +8,6 @@ const command: ICommand = {
     description: 'Creates a role with the given name and colour.',
     alias: ['cr'],
     syntax: 'f!createrole [role name, underscores for spaces] (colour code)',
-    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command createrole started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 

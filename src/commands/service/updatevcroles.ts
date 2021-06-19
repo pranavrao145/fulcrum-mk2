@@ -8,8 +8,7 @@ const command: ICommand = {
     description: 'Adds the given role to the given user(s). Max 10 users mentionable with one command.',
     alias: ['uvcr', 'uvc', 'uvr', 'uv'],
     syntax: 'f!updatevcroles',
-    admin: true,
-    async execute(message: Message, _con: Client, args?: string[]) {
+    async execute(message: Message, _con: Client, _args?: string[]) {
         console.log(`Command updatevcroles started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command

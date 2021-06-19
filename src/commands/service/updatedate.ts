@@ -8,7 +8,6 @@ const command: ICommand = {
     description: 'Updates the date in the current guild.',
     alias: ['ud'],
     syntax: 'f!updatedate',
-    admin: true,
     async execute(message: Message, con: Client, _args?: string[]) {
         console.log(`Command updatedate started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 

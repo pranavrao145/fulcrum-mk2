@@ -8,7 +8,6 @@ const command: ICommand = {
     description: 'Moves the members in the first given voice channel to the other.',
     alias: ['mv'],
     syntax: 'f!movevoice [voice channel role mention (from)] [voice channel role mention (to)]',
-    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command movevoice started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 

@@ -7,7 +7,6 @@ const command: ICommand = {
     name: 'kick',
     description: 'Kicks the given user from the server.',
     syntax: 'f!kick [user mention] (reason)',
-    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command kick started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 

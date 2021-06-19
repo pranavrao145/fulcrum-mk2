@@ -7,7 +7,6 @@ const command: ICommand = {
     description: 'Sends an invite to the Fulcrum Prime support server.',
     alias: ['ss'],
     syntax: 'f!supportserver',
-    admin: false,
     async execute(message: Message, _con: Client, _args?: string[]) {
         console.log(`Command supportserver started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 

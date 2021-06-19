@@ -8,7 +8,6 @@ const command: ICommand = {
     description: 'Deletes all given channels.',
     alias: ['dc', 'dcs'],
     syntax: 'f!deletechannels [channel mentions (voice channel roles for voice channels)]',
-    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command deletechannels started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 

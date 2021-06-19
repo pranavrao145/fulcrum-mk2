@@ -8,7 +8,6 @@ const command: ICommand = {
     description: 'Clears the given voice channel.',
     alias: ['cv'],
     syntax: 'f!clearvoice [voice channel role mention]',
-    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command clearvoice started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 

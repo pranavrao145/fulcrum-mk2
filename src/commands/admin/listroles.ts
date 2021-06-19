@@ -7,7 +7,6 @@ const command: ICommand = {
     description: 'Displays all the roles in the server in a list with numbers. For use with other role management commands.',
     alias: ['lr'],
     syntax: 'f!listroles',
-    admin: true,
     async execute(message: Message, _con: Client, _args?: string[]) {
         console.log(`Command listroles started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
