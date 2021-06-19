@@ -53,10 +53,10 @@ const command: ICommand = {
                 continue;
             }
 
-            const vcMembers = voiceChannel.members; // get the members of the voice channel and map them to their ids
+            const vcMembers = voiceChannel.members.map(mem => mem.id); // get the members of the voice channel and map them to their ids
 
             // make sure all the people in the voice channel have the role
-            for (const vcMemberID in vcMembers) {
+            for (const vcMemberID of vcMembers) {
                 const vcMember = message.guild!.members.cache.get(vcMemberID); // get the actual voice channel member
 
                 if (!vcMember) { // check if a member actually exists for the current id
@@ -77,7 +77,7 @@ const command: ICommand = {
             }
 
 
-            const roleMembers = vcRole.members.map(m => m.id); // get all the members of this vc role
+            const roleMembers = vcRole.members.map(mem => mem.id); // get all the members of this vc role
 
             // make sure people that are not in the voice channel do not have the associated role
             for (const roleMemberID of roleMembers) {
