@@ -1,5 +1,5 @@
-import { Message } from 'discord.js';
-import { Client } from 'pg';
+import {Message} from 'discord.js';
+import {Client} from 'pg';
 
 // interface for a bot command
 export interface ICommand {

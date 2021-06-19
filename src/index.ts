@@ -121,7 +121,7 @@ client.on('voiceStateUpdate', async (oldState: Discord.VoiceState, newState: Dis
         }
     }
     else if (!oldState.channel && newState.channel) { // if the user moved from no channel to a voice channel
-        console.log(`User ${newState.member!.user.tag} joined voice channel in ${newState.guild.name}`);
+        console.log(`User ${newState.member!.user.tag} joined voice channel in ${newState.guild.name}.`);
         const newRole = newState.guild.roles.cache.find(r => r.name === newState.channel!.name); // find the voice channel role associated with the voice channel   
 
         if (!newRole) { // if there is no voice role associated with the new voice channel
