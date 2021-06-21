@@ -35,9 +35,9 @@ const command: ICommand = {
             }
         }
 
-        const voiceChannelNames = message.guild!.channels.cache.filter(c => c.type === 'voice').map(c => c.id); // get all the names of the voice channels in the server
+        const voiceChannelIDs = message.guild!.channels.cache.filter(c => c.type === 'voice').map(c => c.id); // get all the ids of the voice channels in the server
 
-        for (const voiceChannelID of voiceChannelNames) { // iterate through each of the voice channels and add/remove role as neccessary
+        for (const voiceChannelID of voiceChannelIDs) { // iterate through each of the voice channels and add/remove role as neccessary
             const voiceChannel = message.guild!.channels.cache.get(voiceChannelID); // get the actual channel
 
             if (!voiceChannel) { // check if the voice channel actually exists

@@ -1,19 +1,18 @@
 import {Message, MessageEmbed} from 'discord.js';
 import {ICommand} from '../../utils/types';
 import {Client} from 'pg';
-import {daysList, monthsList} from '../../utils/helpers';
 
 const command: ICommand = {
-    name: 'updatedate',
-    description: 'Updates the date channel in the current guild.',
-    alias: ['ud'],
-    syntax: 'f!updatedate',
+    name: 'updatechannelcount',
+    description: 'Updates the channel count channel the current guild.',
+    alias: ['ucc'],
+    syntax: 'f!updatechannelcount',
     async execute(message: Message, con: Client, _args?: string[]) {
-        console.log(`Command updatedate started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
+        console.log(`Command updatechannelcount started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
             .setColor('#FFFCF4')
-            .setTitle('Update Date - Report')
+            .setTitle('Update Channel Count - Report')
 
         if (!message.member!.hasPermission('MANAGE_CHANNELS')) { // check for adequate permissions
             try {
@@ -27,16 +26,16 @@ const command: ICommand = {
         }
 
         try {
-            console.log(`Querying database to find date channel for guild ${message.guild!.name}`);
-            const res = await con.query(`SELECT * FROM datechannel WHERE guildid = '${message.guild!.id}'`); // find the id of the date channel for the guild of the message
+            console.log(`Querying database to find channel count channel for guild ${message.guild!.name}`);
+            const res = await con.query(`SELECT * FROM channelcountchannel WHERE guildid = '${message.guild!.id}'`); // find the id of the channel count channel for the guild of the message
 
             const row = res.rows[0]; // get the first row from the database query result
             let voiceChannel; // declare voice channel that may be initialized later if there is a match
 
             if (!row) { // in the event a row does not exist
                 try {
-                    console.log(`Date channel ID for guild does not exist in database.`);
-                    return await message.channel.send('Date channel not set up for this server! Run f!setup date.');
+                    console.log(`Channel count channel ID for guild does not exist in database.`);
+                    return await message.channel.send('Channel count channel not set up for this server! Run f!setup channelcount.');
                 } catch (e) {
                     console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                     console.log(e);
@@ -49,7 +48,7 @@ const command: ICommand = {
             if (!voiceChannel) { // in the event the voice channel does not exist
                 try {
                     console.log(`No voice channel found for the channel ID ${row.channelid} in the database.`);
-                    return await message.channel.send('Date channel not set up for this server! Run f!setup date.');
+                    return await message.channel.send('Channel count channel not set up for this server! Run f!setup channelcount.');
                 } catch (e) {
                     console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                     console.log(e);
@@ -57,21 +56,13 @@ const command: ICommand = {
                 }
             }
 
-            const date = new Date(); // get the current date in the configured timezone
-            const nameToBeSet = // what the formatted date should be
-                "📅|" +
-                daysList[date.getDay()] +
-                ", " +
-                monthsList[date.getMonth()] +
-                " " +
-                date.getDate() +
-                ", " +
-                date.getFullYear();
+            const channelCount = message.guild!.channels.cache.size; // get the number of channels in the guild
+            const nameToBeSet = `💬|Channel Count: ${channelCount}` // what the channel count channel should display
 
             if (voiceChannel.name === nameToBeSet) { // if the voice channel name is already correct, no need to change it
                 try {
-                    console.log(`Date channel for this guild is already updated.`);
-                    return await message.channel.send('Date is already updated on this server!');
+                    console.log(`Channel count channel for this guild is already updated.`);
+                    return await message.channel.send('Channel count is already updated on this server!');
                 } catch (e) {
                     console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                     console.log(e);
@@ -80,11 +71,11 @@ const command: ICommand = {
             }
 
             try {
-                await voiceChannel.setName(nameToBeSet, 'Updated date channel.'); // attempt to set the voice channel name to the right date
-                console.log('Date channel updated successfully.');
+                await voiceChannel.setName(nameToBeSet, 'Updated channel count channel.'); // attempt to set the voice channel name to the right channel count
+                console.log('Channel count channel updated successfully.');
                 outputEmbed.addField('Status', 'Success');
             } catch (e) {
-                console.log('Failed to upadate date channel. The error message is below:');
+                console.log('Failed to upadate channel count channel. The error message is below:');
                 console.log(e);
                 outputEmbed.addField('Status', 'Failed');
             }
@@ -99,7 +90,7 @@ const command: ICommand = {
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
                 await message.channel.send(outputEmbed);
             }
-            console.log(`Command updatedate, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
+            console.log(`Command updatechannelcount, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
         } catch (e) {
             console.log(`There was an error sending an embed in the guild ${message.guild}! The error message is below:`);
             console.log(e);
