@@ -43,8 +43,8 @@ const command: ICommand = {
         const member = getUserFromMention(message, userMention!);
 
         if (!member) { // check if the user supplied was valid
-            console.log('User supplied was invalid. Stopping execution.');
             try {
+                console.log('User supplied was invalid. Stopping execution.');
                 return await message.channel.send('Invalid user!');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
