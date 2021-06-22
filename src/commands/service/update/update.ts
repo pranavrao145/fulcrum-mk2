@@ -1,5 +1,5 @@
 import {Message} from 'discord.js';
-import {ICommand} from '../../utils/types';
+import {ICommand} from '../../../utils/types';
 import {Client} from 'pg';
 import {promisify} from 'util';
 import glob from 'glob';
@@ -40,7 +40,7 @@ const command: ICommand = {
         let serviceCommand; // declare command variable to use later in determining which function to execute
 
         switch (service) { // check for different services to update
-            case "channelcount":
+            case 'channelcount':
                 serviceCommand = serviceCommands.find(c => c.name === 'updatechannelcount'); // get the channelcount command
 
                 if (!serviceCommand) { // if the command does not exist
@@ -57,7 +57,7 @@ const command: ICommand = {
                 console.log('Handing execution to updatechannelcount command.');
                 serviceCommand.execute(message, con, args); // execute the commmand 
                 break;
-            case "date":
+            case 'date':
                 serviceCommand = serviceCommands.find(c => c.name === 'updatedate'); // get the channelcount command
 
                 if (!serviceCommand) { // if the command does not exist
@@ -74,7 +74,7 @@ const command: ICommand = {
                 console.log('Handing execution to updatedate command.');
                 serviceCommand.execute(message, con, args); // execute the commmand 
                 break;
-            case "membercount":
+            case 'membercount':
                 serviceCommand = serviceCommands.find(c => c.name === 'updatemembercount'); // get the channelcount command
 
                 if (!serviceCommand) { // if the command does not exist
@@ -91,7 +91,7 @@ const command: ICommand = {
                 console.log('Handing execution to updatemembercount command.');
                 serviceCommand.execute(message, con, args); // execute the commmand 
                 break;
-            case "vcroles":
+            case 'vcroles':
                 serviceCommand = serviceCommands.find(c => c.name === 'updatevcroles'); // get the channelcount command
 
                 if (!serviceCommand) { // if the command does not exist
