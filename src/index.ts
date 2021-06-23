@@ -104,8 +104,10 @@ client.on('voiceStateUpdate', async (oldState: Discord.VoiceState, newState: Dis
     if (!oldState.member || !newState.member) return; // check if the voice state change actually involves members
     if (!oldState.guild || !newState.guild) return; // check if the voice state change actually involves a guild
 
+    console.log(`Voice state update detected in ${oldState.guild}. Attempting to assign correct voice channel roles.`)
+
     if (oldState.channel && !newState.channel) { // if the user leaves all voice channels
-        console.log(`User ${oldState.member!.user.tag} left all voice channels in ${newState.guild.name}`)
+        console.log(`User ${oldState.member!.user.tag} left all voice channels in guild.`)
         const oldRole = oldState.guild.roles.cache.find(r => r.name === oldState.channel!.name); // find the voice channel role associated with the voice channel   
 
         if (!oldRole) { // if there is no voice role associated with the old voice channel
@@ -115,13 +117,13 @@ client.on('voiceStateUpdate', async (oldState: Discord.VoiceState, newState: Dis
 
         try { // attempt to remove the role for the old voice channel
             await oldState.member.roles.remove(oldRole);
-            console.log(`Removed voice channel role ${oldRole.name} from ${oldState.member.user.tag} in guild ${oldState.guild.name}.`);
+            console.log(`Removed voice channel role ${oldRole.name} from ${oldState.member.user.tag}.`);
         } catch (e) {
-            console.log(`Failed to remove voice channel role ${oldRole.name} from ${oldState.member.user.tag} in guild ${oldState.guild.name}.`);
+            console.log(`Failed to remove voice channel role ${oldRole.name} from ${oldState.member.user.tag}.`);
         }
     }
     else if (!oldState.channel && newState.channel) { // if the user moved from no channel to a voice channel
-        console.log(`User ${newState.member!.user.tag} joined voice channel in ${newState.guild.name}.`);
+        console.log(`User ${newState.member!.user.tag} joined voice channel in guild.`);
         const newRole = newState.guild.roles.cache.find(r => r.name === newState.channel!.name); // find the voice channel role associated with the voice channel   
 
         if (!newRole) { // if there is no voice role associated with the new voice channel
@@ -131,12 +133,12 @@ client.on('voiceStateUpdate', async (oldState: Discord.VoiceState, newState: Dis
 
         try { // attempt to add the role for the new voice channel
             await newState.member.roles.add(newRole);
-            console.log(`Added voice channel role ${newRole.name} to ${newState.member.user.tag} in guild ${newState.guild.name}.`);
+            console.log(`Added voice channel role ${newRole.name} to ${newState.member.user.tag}.`);
         } catch (e) {
-            console.log(`Failed to add voice channel role ${newRole.name} to ${newState.member.user.tag} in guild ${newState.guild.name}.`);
+            console.log(`Failed to add voice channel role ${newRole.name} to ${newState.member.user.tag}.`);
         }
     } else if (oldState.channel && newState.channel) { // if the user moves from one channel to another
-        console.log(`User ${newState.member!.user.tag} moved from one voice channel to another in ${newState.guild.name}`);
+        console.log(`User ${newState.member!.user.tag} moved from one voice channel to another in guild.`);
         const oldRole = oldState.guild.roles.cache.find(r => r.name === oldState.channel!.name); // find the voice channel role associated with the old voice channel   
         const newRole = newState.guild.roles.cache.find(r => r.name === newState.channel!.name); // find the voice channel role associated with the new voice channel   
 
@@ -145,9 +147,9 @@ client.on('voiceStateUpdate', async (oldState: Discord.VoiceState, newState: Dis
 
             try { // attempt to remove the role for the old voice channel
                 await oldState.member.roles.remove(oldRole);
-                console.log(`Removed voice channel role ${oldRole.name} from ${oldState.member.user.tag} in guild ${oldState.guild.name}.`);
+                console.log(`Removed voice channel role ${oldRole.name} from ${oldState.member.user.tag}.`);
             } catch (e) {
-                console.log(`Failed to remove voice channel role ${oldRole.name} from ${oldState.member.user.tag} in guild ${oldState.guild.name}.`);
+                console.log(`Failed to remove voice channel role ${oldRole.name} from ${oldState.member.user.tag}.`);
             }
 
         }
@@ -156,12 +158,69 @@ client.on('voiceStateUpdate', async (oldState: Discord.VoiceState, newState: Dis
             console.log(`Role for new voice channel ${newState.channel.name} found. Attempting to add role to user.`);
             try { // attempt to add the role for the new voice channel
                 await newState.member.roles.add(newRole);
-                console.log(`Added voice channel role ${newRole.name} to ${newState.member.user.tag} in guild ${newState.guild.name}.`);
+                console.log(`Added voice channel role ${newRole.name} to ${newState.member.user.tag}.`);
             } catch (e) {
-                console.log(`Failed to add voice channel role ${newRole.name} to ${newState.member.user.tag} in guild ${newState.guild.name}.`);
+                console.log(`Failed to add voice channel role ${newRole.name} to ${newState.member.user.tag}.`);
             }
         }
     }
 
-    console.log('Voice channel role update sequence completed successfully.')
+    console.log(`Automatic voice channel role update sequence completed successfully in guild ${oldState.guild}.`)
 })
+
+// every time a voice channel is created, set up the associated voice channel role automatically
+client.on('channelCreate', async (channel: Discord.Channel) => {    
+    if (!channel) return; // ensure that the channel created exists 
+    if (channel.type !== 'voice') return; // ensure the channel created is a voice channel
+    if (!(channel as Discord.VoiceChannel).guild) return; // check that the voice channel is actually associated with a guild
+
+    console.log(`Voice channel creation detected in guild ${(channel as Discord.VoiceChannel).guild}.`);
+
+    const vcRole = (channel as Discord.VoiceChannel).guild.roles.cache.find(r => r.name === (channel as Discord.VoiceChannel).name); // attempt to find a role in the server with the same name as the channel
+
+    if (vcRole) { // check if the role already exists
+        console.log(`Voice channel role already exists for voice channel ${(channel as Discord.VoiceChannel).name}. Doing nothing.`);
+        return;
+    }
+
+    try {
+        const vcRoleCreated = await (channel as Discord.VoiceChannel).guild.roles.create({ // create the role with the same name as the voice channel
+            data: {
+                name: (channel as Discord.VoiceChannel).name,
+            }
+        });
+        console.log(`Role ${vcRoleCreated.name} created successfully.`)
+    } catch (e) {
+        console.log(`Failed to create role ${(channel as Discord.VoiceChannel).name}. The error message is below:`)
+        console.log(e);
+    }
+
+    console.log(`Automatic voice channel role creation sequence completed successfully in ${(channel as Discord.VoiceChannel).guild}.`);
+    
+}) 
+
+// every time a voice channel is deleted, delete the associated voice channel role automatically
+client.on('channelDelete', async (channel: Discord.Channel) => {    
+    if (!channel) return; // ensure that the channel deleted existed 
+    if (channel.type !== 'voice') return; // ensure the channel deleted was a voice channel
+    if (!(channel as Discord.VoiceChannel).guild) return; // check that the voice channel was actually associated with a guild
+
+    console.log(`Voice channel deletion detected in guild ${(channel as Discord.VoiceChannel).guild}.`);
+
+    const vcRole = (channel as Discord.VoiceChannel).guild.roles.cache.find(r => r.name === (channel as Discord.VoiceChannel).name); // attempt to find a role in the server with the same name as the channel
+
+    if (!vcRole) { // check if the role already exists
+        console.log(`Voice channel role already does not exist for voice channel ${(channel as Discord.VoiceChannel).name}. Doing nothing.`);
+        return;
+    }
+
+    try {
+        const vcRoleDeleted = await vcRole.delete(); // delete the role with the same name as the voice channel
+        console.log(`Role ${vcRoleDeleted.name} deleted successfully.`);
+    } catch (e) {
+        console.log(`Failed to delete role ${(channel as Discord.VoiceChannel).name}. The error message is below:`)
+        console.log(e);
+    }
+
+    console.log(`Automatic voice channel role deletion sequence completed successfully in ${(channel as Discord.VoiceChannel).guild}.`);
+}) 
