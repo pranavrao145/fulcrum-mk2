@@ -41,6 +41,7 @@ const command: ICommand = {
 
         const roleMention = args!.shift(); // find the mention of the role numbers in the args
         let role; // declare role object, to be determined later using logic below
+
         if (isNaN(parseInt(roleMention!))) { // if the arg is a mention and not a number
             console.log('Role is of type mention. Getting role from role cache.')
             role = getRoleFromMention(message, roleMention!); // then get it from the role cache

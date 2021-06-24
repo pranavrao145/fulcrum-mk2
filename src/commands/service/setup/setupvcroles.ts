@@ -13,7 +13,7 @@ const command: ICommand = {
 
         const outputEmbed = new MessageEmbed() // create a new embed for output
         .setColor('#FFFCF4')
-        .setTitle(`Roles for ${message.guild!.name}`);
+        .setTitle('Setup Voice Channel Roles - Report');
 
         let overallSuccess = true; // to keep track of whether or not the function was overall successful
 

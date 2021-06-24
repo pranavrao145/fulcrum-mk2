@@ -26,7 +26,6 @@ const command: ICommand = {
         const service = args.shift(); // try to get the service the user wants to update 
 
         // the way the program is written means there is no direct access to the client's commands, so they must be read again
-
         const globPromise = promisify(glob);
 
         const serviceCommands: Array<ICommand> = [];
