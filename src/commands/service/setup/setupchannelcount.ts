@@ -1,7 +1,7 @@
 import {Message, MessageEmbed} from 'discord.js';
 import {ICommand} from '../../../utils/types';
 import {Client} from 'pg';
-import {getRoleFromMention, timeout} from '../../../utils/helpers';
+import {getRoleFromMention} from '../../../utils/helpers';
 import {promisify} from 'util';
 import glob from 'glob';
 
@@ -15,7 +15,7 @@ const command: ICommand = {
 
         const outputEmbed = new MessageEmbed() // create a new embed for output
             .setColor('#FFFCF4')
-            .setTitle('Setup Voice Channel Roles - Report');
+            .setTitle('Setup Channel Count Channel - Report');
 
         if (!message.member!.hasPermission('MANAGE_CHANNELS')) { // check for adequate permissions
             try {
