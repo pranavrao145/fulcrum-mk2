@@ -1,7 +1,7 @@
 import {Message, MessageEmbed} from 'discord.js';
 import {ICommand} from '../../../utils/types';
 import {Client} from 'pg';
-import {getRoleFromMention} from '../../../utils/helpers';
+import {getRoleFromMention, timeout} from '../../../utils/helpers';
 import {promisify} from 'util';
 import glob from 'glob';
 
@@ -9,13 +9,24 @@ const command: ICommand = {
     name: 'setupchannelcount',
     description: 'Sets up Fulcrum\'s channel count channel feature.',
     alias: ['scc'],
-    syntax: 'f!setupchannelcount',
+    syntax: 'f!setupchannelcount [voice channel role mention]',
     async execute(message: Message, con: Client, args?: string[]) {
         console.log(`Command setupchannelcount started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         const outputEmbed = new MessageEmbed() // create a new embed for output
             .setColor('#FFFCF4')
             .setTitle('Setup Voice Channel Roles - Report');
+
+        if (!message.member!.hasPermission('MANAGE_CHANNELS')) { // check for adequate permissions
+            try {
+                console.log('Insufficient permissions. Stopping execution.')
+                return await message.reply('sorry, you need to have the `MANAGE_CHANNELS` permission to use this command.');
+            } catch (e) {
+                console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                console.log(e);
+                return;
+            }
+        }
 
         if (!args || args.length === 0) { // check if the args exist (this function requires them) and that there are not too many args
             try {
@@ -28,16 +39,6 @@ const command: ICommand = {
             }
         }
 
-        if (!message.member!.hasPermission('MANAGE_CHANNELS')) { // check for adequate permissions
-            try {
-                console.log('Insufficient permissions. Stopping execution.')
-                return await message.reply('sorry, you need to have the `MANAGE_CHANNELS` permission to use this command.');
-            } catch (e) {
-                console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
-                console.log(e);
-                return;
-            }
-        }
 
         const roleMention = args.shift(); // get the voice channel role mention
         const vcRole = getRoleFromMention(message, roleMention!); // get the actual role mention
@@ -67,8 +68,8 @@ const command: ICommand = {
         }
 
         try {
-            console.log('Attempting to retreive channel count channel information from the database.')
-            const res = await con.query(`SELECT * FROM channelcountchannel WHERE guildid = '${message.guild!.id}`); // see if the guild already has a channel ID in the database
+            console.log('Attempting to retrieve channel count channel information from the database.')
+            const res = await con.query(`SELECT * FROM channelcountchannel WHERE guildid = '${message.guild!.id}'`); // see if the guild already has a channel ID in the database
 
             const row = res.rows[0];
             let query; // query variable that will be initialized later with query that needs to be made to the database
@@ -96,7 +97,7 @@ const command: ICommand = {
             const globPromise = promisify(glob);
 
             const serviceCommands: Array<ICommand> = [];
-            const serviceCommandFiles = await globPromise(`${__dirname}/../service/*.{js,ts}`); // identify command files
+            const serviceCommandFiles = await globPromise(`${__dirname}/../../**/*.{ts, js}`); // identify command files
 
             for (const file of serviceCommandFiles) { // load in service command files
                 const serviceCommand = await import(file);
@@ -105,9 +106,10 @@ const command: ICommand = {
 
             const updateChannelCountCommand = serviceCommands.find(c => c.name === 'updatechannelcount'); // get the updatechannelcount command
 
-            if (updateChannelCountCommand) { // check if the command does not exist
+
+            if (updateChannelCountCommand) { // check if the command exists
                 console.log('Handing execution to updatechannelcount command.');
-                command.execute(message, con, args); // execute the updatechannelcount command
+                updateChannelCountCommand.execute(message, con, args); // execute the updatechannelcount command
             }
             else {
                 console.log('Command updatechannelcount not found. Skipping attempted updating of newly created channel count channel.');
@@ -131,3 +133,5 @@ const command: ICommand = {
         }
     }
 }
+
+export = command; // export the command to the main module
