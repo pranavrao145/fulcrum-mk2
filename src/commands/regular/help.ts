@@ -26,8 +26,8 @@ const command: ICommand = {
         const serviceCommands: Array<ICommand> = [];
 
         // load in command files for different categories of commands
-        const adminCommandFiles = await globPromise(`${__dirname}/../admin/*.{js,ts}`); // identify command files
-        const regularCommandFiles = await globPromise(`${__dirname}/../regular/*.{js,ts}`); // identify command files
+        const adminCommandFiles = await globPromise(`${__dirname}/../admin/**/*.{js,ts}`); // identify command files
+        const regularCommandFiles = await globPromise(`${__dirname}/../regular/**/*.{js,ts}`); // identify command files
         const serviceCommandFiles = await globPromise(`${__dirname}/../service/**/*.{js,ts}`); // identify command files
 
         for (const file of adminCommandFiles) {

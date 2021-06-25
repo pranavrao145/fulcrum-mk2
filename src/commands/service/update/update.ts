@@ -29,7 +29,7 @@ const command: ICommand = {
         const globPromise = promisify(glob);
 
         const serviceCommands: Array<ICommand> = [];
-        const serviceCommandFiles = await globPromise(`${__dirname}/../service/*.{js,ts}`); // identify command files
+        const serviceCommandFiles = await globPromise(`${__dirname}/*.{js,ts}`); // identify command files
 
         for (const file of serviceCommandFiles) { // load in service command files
             const serviceCommand = await import(file);
