@@ -1,4 +1,4 @@
-import {ICommand} from '../utils/types';
+import {ICommand} from '../../utils/types';
 import {Message} from 'discord.js';
 import {Client} from 'pg';
 
@@ -7,7 +7,6 @@ const command: ICommand = {
     description: 'Makes the user leave the voice channel they are currently in.',
     alias: ['lv', 'l'],
     syntax: 'f!leavevoice',
-    admin: false,
     async execute(message: Message, _con: Client, _args?: string[]) {
         console.log(`Command leavevoice started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 

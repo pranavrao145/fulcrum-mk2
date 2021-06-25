@@ -1,14 +1,13 @@
 import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../utils/types';
+import {ICommand} from '../../utils/types';
 import {Client} from 'pg';
-import {getRoleFromMention, getUserFromMention, timeout} from '../utils/helpers';
+import {getRoleFromMention, getUserFromMention, timeout} from '../../utils/helpers';
 
 const command: ICommand = {
     name: 'assignrole',
     description: 'Adds the given role to the given user(s). Max 10 users mentionable with one command.',
     alias: ['ar'],
     syntax: 'f!assignrole [role mention or number] [user mentions (10 max)]',
-    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command assignrole started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 

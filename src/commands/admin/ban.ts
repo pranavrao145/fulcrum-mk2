@@ -1,13 +1,12 @@
 import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../utils/types';
+import {ICommand} from '../../utils/types';
 import {Client} from 'pg';
-import {getUserFromMention} from '../utils/helpers';
+import {getUserFromMention} from '../../utils/helpers';
 
 const command: ICommand = {
     name: 'ban',
     description: 'Bans the given user from the server.',
     syntax: 'f!ban [user mention] (days 0-7, 0 default) (reason)',
-    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command ban started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
@@ -44,8 +43,8 @@ const command: ICommand = {
         const member = getUserFromMention(message, userMention!);
 
         if (!member) { // check if the user supplied was valid
-            console.log('User supplied was invalid. Stopping execution.');
             try {
+                console.log('User supplied was invalid. Stopping execution.');
                 return await message.channel.send('Invalid user!');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);

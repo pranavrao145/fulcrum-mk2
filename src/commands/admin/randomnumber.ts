@@ -1,7 +1,7 @@
 import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../utils/types';
+import {ICommand} from '../../utils/types';
 import {Client} from 'pg';
-import {getRandomInteger} from '../utils/helpers';
+import {getRandomInteger} from '../../utils/helpers';
 
 
 const command: ICommand = {
@@ -9,7 +9,6 @@ const command: ICommand = {
     description: 'Gives a random number in the range specified.',
     alias: ['rn'],
     syntax: 'f!randomnumber [min] [max]',
-    admin: false,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command randomnumber started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 

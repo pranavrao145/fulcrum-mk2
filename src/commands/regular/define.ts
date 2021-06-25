@@ -1,5 +1,5 @@
 import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../utils/types';
+import {ICommand} from '../../utils/types';
 import {Client} from 'pg';
 import get from 'axios';
 
@@ -8,7 +8,6 @@ const command: ICommand = {
     description: 'Defines the given English word.',
     alias: ['df'],
     syntax: 'f!define [word]',
-    admin: false,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command define started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 

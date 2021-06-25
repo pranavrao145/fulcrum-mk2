@@ -1,14 +1,13 @@
-import {ICommand} from '../utils/types';
+import {ICommand} from '../../utils/types';
 import {Message, MessageEmbed} from 'discord.js';
 import {Client} from 'pg';
-import {getRoleFromMention, timeout} from '../utils/helpers';
+import {getRoleFromMention, timeout} from '../../utils/helpers';
 
 const command: ICommand = {
     name: 'deleteroles',
     description: 'Deletes the role(s) given.',
     alias: ['dr', 'drs'],
     syntax: 'f!deleteroles [role names (10 max)]',
-    admin: true,
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command deleteroles started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
