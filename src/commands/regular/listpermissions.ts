@@ -1,4 +1,4 @@
-import {Message, MessageEmbed, PermissionString} from 'discord.js';
+import {Message, MessageEmbed} from 'discord.js';
 import {ICommand} from '../../utils/types';
 import {Client} from 'pg';
 import {generalPermissions, textChannelPermissions, voiceChannelPermissions} from '../../utils/information';
