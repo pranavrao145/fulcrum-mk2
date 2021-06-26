@@ -38,6 +38,7 @@ const command: ICommand = {
             outputEmbed.addField('\u200B', outputEmbedText); // add whatever text was accumulated throughout the command to the embed
             if (outputEmbedText !== '') { // check if there is actually any text to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
+                outputEmbed.setFooter('FYI: in commands involving managing roles, you can refer to roles by their mention or by their number (as shown in this list)');
                 await message.channel.send(outputEmbed);
             }
             console.log(`Command listroles, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
