@@ -1,7 +1,7 @@
 import {Message, MessageEmbed} from 'discord.js';
 import {ICommand} from '../../../utils/types';
 import {Client} from 'pg';
-import {daysList, monthsList} from '../../../utils/helpers';
+import {daysList, monthsList} from '../../../utils/information';
 
 const command: ICommand = {
     name: 'updatedate',
