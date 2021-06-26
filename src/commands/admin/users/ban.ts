@@ -1,7 +1,7 @@
 import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../utils/types';
+import {ICommand} from '../../../utils/types';
 import {Client} from 'pg';
-import {getUserFromMention} from '../../utils/helpers';
+import {getUserFromMention} from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'ban',
