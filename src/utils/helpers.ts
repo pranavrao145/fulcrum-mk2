@@ -1,4 +1,4 @@
-import {Channel, Client, GuildMember, Message, Role, User} from 'discord.js'
+import {Channel, GuildMember, Message, Role, User} from 'discord.js'
 
 export function getRoleFromMention(message: Message, mention: string): Role | undefined {
     if (mention.startsWith('<@') && mention.endsWith('>')) {
@@ -44,29 +44,4 @@ export function getRandomInteger(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-
-export const monthsList = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-];
-
-export const daysList = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-];
 
