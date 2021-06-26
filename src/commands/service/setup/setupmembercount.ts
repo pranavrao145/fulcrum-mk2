@@ -41,7 +41,7 @@ const command: ICommand = {
 
 
         const roleMention = args.shift(); // get the voice channel role mention
-        const vcRole = getRoleFromMention(message, roleMention!); // get the actual role mention
+        const vcRole = getRoleFromMention(message, roleMention!); // get the actual role
 
         if (!vcRole) { // if the voice channel role does not exist
             console.log('Invalid voice channel role given. Stopping execution.');
