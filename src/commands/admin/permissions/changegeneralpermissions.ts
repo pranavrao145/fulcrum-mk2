@@ -4,18 +4,17 @@ import {Client} from 'pg';
 import {getRoleFromMention, timeout} from '../../../utils/helpers';
 import {rolePermissions} from '../../../utils/information';
 
-// TODO: finish special case for reset
 const command: ICommand = {
-    name: 'changerolepermissions',
-    description: 'Changes the given role\'s permissions on the entire server according to the changes given. Permissions are referred to by their number (see f!listpermissions). You can change permissions by specifiying an operation and a permission number. Operation can be + for add, - for remove, or just r (with nothing after) for resetting permissions. E.g. to allow CREATE_INSTANT_INVITE and ADMINISTRATOR on a role, simply give the command: f!changerolepermissions @role +1 +4',
-    alias: ['cp', 'crp'],
-    syntax: 'f!changerolepermissions [role mention or number] [permission changes, (+/-/r)(permission number)]',
+    name: 'changegeneralpermissions',
+    description: 'Changes the given role\'s permissions on the entire server according to the changes given. Permissions are referred to by their number (see f!listpermissions). You can change permissions by specifiying an operation and a permission number. Operation can be + for add, - for remove, or just r (with nothing after) for resetting permissions. E.g. to allow CREATE_INSTANT_INVITE and ADMINISTRATOR on a role, simply give the command: f!changegeneralpermissions @role +1 +4',
+    alias: ['cp', 'cgp'],
+    syntax: 'f!changegeneralpermissions [role mention or number] [permission changes, (+/-/r)(permission number)]',
     async execute(message: Message, _con: Client, args?: string[]) {
-        console.log(`Command changerolepermissions started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
+        console.log(`Command changegeneralpermissions started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         const outputEmbed = new MessageEmbed() // create a new embed for output
             .setColor('#FFFCF4')
-            .setTitle('Change Role Permissions - Report');
+            .setTitle('Change General Permissions - Report');
 
         let outputEmbedText = '';
 
@@ -126,6 +125,7 @@ const command: ICommand = {
                         break;
                 }
             } else { // if the operation is reset
+                console.log('Operation is reset.')
                 try {
                     await timeout(300); // setting a short timeout to prevent abuse of Discord's API
                     await role.setPermissions(0); // wipe all permissions from the role
@@ -147,7 +147,7 @@ const command: ICommand = {
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Modified perimssions of role:** ${role.name}`);
                 await message.channel.send(outputEmbed);
             }
-            console.log(`Command changerolepermissions, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
+            console.log(`Command changegeneralpermissions, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
         } catch (e) {
             console.log(`There was an error sending an embed in the guild ${message.guild}! The error message is below:`);
             console.log(e);
