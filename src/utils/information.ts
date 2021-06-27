@@ -73,7 +73,7 @@ export const voiceChannelPermissions: PermissionResolvable[] = [ // list of perm
     'MANAGE_ROLES',
 ]
 
-export const textChannelPermissions: PermissionResolvable = [ // list of permissions for text channels
+export const textChannelPermissions: PermissionResolvable[] = [ // list of permissions for text channels
     'CREATE_INSTANT_INVITE',
     'MANAGE_CHANNELS',
     'ADD_REACTIONS',

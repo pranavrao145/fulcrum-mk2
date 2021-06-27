@@ -1,12 +1,13 @@
 import {Message, MessageEmbed} from 'discord.js';
 import {ICommand} from '../../../utils/types';
 import {Client} from 'pg';
-import {getRoleFromMention, getUserFromMention, timeout} from '../../../utils/helpers';
+import {getRoleFromMention, timeout} from '../../../utils/helpers';
 import {rolePermissions} from '../../../utils/information';
 
+// TODO: finish special case for reset
 const command: ICommand = {
     name: 'changerolepermissions',
-    description: 'Changes the given role\'s permissions on the entire server according to the changes given. Permissions are changed to by their number (see f!listpermissions) and a prefix. E.g. to allow CREATE_INSTANT_INVITE on a role, simply give the command: f!changerolepermissions @role +1',
+    description: 'Changes the given role\'s permissions on the entire server according to the changes given. Permissions are referred to by their number (see f!listpermissions). You can change permissions by specifiying an operation and a permission number. Operation can be + for add, - for remove, or just r (with nothing after) for resetting permissions. E.g. to allow CREATE_INSTANT_INVITE and ADMINISTRATOR on a role, simply give the command: f!changerolepermissions @role +1 +4',
     alias: ['cp', 'crp'],
     syntax: 'f!changerolepermissions [role mention or number] [permission changes, (+/-/r)(permission number)]',
     async execute(message: Message, _con: Client, args?: string[]) {
@@ -14,7 +15,7 @@ const command: ICommand = {
 
         const outputEmbed = new MessageEmbed() // create a new embed for output
             .setColor('#FFFCF4')
-            .setTitle(`Roles for ${message.guild!.name}`);
+            .setTitle('Change Role Permissions - Report');
 
         let outputEmbedText = '';
 
@@ -72,65 +73,71 @@ const command: ICommand = {
                 continue;
             }
 
+            if (operation !== 'r') { // if the operation is not reset, it is add or remove
+                console.log('Operation is not reset.');
+                console.log('Attempting to find permission number in role permissions.')
+                const permissionNum = parseInt(permissionToChange, 10);
 
-            console.log('Attempting to find permission number in role permissions.')
-            const permissionNum = parseInt(permissionChange, 10)
+                if (isNaN(permissionNum)) { // check if the value for the permission is actually a number
+                    console.log(`Invalid permission was given for a permission change. Skipping over it.`);
+                    outputEmbedText += `**${permissionChange}:** Invalid permission.\n`;
+                    continue;
+                }
 
-            if (isNaN(permissionNum)) { // check if the value for the permission is actually a number
-                console.log(`Invalid permission was given for a permission change. Skipping over it.`);
-                outputEmbedText += `**${permissionChange}:** Invalid permission.\n`;
-                continue;
+                if (permissionNum < 1 || permissionNum > rolePermissions.length + 1) { // check if the value for permission is actually within the range of the role permissions
+                    console.log(`Invalid permission was given for a permission change. Skipping over it.`);
+                    outputEmbedText += `**${permissionChange}:** Invalid permission.\n`;
+                    continue;
+                }
+
+                const permission = rolePermissions[permissionNum - 1]; // get the permission name from the list
+
+                const currentPermissions = role.permissions // get the role's current permissions
+                let newPermissions; // empty variable to hold the new permissions
+
+                switch (operation) { // do different things depending on the operation
+                    case '+':
+                        newPermissions = currentPermissions.add([permission]); // add the new permissions
+                        try {
+                            await timeout(300); // setting a short timeout to prevent abuse of Discord's API
+                            await role.setPermissions(newPermissions.bitfield); // set the permissions of the role as the new permissions
+                            console.log(`Successfully added permission ${permission.toString()} to role ${role.name}.`);
+                            outputEmbedText += `**${permission}**: Permission added successfully\n`
+                        } catch (e) {
+                            console.log(`Failed to add permission ${permission.toString()} to role ${role.name}.`);
+                            outputEmbedText += `**${permission}**: Failed to add permission\n`
+                        }
+                        break;
+                    case '-':
+                        newPermissions = currentPermissions.remove([permission]); // remove the new permissions
+                        try {
+                            await timeout(300); // setting a short timeout to prevent abuse of Discord's API
+                            await role.setPermissions(newPermissions.bitfield); // set the permissions of the role as the new permissions
+                            console.log(`Successfully removed permission ${permission.toString()} from role ${role.name}.`);
+                            outputEmbedText += `**${permission}**: Permission removed successfully\n`
+                        } catch (e) {
+                            console.log(`Failed to remove permission ${permission.toString()} from role ${role.name}.`);
+                            outputEmbedText += `**${permission}**: Failed to remove permission\n`
+                        }
+                        break;
+                    default:
+                        console.log(`Invalid operation was given for a permission change. Skipping over it.`);
+                        outputEmbedText += `**${permissionChange}:** Invalid operation`;
+                        break;
+                }
+            } else { // if the operation is reset
+                try {
+                    await timeout(300); // setting a short timeout to prevent abuse of Discord's API
+                    await role.setPermissions(0); // wipe all permissions from the role
+                    console.log(`Successfully reset permissions on role ${role.name}.`);
+                    outputEmbedText += `**RESET PERMISSIONS**: Permissions reset successfully\n`
+                } catch (e) {
+                    console.log(`Failed to reset permissions on role ${role.name}.`);
+                    outputEmbedText += `**RESET PERMISSIONS**: Failed to reset permissions\n`
+                }
+                break;
             }
 
-            if (permissionNum < 1 || permissionNum > rolePermissions.length + 1) { // check if the value for permission is actually within the range of the role permissions
-                console.log(`Invalid permission was given for a permission change. Skipping over it.`);
-                outputEmbedText += `**${permissionChange}:** Invalid permission.\n`;
-                continue;
-            }
-
-            const permission = rolePermissions[permissionNum]; // get the permission name from the list
-
-            const currentPermissions = role.permissions // get the role's current permissions
-            let newPermissions; // empty variable to hold the new permissions
-
-            switch (operation) { // do different things depending on the operation
-                case '+':
-                    newPermissions = currentPermissions.add([permission]); // add the new permissions
-                    try {
-                        await role.setPermissions(newPermissions.bitfield); // set the permissions of the role as the new permissions
-                        console.log(`Successfully added permission ${permission.toString()} to role ${role.name}.`);
-                        outputEmbedText += `**${permission}**: Permission added successfully\n`
-                    } catch (e) {
-                        console.log(`Failed to add permission ${permission.toString()} to role ${role.name}.`);
-                        outputEmbedText += `**${permission}**: Failed to add permission\n`
-                    }
-                    break;
-                case '-':
-                    newPermissions = currentPermissions.remove([permission]); // remove the new permissions
-                    try {
-                        await role.setPermissions(newPermissions.bitfield); // set the permissions of the role as the new permissions
-                        console.log(`Successfully removed permission ${permission.toString()} from role ${role.name}.`);
-                        outputEmbedText += `**${permission}**: Permission removed successfully\n`
-                    } catch (e) {
-                        console.log(`Failed to remove permission ${permission.toString()} from role ${role.name}.`);
-                        outputEmbedText += `**${permission}**: Failed to remove permission\n`
-                    }
-                    break;
-                case 'r':
-                    try {
-                        await role.setPermissions(0); // wipe all permissions from the role
-                        console.log(`Successfully reset permissions on role ${role.name}.`);
-                        outputEmbedText += `**${permission}**: Permissions reset successfully\n`
-                    } catch (e) {
-                        console.log(`Failed to reset permissions on role ${role.name}.`);
-                        outputEmbedText += `**${permission}**: Failed to reset permissions\n`
-                    }
-                    break;
-                default:
-                    console.log(`Invalid operation was given for a permission change. Skipping over it.`);
-                    outputEmbedText += `**${permissionChange}:** Invalid operation`;
-                    break;
-            }
 
         }
 
@@ -147,4 +154,6 @@ const command: ICommand = {
         }
     }
 }
+
+export = command; // export the command to the main module
 
