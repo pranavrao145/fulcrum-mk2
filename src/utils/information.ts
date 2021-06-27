@@ -1,3 +1,5 @@
+import {PermissionResolvable} from "discord.js";
+
 export const monthsList = [
     'Jan',
     'Feb',
@@ -23,7 +25,7 @@ export const daysList = [
     'Saturday',
 ];
 
-export const rolePermissions = [ // list of permissions for roles (in general) on the server
+export const rolePermissions: PermissionResolvable[] = [ // list of permissions for roles (in general) on the server
     'CREATE_INSTANT_INVITE',
     'KICK_MEMBERS',
     'BAN_MEMBERS',
@@ -55,13 +57,8 @@ export const rolePermissions = [ // list of permissions for roles (in general) o
     'MANAGE_ROLES',
     'MANAGE_WEBHOOKS',
     'MANAGE_EMOJIS',
-    'USE_SLASH_COMMANDS',
-    'REQUEST_TO_SPEAK',
-    'MANAGE_THREADS',
-    'USE_PUBLIC_THREADS',
-    'USE_PRIVATE_THREADS'
 ]
-export const voiceChannelPermissions = [ // list of permission overwrites for voice channels
+export const voiceChannelPermissions: PermissionResolvable[] = [ // list of permission overwrites for voice channels
     'CREATE_INSTANT_INVITE',
     'MANAGE_CHANNELS',
     'PRIORITY_SPEAKER',
@@ -76,7 +73,7 @@ export const voiceChannelPermissions = [ // list of permission overwrites for vo
     'MANAGE_ROLES',
 ]
 
-export const textChannelPermissions = [ // list of permissions for text channels
+export const textChannelPermissions: PermissionResolvable = [ // list of permissions for text channels
     'CREATE_INSTANT_INVITE',
     'MANAGE_CHANNELS',
     'ADD_REACTIONS',
@@ -91,8 +88,5 @@ export const textChannelPermissions = [ // list of permissions for text channels
     'USE_EXTERNAL_EMOJIS',
     'MANAGE_ROLES',
     'MANAGE_WEBHOOKS',
-    'USE_SLASH_COMMANDS',
-    'MANAGE_THREADS',
-    'USE_PUBLIC_THREADS',
-    'USE_PRIVATE_THREADS'
 ]
+

@@ -11,10 +11,10 @@ const command: ICommand = {
     syntax: 'f!changerolepermissions [role mention or number] [permission changes, (+/-/r)(permission number)]',
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command changerolepermissions started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
-        
+
         const outputEmbed = new MessageEmbed() // create a new embed for output
-        .setColor('#FFFCF4')
-        .setTitle(`Roles for ${message.guild!.name}`);
+            .setColor('#FFFCF4')
+            .setTitle(`Roles for ${message.guild!.name}`);
 
         let outputEmbedText = '';
 
@@ -72,38 +72,79 @@ const command: ICommand = {
                 continue;
             }
 
-            
+
             console.log('Attempting to find permission number in role permissions.')
             const permissionNum = parseInt(permissionChange, 10)
 
             if (isNaN(permissionNum)) { // check if the value for the permission is actually a number
-                console.log(`Invalid operation was given for a permission change. Skipping over it.`);
+                console.log(`Invalid permission was given for a permission change. Skipping over it.`);
                 outputEmbedText += `**${permissionChange}:** Invalid permission.\n`;
                 continue;
             }
 
             if (permissionNum < 1 || permissionNum > rolePermissions.length + 1) { // check if the value for permission is actually within the range of the role permissions
-                console.log(`Invalid operation was given for a permission change. Skipping over it.`);
+                console.log(`Invalid permission was given for a permission change. Skipping over it.`);
                 outputEmbedText += `**${permissionChange}:** Invalid permission.\n`;
                 continue;
             }
-            
+
             const permission = rolePermissions[permissionNum]; // get the permission name from the list
+
+            const currentPermissions = role.permissions // get the role's current permissions
+            let newPermissions; // empty variable to hold the new permissions
 
             switch (operation) { // do different things depending on the operation
                 case '+':
-                    role.permissions.add();
+                    newPermissions = currentPermissions.add([permission]); // add the new permissions
+                    try {
+                        await role.setPermissions(newPermissions.bitfield); // set the permissions of the role as the new permissions
+                        console.log(`Successfully added permission ${permission.toString()} to role ${role.name}.`);
+                        outputEmbedText += `**${permission}**: Permission added successfully\n`
+                    } catch (e) {
+                        console.log(`Failed to add permission ${permission.toString()} to role ${role.name}.`);
+                        outputEmbedText += `**${permission}**: Failed to add permission\n`
+                    }
                     break;
                 case '-':
+                    newPermissions = currentPermissions.remove([permission]); // remove the new permissions
+                    try {
+                        await role.setPermissions(newPermissions.bitfield); // set the permissions of the role as the new permissions
+                        console.log(`Successfully removed permission ${permission.toString()} from role ${role.name}.`);
+                        outputEmbedText += `**${permission}**: Permission removed successfully\n`
+                    } catch (e) {
+                        console.log(`Failed to remove permission ${permission.toString()} from role ${role.name}.`);
+                        outputEmbedText += `**${permission}**: Failed to remove permission\n`
+                    }
                     break;
                 case 'r':
+                    try {
+                        await role.setPermissions(0); // wipe all permissions from the role
+                        console.log(`Successfully reset permissions on role ${role.name}.`);
+                        outputEmbedText += `**${permission}**: Permissions reset successfully\n`
+                    } catch (e) {
+                        console.log(`Failed to reset permissions on role ${role.name}.`);
+                        outputEmbedText += `**${permission}**: Failed to reset permissions\n`
+                    }
                     break;
                 default:
+                    console.log(`Invalid operation was given for a permission change. Skipping over it.`);
+                    outputEmbedText += `**${permissionChange}:** Invalid operation`;
                     break;
-
             }
 
         }
 
+        try { // send output embed with information about the command's success
+            outputEmbed.addField('\u200B', outputEmbedText); // add whatever text was accumulated throughout the command to the embed
+            if (outputEmbedText !== '') { // check if there is actually any text to send the embed with
+                outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Modified perimssions of role:** ${role.name}`);
+                await message.channel.send(outputEmbed);
+            }
+            console.log(`Command changerolepermissions, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
+        } catch (e) {
+            console.log(`There was an error sending an embed in the guild ${message.guild}! The error message is below:`);
+            console.log(e);
+        }
     }
 }
+
