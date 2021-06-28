@@ -7,7 +7,7 @@ import {voiceChannelPermissions, voiceChannelPermissionsEnable, voiceChannelPerm
 const command: ICommand = {
     name: 'changevoicepermissions',
     description: 'Changes the given role\'s permissions in a voice channel according to the changes given. Permissions are referred to by their number (see f!listpermissions). You can change permissions by specifiying an operation and a permission number. Operation can be + for add, - for remove, or just r (with nothing after) for resetting permissions. E.g. to allow CREATE_INSTANT_INVITE and MANAGE_MESSAGES on a role for a certain voice channel, simply give the command: f!changevoicepermissions @role #text-channel +1 +7',
-    alias: ['cvp'],
+    alias: ['cvp', 'changevoiceperms'],
     syntax: 'f!changevoicepermissions [role mention or number] [voice channel role mention] [permission changes, (+/-/r)(permission number)]',
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command changevoicepermissions started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
