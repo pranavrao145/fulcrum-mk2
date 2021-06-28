@@ -1,7 +1,7 @@
 import {Message, MessageEmbed} from 'discord.js';
 import {ICommand} from '../../utils/types';
 import {Client} from 'pg';
-import {rolePermissions, textChannelPermissions, voiceChannelPermissions} from '../../utils/information';
+import {generalPermissions, textChannelPermissions, voiceChannelPermissions} from '../../utils/information';
 
 const command: ICommand = {
     name: 'listpermissions',
@@ -29,8 +29,8 @@ const command: ICommand = {
 
         switch (type) { // check different values of type
             case 'general':
-                for (let i = 0; i < rolePermissions.length; i++) { // iterate through general permissions using index
-                    outputEmbedText += `**${i + 1}.** ${rolePermissions[i]}\n`
+                for (let i = 0; i < generalPermissions.length; i++) { // iterate through general permissions using index
+                    outputEmbedText += `**${i + 1}.** ${generalPermissions[i]}\n`
                 }
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\nThese are general permissions. They (and their corresponding numbers) will be used by Fulcrum to give roles certain priveleges on the whole server.`);
                 outputEmbed.setFooter('FYI: in commands involving changing permissions, you can need to use the numbers of the permissions in this list to refer to the permissions (e.g. 1 refers to CREATE_INSTANT_INVITE)');

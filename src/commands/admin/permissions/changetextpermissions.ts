@@ -2,7 +2,7 @@ import {Message, MessageEmbed} from 'discord.js';
 import {ICommand} from '../../../utils/types';
 import {Client} from 'pg';
 import {getRoleFromMention, timeout} from '../../../utils/helpers';
-import {rolePermissions} from '../../../utils/information';
+import {generalPermissions} from '../../../utils/information';
 
 const command: ICommand = {
     name: 'changetextpermissions',

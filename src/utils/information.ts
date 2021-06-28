@@ -25,7 +25,7 @@ export const daysList = [
     'Saturday',
 ];
 
-export const rolePermissions: PermissionResolvable[] = [ // list of permissions for roles (in general) on the server
+export const generalPermissions: PermissionResolvable[] = [ // list of permissions for roles (in general) on the server
     'CREATE_INSTANT_INVITE',
     'KICK_MEMBERS',
     'BAN_MEMBERS',

@@ -2,7 +2,7 @@ import {Message, MessageEmbed} from 'discord.js';
 import {ICommand} from '../../../utils/types';
 import {Client} from 'pg';
 import {getRoleFromMention, timeout} from '../../../utils/helpers';
-import {rolePermissions} from '../../../utils/information';
+import {generalPermissions} from '../../../utils/information';
 
 const command: ICommand = {
     name: 'changegeneralpermissions',
@@ -83,13 +83,13 @@ const command: ICommand = {
                     continue;
                 }
 
-                if (permissionNum < 1 || permissionNum > rolePermissions.length + 1) { // check if the value for permission is actually within the range of the role permissions
+                if (permissionNum < 1 || permissionNum > generalPermissions.length + 1) { // check if the value for permission is actually within the range of the role permissions
                     console.log(`Invalid permission was given for a permission change. Skipping over it.`);
                     outputEmbedText += `**${permissionChange}:** Invalid permission.\n`;
                     continue;
                 }
 
-                const permission = rolePermissions[permissionNum - 1]; // get the permission name from the list
+                const permission = generalPermissions[permissionNum - 1]; // get the permission name from the list
 
                 const currentPermissions = role.permissions // get the role's current permissions
                 let newPermissions; // empty variable to hold the new permissions
