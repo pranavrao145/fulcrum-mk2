@@ -1,4 +1,4 @@
-import {Message, MessageEmbed} from 'discord.js';
+import {Message, MessageEmbed, PermissionResolvable} from 'discord.js';
 import {ICommand} from '../../../utils/types';
 import {Client} from 'pg';
 import {getRoleFromMention, timeout} from '../../../utils/helpers';
@@ -64,7 +64,7 @@ const command: ICommand = {
 
         for (const permissionChange of args) { // iterate through the rest of the args to calculate and apply the permission changes
             const operation = permissionChange.charAt(0); // get the operation (first character of the sequence)
-            const permissionToChange = permissionChange.slice(1); // slice the operation off the argument to get the permission number
+            const permissionToChange = permissionChange.slice(1).toUpperCase(); // slice the operation off the argument to get the permission number
 
             if (!(operation === '+' || operation === '-' || operation === 'r')) {
                 console.log(`Invalid operation was given for a permission change. Skipping over it.`);
@@ -75,29 +75,35 @@ const command: ICommand = {
             if (operation !== 'r') { // if the operation is not reset, it is add or remove
                 console.log('Operation is not reset.');
                 console.log('Attempting to find permission number in role permissions.')
-                const permissionNum = parseInt(permissionToChange, 10);
 
-                if (isNaN(permissionNum)) { // check if the value for the permission is actually a number
-                    console.log(`Invalid permission was given for a permission change. Skipping over it.`);
-                    outputEmbedText += `**${permissionChange}:** Invalid permission.\n`;
-                    continue;
+                const permissionNum = parseInt(permissionToChange, 10); // attempt to get a number from the permission
+                let permission;
+
+                if (isNaN(permissionNum)) { // if the permission is not a number, check to see if it a valid permissions
+                    console.log('Permission given is of type string. Checking permission validity.');
+                    if (!(generalPermissions.includes(permissionToChange as PermissionResolvable))) {
+                        console.log(`Invalid permission was given for a permission change. Skipping over it.`);
+                        outputEmbedText += `**${permissionChange}:** Invalid permission.\n`;
+                        continue;
+                    }
+                    permission = permissionToChange; // set the permission to the value the user gave, as it is a valid permission
+                } else { // if it is a number, check in the list of permissions to get the matching permission
+                    console.log('Permission given is of type number. Checking permission validity.');
+                    if (permissionNum < 1 || permissionNum > generalPermissions.length + 1) { // check if the value for permission is actually within the range of the role permissions
+                        console.log(`Invalid permission was given for a permission change. Skipping over it.`);
+                        outputEmbedText += `**${permissionChange}:** Invalid permission.\n`;
+                        continue;
+                    }
+                    permission = generalPermissions[permissionNum - 1]; // get the permission name from the list using index
                 }
-
-                if (permissionNum < 1 || permissionNum > generalPermissions.length + 1) { // check if the value for permission is actually within the range of the role permissions
-                    console.log(`Invalid permission was given for a permission change. Skipping over it.`);
-                    outputEmbedText += `**${permissionChange}:** Invalid permission.\n`;
-                    continue;
-                }
-
-                const permission = generalPermissions[permissionNum - 1]; // get the permission name from the list
 
                 const currentPermissions = role.permissions // get the role's current permissions
                 let newPermissions; // empty variable to hold the new permissions
 
                 switch (operation) { // do different things depending on the operation
                     case '+':
-                        newPermissions = currentPermissions.add([permission]); // add the new permissions
                         try {
+                            newPermissions = currentPermissions.add([(permission as PermissionResolvable)]); // add the new permissions
                             await timeout(300); // setting a short timeout to prevent abuse of Discord's API
                             await role.setPermissions(newPermissions.bitfield); // set the permissions of the role as the new permissions
                             console.log(`Successfully added permission ${permission.toString()} to role ${role.name}.`);
@@ -108,8 +114,8 @@ const command: ICommand = {
                         }
                         break;
                     case '-':
-                        newPermissions = currentPermissions.remove([permission]); // remove the new permissions
                         try {
+                            newPermissions = currentPermissions.remove([(permission as PermissionResolvable)]); // remove the new permissions
                             await timeout(300); // setting a short timeout to prevent abuse of Discord's API
                             await role.setPermissions(newPermissions.bitfield); // set the permissions of the role as the new permissions
                             console.log(`Successfully removed permission ${permission.toString()} from role ${role.name}.`);
