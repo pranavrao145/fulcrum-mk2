@@ -74,7 +74,7 @@ const command: ICommand = {
 
             if (operation !== 'r') { // if the operation is not reset, it is add or remove
                 console.log('Operation is not reset.');
-                console.log('Attempting to find permission number in role permissions.')
+                console.log('Attempting to find permission number in general permissions.')
 
                 const permissionNum = parseInt(permissionToChange, 10); // attempt to get a number from the permission
                 let permission;
@@ -89,7 +89,7 @@ const command: ICommand = {
                     permission = permissionToChange; // set the permission to the value the user gave, as it is a valid permission
                 } else { // if it is a number, check in the list of permissions to get the matching permission
                     console.log('Permission given is of type number. Checking permission validity.');
-                    if (permissionNum < 1 || permissionNum > generalPermissions.length + 1) { // check if the value for permission is actually within the range of the role permissions
+                    if (permissionNum < 1 || permissionNum > generalPermissions.length) { // check if the value for permission is actually within the range of the general permissions
                         console.log(`Invalid permission was given for a permission change. Skipping over it.`);
                         outputEmbedText += `**${permissionChange}:** Invalid permission.\n`;
                         continue;
