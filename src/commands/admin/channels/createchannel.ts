@@ -39,17 +39,17 @@ const command: ICommand = {
 
         const channelName = args.shift()!.replace(/_/g, ' '); // get the channel name and replace all underscores with spaces
         const type = args.shift(); // get the potential type
-        const permission = args.shift(); // get the potential permission
+        const privacy = args.shift(); // get the potential privacy
 
-        if (permission) { // if there is a permission, meaning there will be a type and a channelName as well
-            console.log('Permission detected. Attempting to create channel with type and permission.');
+        if (privacy) { // if there is a privacy, meaning there will be a type and a channelName as well
+            console.log('Privacy detected. Attempting to create channel with type and privacy.');
 
-            const permissionFormatted = permission.toLowerCase(); // lowercase the permission for consistent formatting
+            const privacyFormatted = privacy.toLowerCase(); // lowercase the privacy for consistent formatting
 
-            if (permissionFormatted !== 'public' && permissionFormatted !== 'private') { // check if the permission given was valid
+            if (privacyFormatted !== 'public' && privacyFormatted !== 'private') { // check if the privacy given was valid
                 try {
-                    console.log('Permission supplied was invalid. Stopping execution.');
-                    return await message.channel.send('Invalid value for permission! Must be public or private.')
+                    console.log('Privacy supplied was invalid. Stopping execution.');
+                    return await message.channel.send('Invalid value for privacy! Must be public or private.')
                 } catch (e) {
                     console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
                     console.log(e);
@@ -83,7 +83,7 @@ const command: ICommand = {
                 }
             }
 
-            if (permissionFormatted === 'private') { // if the permission specified is private
+            if (privacyFormatted === 'private') { // if the privacy specified is private
                 try {
                     const channel = await message.guild!.channels.create(channelName, { // create a channel with the given options (private)
                         type: typeFormatted,
@@ -96,7 +96,7 @@ const command: ICommand = {
                     });
                     outputEmbed.addField(`Status`, 'Success');
                     outputEmbed.addField('Type', `${channel.type.replace(/^\w/, (c) => c.toUpperCase())}`);
-                    outputEmbed.addField('Permission', 'Private');
+                    outputEmbed.addField('Privacy', 'Private');
                 }
                 catch (e) {
                     outputEmbed.addField(`Status`, 'Failed');
@@ -110,14 +110,14 @@ const command: ICommand = {
                     });
                     outputEmbed.addField(`Status`, 'Success');
                     outputEmbed.addField('Type', `${channel.type.replace(/^\w/, (c) => c.toUpperCase())}`);
-                    outputEmbed.addField('Permission', 'Public');
+                    outputEmbed.addField('Privacy', 'Public');
                 }
                 catch (e) {
                     outputEmbed.addField(`Status`, 'Failed');
                     console.log(`Failed to create channel ${channelName} in server ${message.guild!.name}.`)
                 }
             }
-        } else if (type) { // if there is not a permission, check if there is a type given
+        } else if (type) { // if there is not a privacy, check if there is a type given
             console.log('Type detected. Attempting to create channel with type.');
 
             const typeFormatted = type!.toLowerCase(); // lowercase the type for consistent formatting
@@ -152,15 +152,15 @@ const command: ICommand = {
                 });
                 outputEmbed.addField(`Status`, 'Success');
                 outputEmbed.addField('Type', `${channel.type.replace(/^\w/, (c) => c.toUpperCase())}`);
-                outputEmbed.addField('Permission', 'Public');
+                outputEmbed.addField('Privacy', 'Public');
             }
             catch (e) {
                 outputEmbed.addField(`Status`, 'Failed');
                 console.log(`Failed to create channel ${channelName} in server ${message.guild!.name}.`)
             }
 
-        } else { // if there is no type or permission specified
-            console.log('No permission or type detected. Creating channel with default settings.');
+        } else { // if there is no type or privacy specified
+            console.log('No privacy or type detected. Creating channel with default settings.');
 
             if (getRoleFromMention(message, channelName) || getUserFromMention(message, channelName) || getChannelFromMention(message, channelName) || message.guild!.channels.cache.find(c => c.name === channelName)) { // checking to see if the channel already exists on the server as a role or anything else
                 console.log('Invalid channel name or channel already exists in server. Stopping execution.');
@@ -180,7 +180,7 @@ const command: ICommand = {
 
                 outputEmbed.addField(`Status`, 'Success');
                 outputEmbed.addField('Type', 'Text');
-                outputEmbed.addField('Permission', 'Public');
+                outputEmbed.addField('Privacy', 'Public');
             }
             catch (e) {
                 outputEmbed.addField(`Status`, 'Failed');
