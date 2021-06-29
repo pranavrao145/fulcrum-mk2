@@ -6,9 +6,10 @@ dotenv.config();
 import Discord from 'discord.js';
 import {Client} from 'pg';
 import * as database from './utils/database';
-import glob from 'glob'
-import {promisify} from 'util'
-import {ICommand} from './utils/types'
+import glob from 'glob';
+import {promisify} from 'util';
+import {ICommand} from './utils/types';
+import schedule from 'node-schedule';
 
 const client: Discord.Client = new Discord.Client(); // initialize client object
 const prefix = 'f!'; // declare prefix
@@ -66,6 +67,23 @@ client.on('ready', async () => {
         console.log('There was an error setting the bot status. The error message is below:');
         console.log(e)
     }
+
+    // at midnight EST everyday, update the date
+    schedule.scheduleJob("0 0 * * *", async () => {
+        console.log('Midnight EST detected. Attempting to update date in all guilds.') 
+
+        const updateDateCommand = commands.find(c => c.name === 'updatedate');
+
+        if (!updateDateCommand) {
+            console.log('Command updatedate not found. Stopping execution.');
+            return;
+        }
+
+        updateDateCommand.execute(client, con, undefined); // update the date count (automatic mode)
+
+        console.log(`Automatic date update sequence completed successfully.`);
+
+    });
 });
 
 // on a message, parse message for commands and execute accordingly
@@ -95,7 +113,7 @@ client.on('message', async (message: Discord.Message) => {
 });
 
 // on a voice state change, add/remove the appropriate voice channel roles 
-client.on('voiceStateUpdate', async (oldState: Discord.VoiceState, newState: Discord.VoiceState) => {     
+client.on('voiceStateUpdate', async (oldState: Discord.VoiceState, newState: Discord.VoiceState) => {
     // three situations exist:
     // 1. User leaves all voice channels
     // 2. User joins a voice channel from no voice channel
@@ -169,7 +187,7 @@ client.on('voiceStateUpdate', async (oldState: Discord.VoiceState, newState: Dis
 })
 
 // every time a voice channel is created, set up the associated voice channel role automatically
-client.on('channelCreate', async (channel: Discord.Channel) => {    
+client.on('channelCreate', async (channel: Discord.Channel) => {
     if (!channel) return; // ensure that the channel created exists 
     if (channel.type !== 'voice') return; // ensure the channel created is a voice channel
     if (!(channel as Discord.VoiceChannel).guild) return; // check that the voice channel is actually associated with a guild
@@ -196,11 +214,11 @@ client.on('channelCreate', async (channel: Discord.Channel) => {
     }
 
     console.log(`Automatic voice channel role creation sequence completed successfully in ${(channel as Discord.VoiceChannel).guild}.`);
-    
-}) 
+
+})
 
 // every time a voice channel is deleted, delete the associated voice channel role automatically
-client.on('channelDelete', async (channel: Discord.Channel) => {    
+client.on('channelDelete', async (channel: Discord.Channel) => {
     if (!channel) return; // ensure that the channel deleted existed 
     if (channel.type !== 'voice') return; // ensure the channel deleted was a voice channel
     if (!(channel as Discord.VoiceChannel).guild) return; // check that the voice channel was actually associated with a guild
@@ -223,7 +241,7 @@ client.on('channelDelete', async (channel: Discord.Channel) => {
     }
 
     console.log(`Automatic voice channel role deletion sequence completed successfully in ${(channel as Discord.VoiceChannel).guild}.`);
-}) 
+})
 
 
 // every time a voice channel is updated, update the associated voice channel role
@@ -233,7 +251,7 @@ client.on('channelUpdate', async (oldChannel: Discord.Channel, newChannel: Disco
     console.log(`Voice channel update detected in ${(newChannel as Discord.VoiceChannel).guild.name}. Attempting to update voice channel role.`);
 
     const vcRole = (oldChannel as Discord.VoiceChannel).guild.roles.cache.find(r => r.name === (oldChannel as Discord.VoiceChannel).name); // attempt to find a role in the server with the same name as the old channel
-    
+
     if (!vcRole) { // check if the role exists
         console.log(`No voice channel role found for channel ${(oldChannel as Discord.VoiceChannel).name}. Stopping execution.`);
         return;
@@ -255,7 +273,7 @@ client.on('guildMemberAdd', async (member: Discord.GuildMember) => {
     if (!member || !member.guild) return; // check that the member actually exists and is associated with a guild
 
     console.log(`Detected new member joining ${member.guild}. Attempting to update member count.`)
- 
+
     const updateMemberCountCommand = commands.find(c => c.name === 'updatemembercount'); // attempt to get the actual command
 
     if (!updateMemberCountCommand) {
@@ -273,7 +291,7 @@ client.on('guildMemberRemove', async (member: Discord.GuildMember | Discord.Part
     if (!member || !member.guild) return; // check that the member actually exists and is associated with a guild
 
     console.log(`Detected new member joining ${member.guild}. Attempting to update member count.`)
- 
+
     const updateMemberCountCommand = commands.find(c => c.name === 'updatemembercount'); // attempt to get the actual command
 
     if (!updateMemberCountCommand) {
@@ -291,7 +309,7 @@ client.on('channelCreate', async (channel: Discord.Channel) => {
     if (!(channel && channel.type === 'voice' || channel.type === 'text')) return; // check that the channel actually exists, is of type text or voice, and is associated with a guild
 
     console.log(`Detected new channel created in ${(channel as Discord.TextChannel || Discord.VoiceChannel).guild.name}. Attempting to update channel count.`)
- 
+
     const updateChannelCountCommand = commands.find(c => c.name === 'updatechannelcount'); // attempt to get the actual command
 
     if (!updateChannelCountCommand) {
@@ -309,7 +327,7 @@ client.on('channelDelete', async (channel: Discord.Channel) => {
     if (!(channel && channel.type === 'voice' || channel.type === 'text')) return; // check that the channel actually exists, is of type text or voice, and is associated with a guild
 
     console.log(`Detected channel deleted in ${(channel as Discord.TextChannel || Discord.VoiceChannel).guild.name}. Attempting to update channel count.`)
- 
+
     const updateChannelCountCommand = commands.find(c => c.name === 'updatechannelcount'); // attempt to get the actual command
 
     if (!updateChannelCountCommand) {

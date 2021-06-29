@@ -1,4 +1,4 @@
-import {Guild, Message} from 'discord.js';
+import {Message} from 'discord.js';
 import {Client} from 'pg';
 
 // interface for a bot command
@@ -15,5 +15,6 @@ export interface ICommand {
     description: string
     alias?: string[]
     syntax: string
-    execute(message: Message | Guild, _con: Client, args?: string[]): any
+    execute(message: Message | any, _con: Client, args?: string[]): any
 }
+ 
