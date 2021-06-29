@@ -29,7 +29,7 @@ const command: ICommand = {
         const messageChannel = message.channel; // get the message's chanel (like this so it can later be cast to TextChannel)
 
         try {
-            (messageChannel as TextChannel).updateOverwrite((messageChannel as TextChannel).guild.roles.everyone, { SEND_MESSAGES: false }); // set the channel as read only for everyone
+            await (messageChannel as TextChannel).updateOverwrite((messageChannel as TextChannel).guild.roles.everyone, { SEND_MESSAGES: false }); // set the channel as read only for everyone
             console.log(`Successfully locked ${(messageChannel as TextChannel).name}.`);
             outputEmbed.addField('Status', 'Success');
         } catch (e) {
@@ -44,6 +44,7 @@ const command: ICommand = {
                 const outputEmbedMessage = await message.channel.send(outputEmbed); // keep track of the message with the embed for deletion
                 await timeout(5000); // wait 5 seconds
                 await outputEmbedMessage.delete(); // delete output embed message
+                await message.delete();
             }
             console.log(`Command lock, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
         } catch (e) {
