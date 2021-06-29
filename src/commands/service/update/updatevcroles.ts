@@ -35,13 +35,11 @@ const command: ICommand = {
             }
         }
 
-        const voiceChannelIDs = message.guild!.channels.cache.filter(c => c.type === 'voice').map(c => c.id); // get all the ids of the voice channels in the server
+        const voiceChannels = message.guild!.channels.cache.filter(c => c.type === 'voice').values(); // get all the voice channels in the server
 
-        for (const voiceChannelID of voiceChannelIDs) { // iterate through each of the voice channels and add/remove role as neccessary
-            const voiceChannel = message.guild!.channels.cache.get(voiceChannelID); // get the actual channel
-
+        for (const voiceChannel of voiceChannels) { // iterate through each of the voice channels and add/remove role as neccessary
             if (!voiceChannel) { // check if the voice channel actually exists
-                console.log(`Voice channel with ID ${voiceChannelID} does not exist. Skipping over it.`)
+                console.log(`A voice channel did not exist. Skipping over it.`)
                 continue;
             }
 
@@ -52,14 +50,12 @@ const command: ICommand = {
                 continue;
             }
 
-            const vcMembers = voiceChannel.members.map(mem => mem.id); // get the members of the voice channel and map them to their ids
+            const vcMembers = voiceChannel.members.values(); // get the members of the voice channel
 
             // make sure all the people in the voice channel have the role
-            for (const vcMemberID of vcMembers) {
-                const vcMember = message.guild!.members.cache.get(vcMemberID); // get the actual voice channel member
-
+            for (const vcMember of vcMembers) {
                 if (!vcMember) { // check if a member actually exists for the current id
-                    console.log(`Invalid user for ID ${vcMemberID}. Skipping over them.`);
+                    console.log(`A voice channel member did not exist. Skipping over them.`);
                     continue;
                 }
 
@@ -76,14 +72,12 @@ const command: ICommand = {
             }
 
 
-            const roleMembers = vcRole.members.map(mem => mem.id); // get all the members of this vc role
+            const roleMembers = vcRole.members.values(); // get all the members of this vc role
 
             // make sure people that are not in the voice channel do not have the associated role
-            for (const roleMemberID of roleMembers) {
-                const roleMember = message.guild!.members.cache.get(roleMemberID); // get the actual role member
-
+            for (const roleMember of roleMembers) {
                 if (!roleMember) {
-                    console.log(`Invalid user for ID ${roleMemberID}. Skipping over them.`);
+                    console.log(`A role member did not exist. Skipping over them.`);
                     continue;
                 }
 
