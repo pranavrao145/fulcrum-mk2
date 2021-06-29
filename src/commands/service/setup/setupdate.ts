@@ -15,7 +15,7 @@ const command: ICommand = {
 
         const outputEmbed = new MessageEmbed() // create a new embed for output
             .setColor('#FFFCF4')
-            .setTitle('Setup date Channel - Report');
+            .setTitle('Setup Date Channel - Report');
 
         if (!message.member!.hasPermission('MANAGE_CHANNELS')) { // check for adequate permissions
             try {
