@@ -17,12 +17,6 @@ const command: ICommand = {
 
         let overallSuccess = true; // to keep track of whether or not the function was overall successful
 
-        try {
-            await message.channel.send('Setting up voice channel roles. This may take a moment...');
-        } catch (e) {
-            console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
-            console.log(e);
-        }
 
         if (!message.member!.hasPermission('MANAGE_ROLES')) { // check for adequate permissions
             try {
@@ -33,6 +27,13 @@ const command: ICommand = {
                 console.log(e);
                 return;
             }
+        }
+
+        try {
+            await message.channel.send('Setting up voice channel roles. This may take a moment...');
+        } catch (e) {
+            console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+            console.log(e);
         }
 
         const voiceChannels = message.guild!.channels.cache.filter(c => c.type === 'voice').values(); // get all the voice channels in the server
