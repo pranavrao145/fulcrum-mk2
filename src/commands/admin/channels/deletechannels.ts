@@ -5,9 +5,9 @@ import {getChannelFromMention, getRoleFromMention, timeout} from '../../../utils
 
 const command: ICommand = {
     name: 'deletechannels',
-    description: 'Deletes all given channels.',
+    description: 'Deletes all given channels. (10 max)',
     alias: ['dc', 'dcs'],
-    syntax: 'f!deletechannels [channel mentions (voice channel roles for voice channels)]',
+    syntax: 'f!deletechannels [channel mentions (voice channel roles for voice channels) (10 max)]',
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command deletechannels started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
@@ -28,7 +28,7 @@ const command: ICommand = {
             }
         }
 
-        if (!args || args.length === 0) { // check if the args exist (this function requires them) and that there are not too many args
+        if (!args || args.length < 1 || args.length > 10) { // check if the args exist (this function requires them) and that there are not too many args
             try {
                 console.log('Incorrect syntax given. Stopping execution.');
                 return await message.channel.send(`Incorrect syntax! Correct syntax: \`${this.syntax}\``)
