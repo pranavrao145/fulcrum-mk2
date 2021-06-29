@@ -7,7 +7,7 @@ const command: ICommand = {
     name: 'unlockdown',
     description: 'Releases server from lockdown triggered by f!lockdown. **WARNING:** this gives the @everyone role CONNECT and SEND_MESSAGES permissions for all channels (like it is by default), so make sure any other roles required to restrict permissions are assigned and set with the correct permissions.',
     syntax: 'f!unlockdown',
-    async execute(message: Message, _con: Client, args?: string[]) {
+    async execute(message: Message, _con: Client, _args?: string[]) {
         console.log(`Command unlockdown started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command

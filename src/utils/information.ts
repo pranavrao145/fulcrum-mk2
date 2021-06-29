@@ -1,4 +1,4 @@
-import {PermissionResolvable} from "discord.js";
+import {PermissionResolvable} from 'discord.js';
 
 export const monthsList = [
     'Jan',
