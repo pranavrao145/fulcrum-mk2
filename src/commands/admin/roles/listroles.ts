@@ -4,7 +4,7 @@ import { Client } from 'pg';
 
 const command: ICommand = {
     name: 'listroles',
-    description: 'Displays all the roles in the server in a list with numbers. For use with other role management commands.',
+    description: 'Displays all the roles in the server in a list with numbers for use with other role management commands.',
     alias: ['lr'],
     syntax: 'f!listroles',
     async execute(message: Message, _con: Client, _args?: string[]) {

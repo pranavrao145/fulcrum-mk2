@@ -5,7 +5,7 @@ import {serviceList} from '../../utils/information';
 
 const command: ICommand = {
     name: 'services',
-    description: 'Displays a services message.',
+    description: 'Displays a message detailing the services that Fulcrum offers.',
     syntax: 'f!services',
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command services started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);

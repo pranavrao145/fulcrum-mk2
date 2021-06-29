@@ -4,7 +4,7 @@ import {Client} from 'pg';
 
 const command: ICommand = {
     name: 'start',
-    description: 'Displays a start message.',
+    description: 'Displays a start message for Fulcrum.',
     syntax: 'f!start',
     async execute(message: Message, _con: Client, _args?: string[]) {
         console.log(`Command start started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);

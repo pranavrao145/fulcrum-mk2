@@ -5,7 +5,7 @@ import {timeout} from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'updatevcroles',
-    description: 'Adds the given role to the given user(s). Max 10 users mentionable with one command.',
+    description: 'Updates the assignment of voice channel roles in the current server (i.e. assigns voice channel roles to members missing them and takes them away from members that should not have them).',
     alias: ['uvcr', 'uvc', 'uvr', 'uv'],
     syntax: 'f!updatevcroles',
     async execute(message: Message, _con: Client, _args?: string[]) {

@@ -5,7 +5,7 @@ import {getUserFromMention} from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'ban',
-    description: 'Bans the given user from the server.',
+    description: 'Bans the given user from the server. You can also optionally specify the amount of days of history from that user you want to purge from the server (must be from 0-7), and a reason for banning.',
     syntax: 'f!ban [user mention] (days, 0-7, default 0) (reason)',
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command ban started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);

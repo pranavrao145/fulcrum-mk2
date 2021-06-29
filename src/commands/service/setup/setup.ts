@@ -6,7 +6,7 @@ import glob from 'glob';
 
 const command: ICommand = {
     name: 'setup',
-    description: 'Sets up the service specified.',
+    description: 'Sets up the service specified. See f!services for a full list of services that Fulcrum offers.',
     alias: ['s'],
     syntax: 'f!setup [service] (options)',
     async execute(message: Message, con: Client, args?: string[]) {

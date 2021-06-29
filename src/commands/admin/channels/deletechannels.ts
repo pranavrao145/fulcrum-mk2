@@ -5,7 +5,7 @@ import {getChannelFromMention, getRoleFromMention, timeout} from '../../../utils
 
 const command: ICommand = {
     name: 'deletechannels',
-    description: 'Deletes all given channels. (10 max)',
+    description: 'Deletes all given channels. You can delete upto 10 channels with one command.',
     alias: ['dc', 'dcs'],
     syntax: 'f!deletechannels [channel mentions (voice channel roles for voice channels) (10 max)]',
     async execute(message: Message, _con: Client, args?: string[]) {

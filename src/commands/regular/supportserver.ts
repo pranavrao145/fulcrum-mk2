@@ -4,7 +4,7 @@ import {Client} from 'pg';
 
 const command: ICommand = {
     name: 'supportserver',
-    description: 'Sends an invite to the Fulcrum support server.',
+    description: 'Gives the user an invite to the Fulcrum support server.',
     alias: ['ss'],
     syntax: 'f!supportserver',
     async execute(message: Message, _con: Client, _args?: string[]) {

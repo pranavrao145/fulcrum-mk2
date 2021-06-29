@@ -4,7 +4,7 @@ import {Client} from 'pg';
 
 const command: ICommand = {
     name: 'leavevoice',
-    description: 'Makes the user leave the voice channel they are currently in.',
+    description: 'Disconnect the user from voice channel they are currently in. This is NOT an admin kicking utility, but rather a feature for users in a voice channel to use to easily disconnect from that channel without having to press the disconnect button.',
     alias: ['lv', 'l'],
     syntax: 'f!leavevoice',
     async execute(message: Message, _con: Client, _args?: string[]) {

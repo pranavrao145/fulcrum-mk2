@@ -5,7 +5,7 @@ import {timeout} from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'unlock',
-    description: 'Unlocks the current channel (makes it read and write).',
+    description: 'Unlocks the current channel (makes it read and write for the @everyone role, as it is by default).',
     syntax: 'f!unlock',
     async execute(message: Message, _con: Client, _args?: string[]) {
         console.log(`Command unlock started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);

@@ -5,7 +5,7 @@ import {getUserFromMention} from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'kick',
-    description: 'Kicks the given user from the server.',
+    description: 'Kicks the given user from the server. You can also optionally specify a reason for kicking.',
     syntax: 'f!kick [user mention] (reason)',
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command kick started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
