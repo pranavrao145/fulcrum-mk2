@@ -12,7 +12,7 @@ const command: ICommand = {
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command help started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
-        let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
+        const outputEmbed = new MessageEmbed() // create an embed to display the results of the command
             .setColor('#FFFCF4')
             .setTitle('Help');
 
@@ -72,19 +72,9 @@ const command: ICommand = {
                 // add other relevant info to output embed
                 outputEmbed.addField('Syntax', syntax);
                 outputEmbed.addField('Description', description);
-
-                try { // send output embed with information about the command's success
-                    if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
-                        await message.channel.send(outputEmbed);
-                    }
-                    console.log(`Command help, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
-                } catch (e) {
-                    console.log(`There was an error sending an embed in the guild ${message.guild}! The error message is below:`);
-                    console.log(e);
-                }
             } else { // if command not found
                 outputEmbed.addField('\u200B', 'Invalid command, no help available.');
-
+            }
                 try { // send output embed with information about the command's success
                     if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                         await message.channel.send(outputEmbed);
@@ -94,7 +84,6 @@ const command: ICommand = {
                     console.log(`There was an error sending an embed in the guild ${message.guild}! The error message is below:`);
                     console.log(e);
                 }
-            }
         } else { // if the original message does not contain any arguments (general help message)
             outputEmbed.setDescription('General Help\nUse the prefix **f!** before any of these commands\nFor information on a specific command, type f!help [command]');
 

@@ -14,12 +14,6 @@ const command: ICommand = {
             .setColor('#FFFCF4')
             .setTitle('Unlockdown - Report')
 
-        try {
-            await message.channel.send('Lifting lockdown on server. This may take a moment...');
-        } catch (e) {
-            console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
-            console.log(e);
-        }
 
         if (!message.member!.hasPermission('ADMINISTRATOR')) { // check for adequate permissions
             try {
@@ -30,6 +24,13 @@ const command: ICommand = {
                 console.log(e);
                 return;
             }
+        }
+
+        try {
+            await message.channel.send('Lifting lockdown on server. This may take a moment...');
+        } catch (e) {
+            console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+            console.log(e);
         }
 
         const textChannels = message.guild!.channels.cache.filter(c => c.type === 'text').values(); // get all text channels in guild
