@@ -66,7 +66,6 @@ const command: ICommand = {
                 continue;
             }
 
-
             for (const member of members) { // iterate through the members that have the role
                 if (!member) {
                     console.log('A member with the role did not exists. Skipping over them.');
