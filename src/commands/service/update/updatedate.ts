@@ -2,6 +2,7 @@ import {Message, MessageEmbed} from 'discord.js';
 import {ICommand} from '../../../utils/types';
 import {Client} from 'pg';
 import {daysList, monthsList} from '../../../utils/information';
+import {timeout} from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'updatedate',
@@ -27,6 +28,7 @@ const command: ICommand = {
         }
 
         try {
+            await timeout(1000); // wait for one second before querying the database
             console.log(`Querying database to find date channel for guild ${message.guild!.name}`);
             const res = await con.query(`SELECT * FROM datechannel WHERE guildid = '${message.guild!.id}'`); // find the id of the date channel for the guild of the message
 

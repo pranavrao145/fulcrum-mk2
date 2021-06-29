@@ -249,3 +249,75 @@ client.on('channelUpdate', async (oldChannel: Discord.Channel, newChannel: Disco
 
     console.log(`Automatic voice channel role update sequence completed successfully in ${(newChannel as Discord.VoiceChannel).guild}.`);
 })
+
+// automatically update member count when someone joins
+client.on('guildMemberAdd', async (member: Discord.GuildMember) => {
+    if (!member || !member.guild) return; // check that the member actually exists and is associated with a guild
+
+    console.log(`Detected new member joining ${member.guild}. Attempting to update member count.`)
+ 
+    const updateMemberCountCommand = commands.find(c => c.name === 'updatemembercount'); // attempt to get the actual command
+
+    if (!updateMemberCountCommand) {
+        console.log('Command updatemembercount not found. Stopping execution.');
+        return;
+    }
+
+    updateMemberCountCommand.execute(member.guild, con, undefined); // update the member count (automatic mode)
+
+    console.log(`Automatic member count update sequence completed successfully in ${member.guild.name}.`);
+})
+
+// automatically update member count when someone leaves
+client.on('guildMemberRemove', async (member: Discord.GuildMember | Discord.PartialGuildMember) => {
+    if (!member || !member.guild) return; // check that the member actually exists and is associated with a guild
+
+    console.log(`Detected new member joining ${member.guild}. Attempting to update member count.`)
+ 
+    const updateMemberCountCommand = commands.find(c => c.name === 'updatemembercount'); // attempt to get the actual command
+
+    if (!updateMemberCountCommand) {
+        console.log('Command updatemembercount not found. Stopping execution.');
+        return;
+    }
+
+    updateMemberCountCommand.execute(member.guild, con, undefined); // update the member count (automatic mode)
+
+    console.log(`Automatic member count update sequence completed successfully in ${member.guild.name}.`);
+})
+
+// automatically update channel count when a new channel is created
+client.on('channelCreate', async (channel: Discord.Channel) => {
+    if (!(channel && channel.type === 'voice' || channel.type === 'text')) return; // check that the channel actually exists, is of type text or voice, and is associated with a guild
+
+    console.log(`Detected new channel created in ${(channel as Discord.TextChannel || Discord.VoiceChannel).guild.name}. Attempting to update channel count.`)
+ 
+    const updateChannelCountCommand = commands.find(c => c.name === 'updatechannelcount'); // attempt to get the actual command
+
+    if (!updateChannelCountCommand) {
+        console.log('Command updatechannelcount not found. Stopping execution.');
+        return;
+    }
+
+    updateChannelCountCommand.execute((channel as Discord.TextChannel | Discord.VoiceChannel).guild, con, undefined); // update the member count (automatic mode)
+
+    console.log(`Automatic channel count update sequence completed successfully in ${(channel as Discord.TextChannel | Discord.VoiceChannel).guild.name}.`);
+})
+
+// automatically update channel count when a channel is deleted
+client.on('channelDelete', async (channel: Discord.Channel) => {
+    if (!(channel && channel.type === 'voice' || channel.type === 'text')) return; // check that the channel actually exists, is of type text or voice, and is associated with a guild
+
+    console.log(`Detected channel deleted in ${(channel as Discord.TextChannel || Discord.VoiceChannel).guild.name}. Attempting to update channel count.`)
+ 
+    const updateChannelCountCommand = commands.find(c => c.name === 'updatechannelcount'); // attempt to get the actual command
+
+    if (!updateChannelCountCommand) {
+        console.log('Command updatechannelcount not found. Stopping execution.');
+        return;
+    }
+
+    updateChannelCountCommand.execute((channel as Discord.TextChannel | Discord.VoiceChannel).guild, con, undefined); // update the member count (automatic mode)
+
+    console.log(`Automatic channel count update sequence completed successfully in ${(channel as Discord.TextChannel | Discord.VoiceChannel).guild.name}.`);
+})
