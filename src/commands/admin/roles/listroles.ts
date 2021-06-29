@@ -18,7 +18,6 @@ const command: ICommand = {
 
         let outputEmbedText = '';
 
-
         if (!message.member!.hasPermission('MANAGE_ROLES')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
