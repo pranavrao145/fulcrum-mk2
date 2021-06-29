@@ -29,7 +29,7 @@ const command: ICommand = {
 
             try {
                 await timeout(1000); // wait for one second before querying the database
-                console.log(`Querying database to find channel count channel for guild ${message.guild!.name}`);
+                console.log(`Querying database to find channel count channel for guild ${message.guild!.name}.`);
                 const res = await con.query(`SELECT * FROM channelcountchannel WHERE guildid = '${message.guild!.id}'`); // find the id of the channel count channel for the guild of the message
 
                 const row = res.rows[0]; // get the first row from the database query result
@@ -103,7 +103,7 @@ const command: ICommand = {
 
             try {
                 await timeout(1000); // wait for one second before querying the database
-                console.log(`Querying database to find channel count channel for guild ${message.name}`);
+                console.log(`Querying database to find channel count channel for guild ${message.name}.`);
                 const res = await con.query(`SELECT * FROM channelcountchannel WHERE guildid = '${message.id}'`); // find the id of the channel count channel for the guild of the message
 
                 const row = res.rows[0]; // get the first row from the database query result
