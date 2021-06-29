@@ -33,14 +33,14 @@ const command: ICommand = {
                     outputEmbedText += `**${i + 1}.** ${generalPermissions[i]}\n`
                 }
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\nThese are general permissions. They (and their corresponding numbers) will be used by Fulcrum to give roles certain priveleges on the whole server.`);
-                outputEmbed.setFooter('FYI: in commands involving changing permissions, you can need to use the numbers of the permissions in this list to refer to the permissions (e.g. 1 refers to CREATE_INSTANT_INVITE)');
+                outputEmbed.setFooter('FYI: in commands involving changing permissions, you can refer to permissions by name OR the numbers of the permissions in this list (e.g. 1 refers to CREATE_INSTANT_INVITE)');
                 break;
             case 'text':
                 for (let i = 0; i < textChannelPermissions.length; i++) { // iterate through text channel permissions using index
                     outputEmbedText += `**${i + 1}.** ${textChannelPermissions[i]}\n`
                 }
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\nThese are text channel permissions. They (and their corresponding numbers) will be used by Fulcrum to give roles certain permissions in specific text channels.`);
-                outputEmbed.setFooter('FYI: in commands involving changing permissions, you can need to use the numbers of the permissions in this list to refer to the permissions (e.g. 1 refers to CREATE_INSTANT_INVITE)');
+                outputEmbed.setFooter('FYI: in commands involving changing permissions, you can refer to permissions by name OR the numbers of the permissions in this list (e.g. 1 refers to CREATE_INSTANT_INVITE)');
                 break;
             case 'voice':
                 for (let i = 0; i < voiceChannelPermissions.length; i++) { // iterate through voice channel permissions using index
