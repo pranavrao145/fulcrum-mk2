@@ -48,7 +48,7 @@ const command: ICommand = {
             try { // attempt to rename the text channel right away
                 const oldName = (textChannel as TextChannel).name; // take note of the old name of the channel (for output purposes)
                 const newChannel: TextChannel = await (textChannel as TextChannel).setName(newName); // delete the channel
-                console.log(`Channel ${(textChannel as TextChannel).name} renamed successfully to ${newName}.`);
+                console.log(`Channel ${oldName} renamed successfully to ${newName}.`);
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Channel renamed:** ${oldName}`);
                 outputEmbed.addField('Status', 'Success');
                 outputEmbed.addField('New Name', `${newChannel.name}`);
@@ -73,7 +73,7 @@ const command: ICommand = {
             try { // attempt to rename the voice channel 
                 const oldName = (voiceChannel as VoiceChannel).name; // take note of the old name of the channel (for output purposes)
                 const newChannel: VoiceChannel = await (voiceChannel as VoiceChannel).setName(newName); // rename the channel
-                console.log(`Channel ${(voiceChannel as VoiceChannel).name} renamed successfully to ${newName}.`);
+                console.log(`Channel ${oldName} renamed successfully to ${newName}.`);
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Channel renamed:** ${oldName}`);
                 outputEmbed.addField('Status', 'Success');
                 outputEmbed.addField('New Name', `${newChannel.name}`);
