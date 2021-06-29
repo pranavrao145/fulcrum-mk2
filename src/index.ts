@@ -70,7 +70,7 @@ client.on('ready', async () => {
 
     // at midnight EST everyday, update the date
     schedule.scheduleJob("0 0 * * *", async () => {
-        console.log('Midnight EST detected. Attempting to update date in all guilds.') 
+        console.log('Midnight EST detected. Attempting to update date in all guilds.');
 
         const updateDateCommand = commands.find(c => c.name === 'updatedate');
 
@@ -327,4 +327,48 @@ client.on('channelDelete', async (channel: Discord.Channel) => {
     }
 
     updateChannelCountCommand.execute((channel as Discord.TextChannel | Discord.VoiceChannel).guild, con, undefined); // update the member count (automatic mode)
+})
+
+// when Fulcrum joins a new guild, try to send a start message
+client.on("guildCreate", (guild: Discord.Guild) => {
+    console.log(`Detected new guild ${guild.name}. Attempting to send start message.`)
+    let channel; // declare empty variable to store which channel to send the startup message in
+
+    if (guild.systemChannel) {
+        console.log('Guild system channel found. Preparing to send start message in system channel.')
+        channel = guild.systemChannel;
+    } else {
+        console.log('Guild system channel not found. Falling back to first channel where bot has SEND_MESSAGES perimssion.');
+        const textChannels = guild.channels.cache.filter(c => c.type === 'text'); // get text channels in the guild
+
+        if (!textChannels) { // if no text channels exist
+            console.log('Guild has no text channels. Stopping execution.');
+            return;
+        }
+
+        channel = textChannels.filter(c => c.permissionsFor(guild.me!)!.has('SEND_MESSAGES')).first(); // get the first channel in which bot has permissions to write
+    }
+
+    const startCommand = commands.find(c => c.name === 'start'); // attempt to get the start command
+
+    if (!startCommand) { // check if start command actually exists
+        console.log('Command start not found. Stopping execution.');
+        return;
+    }
+
+    if (channel) {
+        try {
+            (channel as Discord.TextChannel).send("Hi there! Thanks for adding me to your server! Take a look at the message below to get started!");
+
+            startCommand.execute(channel, con, undefined);
+
+            (channel as Discord.TextChannel).send("**IMPORTANT:** Given that Fulcrum offers a variety of admin tools, please **ensure my role is above any role you want me to modify, and that I can view and manage all channels you want me managing.** Otherwise, my features will not work properly.");
+            (channel as Discord.TextChannel).send("Join our support server: https://discord.gg/Yh4mkr88Hc");
+            (channel as Discord.TextChannel).send("If you like the bot, please consider upvoting: https://top.gg/bot/827156281164955679");
+        } catch (e) {
+            console.log(`There was an error sending a message in the guild ${guild.name}! The error message is below:`);
+            console.log(e);
+            return;
+        }
+    }
 })
