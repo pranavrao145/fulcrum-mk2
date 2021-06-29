@@ -5,7 +5,7 @@ import {timeout} from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'setupvcroles',
-    description: 'Sets up Fulcrum\'s voice channel role feature.',
+    description: 'Sets up Fulcrum\'s voice channel role feature. This can also be run to create any roles that currently do not exist, even after initial setup.',
     alias: ['svc'],
     syntax: 'f!setupvcroles',
     async execute(message: Message, _con: Client, _args?: string[]) {
