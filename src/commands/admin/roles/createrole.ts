@@ -5,7 +5,7 @@ import {getChannelFromMention, getRoleFromMention, getUserFromMention} from '../
 
 const command: ICommand = {
     name: 'createrole',
-    description: 'Creates a role with the given name and colour.',
+    description: 'Creates a role with the given name and optionally the given colour.',
     alias: ['cr'],
     syntax: 'f!createrole [role name, underscores for spaces] (colour code)',
     async execute(message: Message, _con: Client, args?: string[]) {

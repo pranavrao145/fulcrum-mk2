@@ -5,7 +5,7 @@ import {getRoleFromMention, getUserFromMention, timeout} from '../../../utils/he
 
 const command: ICommand = {
     name: 'assignuser',
-    description: 'Assigns all the given roles to the given user',
+    description: 'Assigns all the given roles to the given user. You can give upto 10 roles to a user with one command.',
     alias: ['au'],
     syntax: 'f!assignuser [user mention] [role mentions or numbers (10 max)]',
     async execute(message: Message, _con: Client, args?: string[]) {

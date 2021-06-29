@@ -5,7 +5,7 @@ import {getRoleFromMention, getUserFromMention, timeout} from '../../../utils/he
 
 const command: ICommand = {
     name: 'removefromuser',
-    description: 'Removes the given roles from the user given.',
+    description: 'Removes the given roles from the user given. You can remove upto 10 roles from a user with one command.',
     alias: ['rfu', 'ru'],
     syntax: 'f!removefromuser [user mention] [role mentions or numbers (10 max)]',
     async execute(message: Message, _con: Client, args?: string[]) {

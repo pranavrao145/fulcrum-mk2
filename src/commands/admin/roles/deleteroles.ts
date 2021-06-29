@@ -5,9 +5,9 @@ import {getRoleFromMention, timeout} from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'deleteroles',
-    description: 'Deletes the role(s) given.',
+    description: 'Deletes the role(s) given. You can delete upto 10 roles with one command.',
     alias: ['dr', 'drs'],
-    syntax: 'f!deleteroles [role names (10 max)]',
+    syntax: 'f!deleteroles [role mentions (10 max)]',
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command deleteroles started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 

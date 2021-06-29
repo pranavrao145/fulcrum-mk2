@@ -5,7 +5,7 @@ import {getChannelFromMention, getRoleFromMention, getUserFromMention} from '../
 
 const command: ICommand = {
     name: 'createroles',
-    description: 'Creates role(s) with the given name(s)',
+    description: 'Creates role(s) with the given name(s). You can create upto 10 roles with one command.',
     alias: ['crs'],
     syntax: 'f!createroles [role names (10 max, underscores for spaces)]',
     async execute(message: Message, _con: Client, args?: string[]) {

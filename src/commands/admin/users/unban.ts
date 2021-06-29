@@ -4,7 +4,7 @@ import {Client} from 'pg';
 
 const command: ICommand = {
     name: 'unban',
-    description: 'Unbans the given user for the given reason.',
+    description: 'Unbans the given user. You can optionally specify a reason for unbanning.',
     alias: ['ub'],
     syntax: 'f!unban [user ID] (reason)',
     async execute(message: Message, _con: Client, args?: string[]) {
