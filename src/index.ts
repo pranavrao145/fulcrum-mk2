@@ -174,7 +174,7 @@ client.on('channelCreate', async (channel: Discord.Channel) => {
     if (channel.type !== 'voice') return; // ensure the channel created is a voice channel
     if (!(channel as Discord.VoiceChannel).guild) return; // check that the voice channel is actually associated with a guild
 
-    console.log(`Voice channel creation detected in guild ${(channel as Discord.VoiceChannel).guild}.`);
+    console.log(`Voice channel creation detected in guild ${(channel as Discord.VoiceChannel).guild}. Attempting to create associated voice channel role.`);
 
     const vcRole = (channel as Discord.VoiceChannel).guild.roles.cache.find(r => r.name === (channel as Discord.VoiceChannel).name); // attempt to find a role in the server with the same name as the channel
 
@@ -205,7 +205,7 @@ client.on('channelDelete', async (channel: Discord.Channel) => {
     if (channel.type !== 'voice') return; // ensure the channel deleted was a voice channel
     if (!(channel as Discord.VoiceChannel).guild) return; // check that the voice channel was actually associated with a guild
 
-    console.log(`Voice channel deletion detected in guild ${(channel as Discord.VoiceChannel).guild}.`);
+    console.log(`Voice channel deletion detected in guild ${(channel as Discord.VoiceChannel).guild}. Attempting to delete associated voice channel role.`);
 
     const vcRole = (channel as Discord.VoiceChannel).guild.roles.cache.find(r => r.name === (channel as Discord.VoiceChannel).name); // attempt to find a role in the server with the same name as the channel
 
@@ -224,3 +224,28 @@ client.on('channelDelete', async (channel: Discord.Channel) => {
 
     console.log(`Automatic voice channel role deletion sequence completed successfully in ${(channel as Discord.VoiceChannel).guild}.`);
 }) 
+
+
+// every time a voice channel is updated, update the associated voice channel role
+client.on('channelUpdate', async (oldChannel: Discord.Channel, newChannel: Discord.Channel) => {
+    if (!(oldChannel.type === 'voice' && newChannel.type === 'voice')) return; // if the channel is not a voice channel, stop the function
+
+    console.log(`Voice channel update detected in ${(newChannel as Discord.VoiceChannel).guild.name}. Attempting to update voice channel role.`);
+
+    const vcRole = (oldChannel as Discord.VoiceChannel).guild.roles.cache.find(r => r.name === (oldChannel as Discord.VoiceChannel).name); // attempt to find a role in the server with the same name as the old channel
+    
+    if (!vcRole) { // check if the role exists
+        console.log(`No voice channel role found for channel ${(oldChannel as Discord.VoiceChannel).name}. Stopping execution.`);
+        return;
+    }
+
+    try {
+        await vcRole.setName((newChannel as Discord.VoiceChannel).name);
+        console.log(`Voice channel role ${(oldChannel as Discord.VoiceChannel).name} renamed successfully to ${vcRole.name}.`);
+    } catch (e) {
+        console.log(`Failed to rename voice channel role ${(oldChannel as Discord.VoiceChannel).name}. The error message is below:`);
+        console.log(e);
+    }
+
+    console.log(`Automatic voice channel role update sequence completed successfully in ${(newChannel as Discord.VoiceChannel).guild}.`);
+})

@@ -1,6 +1,7 @@
 import {Message, MessageEmbed} from 'discord.js';
 import {ICommand} from '../../../utils/types';
 import {Client} from 'pg';
+import {timeout} from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'purgechat',
@@ -84,7 +85,11 @@ const command: ICommand = {
 
         try { // send output embed with information about the command's success
             if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
-                await message.channel.send(outputEmbed);
+                outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
+                outputEmbed.setFooter(`This message will be automatically deleted in 5 seconds.`)
+                const outputEmbedMessage = await message.channel.send(outputEmbed); // keep track of the message with the embed for deletion
+                await timeout(5000); // wait 5 seconds
+                await outputEmbedMessage.delete(); // delete output embed message
             }
             console.log(`Command purgechat, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
         } catch (e) {
