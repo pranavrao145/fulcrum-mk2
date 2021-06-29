@@ -109,7 +109,7 @@ const command: ICommand = {
                 console.log(e);
             }
         } else { // if the process is automatic
-            console.log(`Automatic member count update triggered.`);
+            console.log(`Automatic date update triggered.`);
             const clientGuilds = message.guilds.cache.values(); // get the guilds of the client
 
             if (!clientGuilds) { // if there are no guilds to update
