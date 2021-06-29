@@ -108,7 +108,7 @@ const command: ICommand = {
                 console.log(`There was an error sending an embed in the guild ${message.guild}! The error message is below:`);
                 console.log(e);
             }
-        } else { // if the process is automati 
+        } else { // if the process is automatic
             console.log(`Automatic member count update triggered.`);
             const clientGuilds = message.guilds.cache.values(); // get the guilds of the client
 
@@ -168,6 +168,7 @@ const command: ICommand = {
                     console.log(e);
                 }
             }
+            console.log(`Automatic date update sequence completed successfully.`);
         }
     }
 }

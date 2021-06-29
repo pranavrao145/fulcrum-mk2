@@ -80,9 +80,6 @@ client.on('ready', async () => {
         }
 
         updateDateCommand.execute(client, con, undefined); // update the date count (automatic mode)
-
-        console.log(`Automatic date update sequence completed successfully.`);
-
     });
 });
 
@@ -282,8 +279,6 @@ client.on('guildMemberAdd', async (member: Discord.GuildMember) => {
     }
 
     updateMemberCountCommand.execute(member.guild, con, undefined); // update the member count (automatic mode)
-
-    console.log(`Automatic member count update sequence completed successfully in ${member.guild.name}.`);
 })
 
 // automatically update member count when someone leaves
@@ -300,8 +295,6 @@ client.on('guildMemberRemove', async (member: Discord.GuildMember | Discord.Part
     }
 
     updateMemberCountCommand.execute(member.guild, con, undefined); // update the member count (automatic mode)
-
-    console.log(`Automatic member count update sequence completed successfully in ${member.guild.name}.`);
 })
 
 // automatically update channel count when a new channel is created
@@ -318,8 +311,6 @@ client.on('channelCreate', async (channel: Discord.Channel) => {
     }
 
     updateChannelCountCommand.execute((channel as Discord.TextChannel | Discord.VoiceChannel).guild, con, undefined); // update the member count (automatic mode)
-
-    console.log(`Automatic channel count update sequence completed successfully in ${(channel as Discord.TextChannel | Discord.VoiceChannel).guild.name}.`);
 })
 
 // automatically update channel count when a channel is deleted
@@ -336,6 +327,4 @@ client.on('channelDelete', async (channel: Discord.Channel) => {
     }
 
     updateChannelCountCommand.execute((channel as Discord.TextChannel | Discord.VoiceChannel).guild, con, undefined); // update the member count (automatic mode)
-
-    console.log(`Automatic channel count update sequence completed successfully in ${(channel as Discord.TextChannel | Discord.VoiceChannel).guild.name}.`);
 })

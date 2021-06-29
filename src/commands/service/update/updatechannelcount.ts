@@ -140,6 +140,8 @@ const command: ICommand = {
                 console.log('There was an error retrieving for the guild from the database. The error message is below:');
                 console.log(e);
             }
+
+            console.log(`Automatic channel count update sequence completed successfully in ${message.name}.`);
         }
     }
 }
