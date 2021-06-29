@@ -58,18 +58,16 @@ const command: ICommand = {
                 continue;
             }
 
-            const memberIDs = role.members.map(mem => mem.id); // get the mmebers of the role
+            const members = role.members.values(); // get the members of the role
 
-            if (!memberIDs) { // check if the role members actually exist
+            if (!members) { // check if the role members actually exist
                 console.log('A role supplied did not have any members. Skipping over it.');
                 outputEmbedText += `\n**${role.name}:** No members with this role were found.`;
                 continue;
             }
 
 
-            for (const memberID of memberIDs) { // iterate through the members that have the role
-                const member = message.guild!.members.cache.get(memberID); // get the member 
-
+            for (const member of members) { // iterate through the members that have the role
                 if (!member) {
                     console.log('A member with the role did not exists. Skipping over them.');
                     overallSuccess = false; // if a member for a role does not exists, the function has failed to remove the role for all members

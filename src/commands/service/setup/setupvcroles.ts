@@ -35,13 +35,11 @@ const command: ICommand = {
             }
         }
 
-        const voiceChannelIDs = message.guild!.channels.cache.filter(c => c.type === 'voice').map(c => c.id); // get all the ids of the voice channels in the server
+        const voiceChannels = message.guild!.channels.cache.filter(c => c.type === 'voice').values(); // get all the voice channels in the server
 
-        for (const voiceChannelID of voiceChannelIDs) { // iterate through each of the voice channel IDs to create a voice channel role for each
-            const voiceChannel = message.guild!.channels.cache.get(voiceChannelID); // get the actual channel
-
+        for (const voiceChannel of voiceChannels) { // iterate through each of the voice channel IDs to create a voice channel role for each
             if (!voiceChannel) { // check if the voice channel actually exists
-                console.log(`Voice channel with ID ${voiceChannelID} does not exist. Skipping over it.`)
+                console.log(`A voice channel did not exist. Skipping over it.`)
                 continue;
             }
             

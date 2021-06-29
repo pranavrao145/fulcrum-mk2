@@ -66,11 +66,9 @@ const command: ICommand = {
             }
         }
 
-        const vcMembers = voiceChannel!.members.map(m => m.id); // get the members currently in the voice channel
+        const vcMembers = voiceChannel!.members.values(); // get the members currently in the voice channel
 
-        for (const member of vcMembers) { // iterate through each member currently in the voice channel
-            const guildMember = message.guild!.members.cache.get(member) // get the guild member object from the id
-
+        for (const guildMember of vcMembers) { // iterate through each member currently in the voice channel
             if (!guildMember) { // check if the guild member actually exists
                 console.log(`A user in the voice channel was invalid. Skipping over them.`);
                 overallSuccess = false; // the function has failed, so set overall success to false
