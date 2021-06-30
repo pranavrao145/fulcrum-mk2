@@ -29,7 +29,6 @@ const command: ICommand = {
 
         const numEmbedPages = Math.ceil(roles.length / 10); // there will be 10 roles on each page, so figure out how many pages of embeds
 
-        console.log(numEmbedPages)
         for (let i = 0; i < numEmbedPages; i++) { // create new message embeds with the correct title and description
             embedList.push(new MessageEmbed()
                 .setTitle(`Roles for ${message.guild!.name}`)
