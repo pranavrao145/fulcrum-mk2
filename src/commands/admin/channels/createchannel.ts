@@ -20,7 +20,7 @@ const command: ICommand = {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `MANAGE_CHANNELS` permission to use this command.');
             } catch (e) {
-                console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
                 return;
             }
@@ -31,7 +31,7 @@ const command: ICommand = {
                 console.log('Incorrect syntax given. Stopping execution.');
                 return await message.channel.send(`Incorrect syntax! Correct syntax: \`${this.syntax}\``)
             } catch (e) {
-                console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
                 return;
             }
@@ -51,7 +51,7 @@ const command: ICommand = {
                     console.log('Privacy supplied was invalid. Stopping execution.');
                     return await message.channel.send('Invalid value for privacy! Must be public or private.')
                 } catch (e) {
-                    console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                    console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                     console.log(e);
                     return;
                 }
@@ -64,7 +64,7 @@ const command: ICommand = {
                     console.log('Type supplied was invalid. Stopping execution.');
                     return await message.channel.send('Invalid value for type! Must be text or voice.')
                 } catch (e) {
-                    console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                    console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                     console.log(e);
                     return;
                 }
@@ -77,7 +77,7 @@ const command: ICommand = {
                 try { // send output embed with information about the command's success
                     return await message.channel.send(outputEmbed);
                 } catch (e) {
-                    console.log(`There was an error sending an embed in the guild ${message.guild}! The error message is below:`);
+                    console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
                     console.log(e);
                     return;
                 }
@@ -127,7 +127,7 @@ const command: ICommand = {
                     console.log('Type supplied was invalid. Stopping execution.');
                     return await message.channel.send('Invalid value for type! Must be text or voice.')
                 } catch (e) {
-                    console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                    console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                     console.log(e);
                     return;
                 }
@@ -140,7 +140,7 @@ const command: ICommand = {
                 try { // send output embed with information about the command's success
                     return await message.channel.send(outputEmbed);
                 } catch (e) {
-                    console.log(`There was an error sending an embed in the guild ${message.guild}! The error message is below:`);
+                    console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
                     console.log(e);
                     return;
                 }
@@ -169,7 +169,7 @@ const command: ICommand = {
                 try { // send output embed with information about the command's success
                     return await message.channel.send(outputEmbed);
                 } catch (e) {
-                    console.log(`There was an error sending an embed in the guild ${message.guild}! The error message is below:`);
+                    console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
                     console.log(e);
                     return;
                 }
@@ -193,9 +193,9 @@ const command: ICommand = {
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Channel created:** ${channelName}`);
                 await message.channel.send(outputEmbed);
             }
-            console.log(`Command createchannel, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
+            console.log(`Command createchannel, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {
-            console.log(`There was an error sending an embed in the guild ${message.guild}! The error message is below:`);
+            console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
             console.log(e);
         }
     }

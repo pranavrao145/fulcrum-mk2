@@ -22,7 +22,7 @@ const command: ICommand = {
             console.log(`Failed to remove user ${message.member!.user.tag} from voice channel or user not in voice channel.`);
         }
 
-        console.log(`Command leavevoice, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
+        console.log(`Command leavevoice, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
     }
 }
 

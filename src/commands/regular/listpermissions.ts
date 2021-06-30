@@ -57,9 +57,9 @@ const command: ICommand = {
                         outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
                         await message.channel.send(outputEmbed);
                     }
-                    console.log(`Command listpermissions, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
+                    console.log(`Command listpermissions, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
                 } catch (e) {
-                    console.log(`There was an error sending an embed in the guild ${message.guild}! The error message is below:`);
+                    console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
                     console.log(e);
                 }
                 return;
@@ -70,9 +70,9 @@ const command: ICommand = {
             if (outputEmbedText !== '') { // check if there is actually any text to send the embed with
                 await message.channel.send(outputEmbed);
             }
-            console.log(`Command listpermissions, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
+            console.log(`Command listpermissions, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {
-            console.log(`There was an error sending an embed in the guild ${message.guild}! The error message is below:`);
+            console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
             console.log(e);
         }
 

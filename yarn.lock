@@ -438,7 +438,14 @@ diff@^4.0.1:
   resolved "https://registry.npmjs.org/diff/-/diff-4.0.2.tgz"
   integrity sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==
 
-discord.js@^12.5.3:
+discord.js-pagination-ts@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/discord.js-pagination-ts/-/discord.js-pagination-ts-1.0.13.tgz#11a3bca2c197dd62c5e2177997d2cbbecb2f5b52"
+  integrity sha512-l3mX2lCYEdM3XFPq+wZRo/PBJPURYAylcxyrOa5R3sR2rDL1dPFg9KVU1mWq5ZOi6uLOZ8NshYuPW0/todqdqg==
+  dependencies:
+    discord.js "^12.2.0"
+
+discord.js@^12.2.0, discord.js@^12.5.3:
   version "12.5.3"
   resolved "https://registry.npmjs.org/discord.js/-/discord.js-12.5.3.tgz"
   integrity sha512-D3nkOa/pCkNyn6jLZnAiJApw2N9XrIsXUAdThf01i7yrEuqUmDGc7/CexVWwEcgbQR97XQ+mcnqJpmJ/92B4Aw==
