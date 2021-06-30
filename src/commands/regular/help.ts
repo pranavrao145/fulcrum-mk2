@@ -79,7 +79,7 @@ const command: ICommand = {
                     if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                         await message.channel.send(outputEmbed);
                     }
-                    console.log(`Command help, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
+                    console.log(`Command help, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
                 } catch (e) {
                     console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
                     console.log(e);
@@ -120,9 +120,9 @@ const command: ICommand = {
                 if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                     await message.channel.send(outputEmbed);
                 }
-                console.log(`Command help, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
+                console.log(`Command help, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
             } catch (e) {
-                console.log(`There was an error sending an embed in the guild ${message.guild}! The error message is below:`);
+                console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
             }
 

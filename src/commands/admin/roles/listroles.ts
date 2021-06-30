@@ -21,7 +21,7 @@ const command: ICommand = {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `MANAGE_ROLES` permission to use this command.');
             } catch (e) {
-                console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
                 return;
             }
@@ -55,7 +55,7 @@ const command: ICommand = {
         try {
             embedMessage = await message.channel.send('Loading roles...'); // send a message on to which the embed can hook
         } catch (e) {
-            console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+            console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
             console.log(e);
             return;
         }
@@ -67,7 +67,7 @@ const command: ICommand = {
                     timeout: 300000
                 });
             }
-            console.log(`Command listroles, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
+            console.log(`Command listroles, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {
             console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
             console.log(e);

@@ -21,7 +21,7 @@ const command: ICommand = {
                 console.log('Incorrect syntax given. Stopping execution.');
                 return await message.channel.send(`Incorrect syntax! Correct syntax: \`${this.syntax}\``)
             } catch (e) {
-                console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
                 return;
             }
@@ -39,7 +39,7 @@ const command: ICommand = {
                 console.log('Invalid value given for minimum or maximum value. Stopping execution.')
                 return await message.channel.send('Invalid number for one or more arguments!');
             } catch (e) {
-                console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
                 return;
             }
@@ -53,7 +53,7 @@ const command: ICommand = {
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n\n**Range start:** ${numMin}\n**Range end:** ${numMax}`);
                 await message.channel.send(outputEmbed);
             }
-            console.log(`Command randomnumber, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
+            console.log(`Command randomnumber, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {
             console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
             console.log(e);

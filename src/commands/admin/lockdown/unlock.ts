@@ -19,7 +19,7 @@ const command: ICommand = {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `MANAGE_CHANNELS` permission to use this command.');
             } catch (e) {
-                console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
                 return;
             }
@@ -46,7 +46,7 @@ const command: ICommand = {
                 await outputEmbedMessage.delete(); // delete output embed message
                 await message.delete();
             }
-            console.log(`Command unlock, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
+            console.log(`Command unlock, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {
             console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
             console.log(e);

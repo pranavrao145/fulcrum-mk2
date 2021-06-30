@@ -21,7 +21,7 @@ const command: ICommand = {
                     console.log('Insufficient permissions. Stopping execution.')
                     return await message.reply('sorry, you need to have the `MANAGE_CHANNELS` permission to use this command.');
                 } catch (e) {
-                    console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                    console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                     console.log(e);
                     return;
                 }
@@ -40,7 +40,7 @@ const command: ICommand = {
                         console.log(`Member count channel ID for guild does not exist in database.`);
                         return await message.channel.send('Member count channel not set up for this server! Run f!setup membercount.');
                     } catch (e) {
-                        console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                        console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                         console.log(e);
                         return;
                     }
@@ -53,7 +53,7 @@ const command: ICommand = {
                         console.log(`No voice channel found for the channel ID ${row.channelid} in the database.`);
                         return await message.channel.send('Member count channel not set up for this server! Run f!setup membercount.');
                     } catch (e) {
-                        console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                        console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                         console.log(e);
                         return;
                     }
@@ -67,7 +67,7 @@ const command: ICommand = {
                         console.log(`Member count channel for this guild is already updated.`);
                         return await message.channel.send('Member count is already updated on this server!');
                     } catch (e) {
-                        console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                        console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                         console.log(e);
                         return;
                     }
@@ -93,7 +93,7 @@ const command: ICommand = {
                     outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
                     await message.channel.send(outputEmbed);
                 }
-                console.log(`Command updatemembercount, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
+                console.log(`Command updatemembercount, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
             } catch (e) {
                 console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
