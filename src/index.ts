@@ -358,11 +358,11 @@ client.on("guildCreate", (guild: Discord.Guild) => {
 
     if (channel) {
         try {
-            (channel as Discord.TextChannel).send("Hi there! Thanks for adding me to your server! Take a look at the message below to get started!");
+            (channel as Discord.TextChannel).send("Hi there! Thanks for adding Fulcrum to your server! Take a look at the message below to get started!");
 
             startCommand.execute(channel, con, undefined);
 
-            (channel as Discord.TextChannel).send("**IMPORTANT:** Given that Fulcrum offers a variety of admin tools, please **ensure my role is above any role you want me to modify, and that I can view and manage all channels you want me managing.** Otherwise, my features will not work properly.");
+            (channel as Discord.TextChannel).send("**IMPORTANT:** Given that Fulcrum offers a variety of admin tools, please **ensure Fulcrum's role is above any role you want the bot to modify, and that Fulcrum can view and manage all channels you want it managing.** Otherwise, Fulcrum's features will not work properly.");
             (channel as Discord.TextChannel).send("Join our support server: https://discord.gg/Yh4mkr88Hc");
             (channel as Discord.TextChannel).send("If you like the bot, please consider upvoting: https://top.gg/bot/827156281164955679");
         } catch (e) {
