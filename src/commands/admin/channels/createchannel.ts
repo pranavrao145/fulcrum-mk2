@@ -77,7 +77,7 @@ const command: ICommand = {
                 try { // send output embed with information about the command's success
                     return await message.channel.send(outputEmbed);
                 } catch (e) {
-                    console.log(`There was an error sending an embed in the guild ${message.guild}! The error message is below:`);
+                    console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
                     console.log(e);
                     return;
                 }

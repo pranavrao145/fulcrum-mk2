@@ -18,6 +18,7 @@
     "@iamtraction/google-translate": "^1.1.2",
     "axios": "^0.21.1",
     "discord.js": "^12.5.3",
+    "discord.js-pagination-ts": "^1.0.13",
     "dotenv": "^10.0.0",
     "fs": "^0.0.1-security",
     "glob": "^7.1.7",
