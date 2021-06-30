@@ -63,7 +63,7 @@ const command: ICommand = {
         try { // attempt to created paginated embed
             if (embedList.length > 0) { // check that there are actually fields with which to send the embed
                 await editMessageWithPaginatedEmbeds(embedMessage, embedList, {
-                    footer: 'FYI: in commands involving managing roles, you can refer to roles by their mention or by their number in this list (e.g. 1 refers to @everyone)',
+                    footer: 'FYI: in commands involving managing roles, you can refer to roles by their mention or by their number in this list',
                     timeout: 300000
                 });
             }
