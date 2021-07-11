@@ -13,7 +13,7 @@ const command: ICommand = {
 
         let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
             .setColor('#FFFCF4')
-            .setTitle('Definitions List')
+            .setTitle('Definitions')
 
         if (!args || args.length === 0) { // check if the args exist (this function requires them) and that there are not too many args
             try {
