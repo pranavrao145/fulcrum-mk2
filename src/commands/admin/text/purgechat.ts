@@ -20,7 +20,7 @@ const command: ICommand = {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `MANAGE_MESSAGES` permission to use this command.');
             } catch (e) {
-                console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
                 return;
             }
@@ -31,7 +31,7 @@ const command: ICommand = {
                 console.log('Incorrect syntax given. Stopping execution.');
                 return await message.channel.send(`Incorrect syntax! Correct syntax: \`${this.syntax}\``)
             } catch (e) {
-                console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
                 return;
             }
@@ -45,7 +45,7 @@ const command: ICommand = {
                 console.log('Invalid value given for number of messages. Stopping execution.')
                 return await message.channel.send('Invalid number! Must be a number from 2 to 100.')
             } catch (e) {
-                console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
                 return;
             }
@@ -57,7 +57,7 @@ const command: ICommand = {
                 console.log('Invalid value given for number of messages. Stopping execution.')
                 return await message.channel.send('Invalid number! Must be a number from 2 to 100.')
             } catch (e) {
-                console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
                 return;
             }
@@ -68,7 +68,7 @@ const command: ICommand = {
                 console.log('Invalid channel type for purge chat. Stopping execution.');
                 return await message.channel.send('Can\'t use purgechat in this type of channel!')
             } catch (e) {
-                console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
                 return;
             }
@@ -91,9 +91,9 @@ const command: ICommand = {
                 await timeout(5000); // wait 5 seconds
                 await outputEmbedMessage.delete(); // delete output embed message
             }
-            console.log(`Command purgechat, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
+            console.log(`Command purgechat, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {
-            console.log(`There was an error sending an embed in the guild ${message.guild}! The error message is below:`);
+            console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
             console.log(e);
         }
     }

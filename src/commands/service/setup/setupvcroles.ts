@@ -23,7 +23,7 @@ const command: ICommand = {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `MANAGE_ROLES` permission to use this command.');
             } catch (e) {
-                console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
                 return;
             }
@@ -32,7 +32,7 @@ const command: ICommand = {
         try {
             await message.channel.send('Setting up voice channel roles. This may take a moment...');
         } catch (e) {
-            console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+            console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
             console.log(e);
         }
 
@@ -80,9 +80,9 @@ const command: ICommand = {
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
                 await message.channel.send(outputEmbed);
             }
-            console.log(`Command setupvcroles, started by ${message.member!.user.tag}, terminated successfully in ${message.guild}.`);
+            console.log(`Command setupvcroles, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {
-            console.log(`There was an error sending an embed in the guild ${message.guild}! The error message is below:`);
+            console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
             console.log(e);
         }
     }

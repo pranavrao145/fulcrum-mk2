@@ -17,7 +17,7 @@ const command: ICommand = {
                 console.log('Incorrect syntax given. Stopping execution.');
                 return await message.channel.send(`Incorrect syntax! correct syntax: \`${this.syntax}\``)
             } catch (e) {
-                console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
                 return;
             }
@@ -47,7 +47,7 @@ const command: ICommand = {
                     try {
                         return await message.channel.send('An internal error occured. Please try again later.');
                     } catch (e) {
-                        console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                        console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                         console.log(e);
                         return;
                     }
@@ -64,7 +64,7 @@ const command: ICommand = {
                     try {
                         return await message.channel.send('An internal error occured. Please try again later.');
                     } catch (e) {
-                        console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                        console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                         console.log(e);
                         return;
                     }
@@ -81,7 +81,7 @@ const command: ICommand = {
                     try {
                         return await message.channel.send('An internal error occured. Please try again later.');
                     } catch (e) {
-                        console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                        console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                         console.log(e);
                         return;
                     }
@@ -98,7 +98,7 @@ const command: ICommand = {
                     try {
                         return await message.channel.send('An internal error occured. Please try again later.');
                     } catch (e) {
-                        console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                        console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                         console.log(e);
                         return;
                     }
@@ -111,7 +111,7 @@ const command: ICommand = {
                     console.log('No valid service was given. Stopping execution.');
                     return await message.channel.send('Invalid service! See f!services for valid services to update.');
                 } catch (e) {
-                    console.log(`There was an error sending a message in the guild ${message.guild}! The error message is below:`);
+                    console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                     console.log(e);
                     return;
                 }
