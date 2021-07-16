@@ -1,7 +1,7 @@
 import {Message, MessageEmbed} from 'discord.js';
 import {ICommand} from '../../../utils/types';
 import {Client} from 'pg';
-import {getChannelFromMention, getRoleFromMention, getUserFromMention} from '../../../utils/helpers';
+import {getChannelFromMention, getRoleFromMention, getUserFromMention, isValidColor} from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'createrole',
@@ -39,7 +39,7 @@ const command: ICommand = {
         }
 
         let roleName = args!.shift(); // find the desired name of the role
-        const roleColour = args!.shift(); // find the desired colour of the role
+        let roleColor = args!.shift(); // find the desired colour of the role
 
         if (roleName!.startsWith('@')) { // check if the role starts with an @ and get rid of it if so
             roleName = roleName!.slice(1);
@@ -61,17 +61,35 @@ const command: ICommand = {
         }
 
 
-        if (roleColour) { // in the case there is a role colour specified
+        if (roleColor) { // in the case there is a role colour specified
             console.log('Role colour detected. Attempting to create role with colour.')
+
+            if (!roleColor.startsWith('#')) {
+                roleColor = '#' + roleColor
+            }
+
+            roleColor = roleColor!.toUpperCase();
+            if (!isValidColor(roleColor!)) { // check if the color supplied was valid 
+                console.log('Color supplied was invalid. Stopping execution.');
+                try {
+                    return await message.channel.send('Invalid color!');
+                } catch (e) {
+                    console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
+                    console.log(e);
+                    return;
+                }
+            }
+
             try {
                 await message.guild!.roles.create({ // create the role with the needed data
                     data: {
                         name: roleName,
-                        color: roleColour
+                        color: roleColor
                     }
                 })
+
                 outputEmbed.addField('Status', 'Success');
-                outputEmbed.addField('Colour', `${roleColour}`);
+                outputEmbed.addField('Colour', `${roleColor}`);
                 console.log(`Role ${roleName} created successfully in ${message.guild!.name}.`)
             }
             catch (e) {
