@@ -93,7 +93,7 @@ const command: ICommand = {
  
         try { // send output embed with information about the command's success
             if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
-                outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Voice channel muted:** ${voiceChannel.name}`);
+                outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Voice channel unmuted:** ${voiceChannel.name}`);
                 await message.channel.send(outputEmbed);
             }
             console.log(`Command removemute, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
