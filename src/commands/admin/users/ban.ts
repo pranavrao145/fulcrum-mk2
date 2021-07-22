@@ -28,7 +28,7 @@ const command: ICommand = {
         if (!args || args.length === 0) { // check if the args exist (this function requires them) and that there are not too many args
             try {
                 console.log('Incorrect syntax given. Stopping execution.');
-                return await message.channel.send(`Incorrect syntax! correct syntax: \`${this.syntax}\``)
+                return await message.channel.send(`Incorrect syntax. correct syntax: \`${this.syntax}\``)
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
@@ -45,7 +45,7 @@ const command: ICommand = {
         if (!member) { // check if the user supplied was valid
             try {
                 console.log('User supplied was invalid. Stopping execution.');
-                return await message.channel.send('Invalid user!');
+                return await message.channel.send('Invalid user.');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
@@ -59,7 +59,7 @@ const command: ICommand = {
             if (isNaN(daysNum)) { // checks if the value for days is a number
                 console.log('Invalid number was given for days. Stopping execution.');
                 try {
-                    return await message.channel.send('Invalid value for days! Must be a number from 0-7.');
+                    return await message.channel.send('Invalid value for days. Must be a number from 0-7.');
                 } catch (e) {
                     console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                     console.log(e);
@@ -70,7 +70,7 @@ const command: ICommand = {
             if (daysNum < 0 || daysNum > 7) { // check if the value of days (which is definitely a number) is in the allowed range
                 try {
                     console.log('Invalid number was given for days. Stopping execution.');
-                    return await message.channel.send('Invalid number for days! Must be a number from 0-7.');
+                    return await message.channel.send('Invalid number for days. Must be a number from 0-7.');
                 } catch (e) {
                     console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                     console.log(e);

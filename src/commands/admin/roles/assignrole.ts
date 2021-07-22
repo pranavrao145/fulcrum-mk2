@@ -31,7 +31,7 @@ const command: ICommand = {
         if (!args || args.length === 0 || args.length < 2 || args.length > 11) { // check if the args exist (this function requires them) and that there are not too many args
             try {
                 console.log('Incorrect syntax given. Stopping execution.');
-                return await message.channel.send(`Incorrect syntax! Correct syntax: \`${this.syntax}\``)
+                return await message.channel.send(`Incorrect syntax. Correct syntax: \`${this.syntax}\``)
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
@@ -53,7 +53,7 @@ const command: ICommand = {
         if (!role) { // check if the role supplied was valid 
             console.log('Role supplied was invalid. Stopping execution.');
             try {
-                return await message.channel.send('Invalid role!');
+                return await message.channel.send('Invalid role.');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);

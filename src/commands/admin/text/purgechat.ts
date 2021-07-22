@@ -29,7 +29,7 @@ const command: ICommand = {
         if (!args || args.length === 0) { // check if the args exist (this function requires them) and that there are not too many args
             try {
                 console.log('Incorrect syntax given. Stopping execution.');
-                return await message.channel.send(`Incorrect syntax! Correct syntax: \`${this.syntax}\``)
+                return await message.channel.send(`Incorrect syntax. Correct syntax: \`${this.syntax}\``)
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
@@ -43,7 +43,7 @@ const command: ICommand = {
         if (isNaN(parsedNum)) { // check if the number given is not a valid number.
             try {
                 console.log('Invalid value given for number of messages. Stopping execution.')
-                return await message.channel.send('Invalid number! Must be a number from 2 to 100.')
+                return await message.channel.send('Invalid number. Must be a number from 2 to 100.')
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
@@ -55,7 +55,7 @@ const command: ICommand = {
         if (!(parsedNum <= 100 && parsedNum >= 2)) { // check if the number is in the valid range
             try {
                 console.log('Invalid value given for number of messages. Stopping execution.')
-                return await message.channel.send('Invalid number! Must be a number from 2 to 100.')
+                return await message.channel.send('Invalid number. Must be a number from 2 to 100.')
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);

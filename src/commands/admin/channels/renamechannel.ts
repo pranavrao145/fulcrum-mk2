@@ -30,7 +30,7 @@ const command: ICommand = {
         if (!args || args.length < 2) { // check if the args exist (this function requires them) and that there are not too many args
             try {
                 console.log('Incorrect syntax given. Stopping execution.');
-                return await message.channel.send(`Incorrect syntax! Correct syntax: \`${this.syntax}\``)
+                return await message.channel.send(`Incorrect syntax. Correct syntax: \`${this.syntax}\``)
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
@@ -85,7 +85,7 @@ const command: ICommand = {
         } else { // if the argument supplied is neither a channel nor a role
             console.log(`Argument given was invalid for a text channel mention or a voice channel role. Stopping execution.`)
             try {
-                return await message.channel.send('Invalid argument for channel or voice channel role!');
+                return await message.channel.send('Invalid argument for channel or voice channel role.');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);

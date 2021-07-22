@@ -15,7 +15,7 @@ const command: ICommand = {
         if (!args || args.length === 0) { // check if the args exist (this function requires them) and that there are not too many args
             try {
                 console.log('Incorrect syntax given. Stopping execution.');
-                return await message.channel.send(`Incorrect syntax! correct syntax: \`${this.syntax}\``)
+                return await message.channel.send(`Incorrect syntax. correct syntax: \`${this.syntax}\``)
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
@@ -109,7 +109,7 @@ const command: ICommand = {
             default: // in case there is no valid service provided
                 try {
                     console.log('No valid service was given. Stopping execution.');
-                    return await message.channel.send('Invalid service! See f!services for valid services to setup.');
+                    return await message.channel.send('Invalid service. See f!services for valid services to setup.');
                 } catch (e) {
                     console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                     console.log(e);

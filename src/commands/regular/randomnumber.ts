@@ -19,7 +19,7 @@ const command: ICommand = {
         if (!args || args.length < 2) { // check if the args exist (this function requires them) and that there are not too many args
             try {
                 console.log('Incorrect syntax given. Stopping execution.');
-                return await message.channel.send(`Incorrect syntax! Correct syntax: \`${this.syntax}\``)
+                return await message.channel.send(`Incorrect syntax. Correct syntax: \`${this.syntax}\``)
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
@@ -37,7 +37,7 @@ const command: ICommand = {
         if(isNaN(numMin) || isNaN(numMax)) { // if either the minimum or the maximum is not a number
             try {
                 console.log('Invalid value given for minimum or maximum value. Stopping execution.')
-                return await message.channel.send('Invalid number for one or more arguments!');
+                return await message.channel.send('Invalid number for one or more arguments.');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
