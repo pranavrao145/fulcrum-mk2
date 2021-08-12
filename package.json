@@ -1,6 +1,6 @@
 {
   "name": "fulcrum-mk2",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "A Discord bot for all the features you never knew you needed on your server.",
   "main": "index.js",
   "author": "Pranav Rao",
@@ -33,6 +33,6 @@
     "dev": "nodemon src/index.ts"
   },
   "engines": {
-    "node": "14.17.0"
+    "node": "14.17.4"
   }
 }
