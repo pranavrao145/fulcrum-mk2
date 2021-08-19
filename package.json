@@ -1,6 +1,6 @@
 {
-  "name": "fulcrum-prime",
-  "version": "2.0.0",
+  "name": "fulcrum-mk2",
+  "version": "2.0.2",
   "description": "A Discord bot for all the features you never knew you needed on your server.",
   "main": "index.js",
   "author": "Pranav Rao",
@@ -18,15 +18,21 @@
     "@iamtraction/google-translate": "^1.1.2",
     "axios": "^0.21.1",
     "discord.js": "^12.5.3",
+    "discord.js-pagination-ts": "^1.0.13",
     "dotenv": "^10.0.0",
+    "expr-eval": "^2.0.2",
     "fs": "^0.0.1-security",
     "glob": "^7.1.7",
     "node-schedule": "^2.0.0",
     "pg": "^8.6.0"
   },
   "scripts": {
+    "postinstall": "tsc",
     "start": "node dist/index.js",
     "build": "tsc -p .",
     "dev": "nodemon src/index.ts"
+  },
+  "engines": {
+    "node": "14.17.4"
   }
 }

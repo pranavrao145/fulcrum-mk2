@@ -104,7 +104,7 @@
 
 "@types/node-schedule@^1.3.1":
   version "1.3.1"
-  resolved "https://registry.npmjs.org/@types/node-schedule/-/node-schedule-1.3.1.tgz"
+  resolved "https://registry.yarnpkg.com/@types/node-schedule/-/node-schedule-1.3.1.tgz#6785ea71b12b0b8899c3fce0650b2ef5a7ea9d1e"
   integrity sha512-xAY/ZATrThUkMElSDfOk+5uXprCrV6c6GQ5gTw3U04qPS6NofE1dhOUW+yrOF2UyrUiAax/Zc4WtagrbPAN3Tw==
   dependencies:
     "@types/node" "*"
@@ -438,7 +438,14 @@ diff@^4.0.1:
   resolved "https://registry.npmjs.org/diff/-/diff-4.0.2.tgz"
   integrity sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==
 
-discord.js@^12.5.3:
+discord.js-pagination-ts@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/discord.js-pagination-ts/-/discord.js-pagination-ts-1.0.13.tgz#11a3bca2c197dd62c5e2177997d2cbbecb2f5b52"
+  integrity sha512-l3mX2lCYEdM3XFPq+wZRo/PBJPURYAylcxyrOa5R3sR2rDL1dPFg9KVU1mWq5ZOi6uLOZ8NshYuPW0/todqdqg==
+  dependencies:
+    discord.js "^12.2.0"
+
+discord.js@^12.2.0, discord.js@^12.5.3:
   version "12.5.3"
   resolved "https://registry.npmjs.org/discord.js/-/discord.js-12.5.3.tgz"
   integrity sha512-D3nkOa/pCkNyn6jLZnAiJApw2N9XrIsXUAdThf01i7yrEuqUmDGc7/CexVWwEcgbQR97XQ+mcnqJpmJ/92B4Aw==
@@ -495,6 +502,11 @@ event-target-shim@^5.0.0:
   version "5.0.1"
   resolved "https://registry.npmjs.org/event-target-shim/-/event-target-shim-5.0.1.tgz"
   integrity sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==
+
+expr-eval@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/expr-eval/-/expr-eval-2.0.2.tgz#fa6f044a7b0c93fde830954eb9c5b0f7fbc7e201"
+  integrity sha512-4EMSHGOPSwAfBiibw3ndnP0AvjDWLsMvGOvWEZ2F96IGk0bIVdjQisOHxReSkE13mHcfbuCiXw+G4y0zv6N8Eg==
 
 fill-range@^7.0.1:
   version "7.0.1"
@@ -890,7 +902,7 @@ node-fetch@^2.6.1:
 
 node-schedule@^2.0.0:
   version "2.0.0"
-  resolved "https://registry.npmjs.org/node-schedule/-/node-schedule-2.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/node-schedule/-/node-schedule-2.0.0.tgz#73ab4957d056c63708409cc1fab676e0e149c191"
   integrity sha512-cHc9KEcfiuXxYDU+HjsBVo2FkWL1jRAUoczFoMIzRBpOA4p/NRHuuLs85AWOLgKsHtSPjN8csvwIxc2SqMv+CQ==
   dependencies:
     cron-parser "^3.1.0"
