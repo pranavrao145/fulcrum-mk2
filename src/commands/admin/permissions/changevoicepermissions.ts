@@ -46,8 +46,13 @@ const command: ICommand = {
         let role; // declare role object, to be determined later using logic below
 
         if (isNaN(parseInt(roleMention!))) { // if the arg is a mention and not a number
-            console.log('Role is of type mention. Getting role from role cache.')
-            role = getRoleFromMention(message, roleMention!); // then get it from the role cache
+            if (roleMention === "@everyone") { // special handling if the role is everyone
+                console.log('Role is everyone. Getting role from guild information.')
+                role = message.guild!.roles.everyone; // get everyone role
+            } else {
+                console.log('Role is of type mention. Getting role from role cache.')
+                role = getRoleFromMention(message, roleMention!); // then get it from the role cache
+            }
         } else {
             console.log('Role is of type number. Getting role using position.')
             role = message.guild!.roles.cache.get(message.guild!.roles.cache.map(r => r.id)[parseInt(roleMention!) - 1]); // else find the role by its position number
@@ -89,7 +94,7 @@ const command: ICommand = {
                 return;
             }
         }
-        
+
         for (const permissionChange of args) { // iterate through the rest of the args to calculate and apply the permission changes
             const operation = permissionChange.charAt(0); // get the operation (first character of the sequence)
             const permissionToChange = permissionChange.slice(1).toUpperCase(); // slice the operation off the argument to get the permission number

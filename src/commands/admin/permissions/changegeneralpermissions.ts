@@ -44,8 +44,13 @@ const command: ICommand = {
         let role; // declare role object, to be determined later using logic below
 
         if (isNaN(parseInt(roleMention!))) { // if the arg is a mention and not a number
-            console.log('Role is of type mention. Getting role from role cache.')
-            role = getRoleFromMention(message, roleMention!); // then get it from the role cache
+            if (roleMention === "@everyone") { // special handling if the role is everyone
+                console.log('Role is everyone. Getting role from guild information.')
+                role = message.guild!.roles.everyone; // get everyone role
+            } else {
+                console.log('Role is of type mention. Getting role from role cache.')
+                role = getRoleFromMention(message, roleMention!); // then get it from the role cache
+            }
         } else {
             console.log('Role is of type number. Getting role using position.')
             role = message.guild!.roles.cache.get(message.guild!.roles.cache.map(r => r.id)[parseInt(roleMention!) - 1]); // else find the role by its position number
