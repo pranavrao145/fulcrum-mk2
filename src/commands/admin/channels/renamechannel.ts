@@ -39,7 +39,7 @@ const command: ICommand = {
         }
 
         const channelMention = args.shift(); // get the channel mention
-        const newName = args.shift()!.replace(/_/g, ' '); // get the new name for the channel and replace all spaces with underscores
+        const newName = args.shift()!.replace(/_/g, ' '); // get the new name for the channel and replace all underscores with spaces
 
         const textChannel = getChannelFromMention(message, channelMention!); // attempt to get a text channel from the mention
         const vcRole = getRoleFromMention(message, channelMention!);

@@ -38,7 +38,7 @@ const command: ICommand = {
         }
 
         const roleMention = args!.shift(); // find the mention of the role numbers in the args
-        const newName = args.shift()!.replace(/_/g, ' '); // get the new name for the role and replace all spaces with underscores
+        const newName = args.shift()!.replace(/_/g, ' '); // get the new name for the role and replace all underscores with spaces
         let role; // declare role object, to be determined later using logic below
 
         if (isNaN(parseInt(roleMention!))) { // if the arg is a mention and not a number
