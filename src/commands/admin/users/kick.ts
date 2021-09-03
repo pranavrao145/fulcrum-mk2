@@ -14,7 +14,7 @@ const command: ICommand = {
             .setColor('#FFFCF4')
             .setTitle('Kick - Report')
 
-        if (!message.member!.hasPermission('KICK_MEMBERS')) { // check for adequate permissions
+        if (!message.member!.permissions.has('KICK_MEMBERS')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `KICK_MEMBERS` permission to use this command.');

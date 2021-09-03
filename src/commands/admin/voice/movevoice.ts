@@ -17,7 +17,7 @@ const command: ICommand = {
 
         let overallSuccess = true; // to keep track of whether or not the function was overall successful
 
-        if (!message.member!.hasPermission('MOVE_MEMBERS')) { // check for adequate permissions
+        if (!message.member!.permissions.has('MOVE_MEMBERS')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `MOVE_MEMBERS` permission to use this command.');

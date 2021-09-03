@@ -14,7 +14,7 @@ const command: ICommand = {
             .setColor('#FFFCF4')
             .setTitle('Unlockdown - Report')
 
-        if (!message.member!.hasPermission('ADMINISTRATOR')) { // check for adequate permissions
+        if (!message.member!.permissions.has('ADMINISTRATOR')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `ADMINISTRATOR` permission to use this command.');
