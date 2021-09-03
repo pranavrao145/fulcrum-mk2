@@ -86,7 +86,7 @@ const command: ICommand = {
             if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
                 outputEmbed.setFooter(`This message will be automatically deleted in 5 seconds.`)
-                const outputEmbedMessage = await message.channel.send(outputEmbed); // keep track of the message with the embed for deletion
+                const outputEmbedMessage = await message.channel.send({ embeds: [outputEmbed] }); // keep track of the message with the embed for deletion
                 await timeout(5000); // wait 5 seconds
                 await outputEmbedMessage.delete(); // delete output embed message
             }

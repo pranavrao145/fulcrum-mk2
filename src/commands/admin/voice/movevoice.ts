@@ -98,7 +98,7 @@ const command: ICommand = {
             }
 
             outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**From:** ${vcFrom.name}\n**To:** ${vcTo.name}`);
-            await message.channel.send(outputEmbed);
+            await message.channel.send({ embeds: [outputEmbed] });
             console.log(`Command movevoice, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {
             console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);

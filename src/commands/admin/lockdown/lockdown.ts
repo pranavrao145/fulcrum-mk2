@@ -116,7 +116,7 @@ const command: ICommand = {
             outputEmbed.addField('Invitation Deletion', outputEmbedText); // add whatever text was accumulated throughout the command to the embed
             if (outputEmbedText !== '' && outputEmbed.fields.length > 0) { // check if there is actually any text to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
-                await message.channel.send(outputEmbed);
+                await message.channel.send({ embeds: [outputEmbed] });
             }
             console.log(`Command lockdown, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {

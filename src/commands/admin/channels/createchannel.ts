@@ -75,7 +75,7 @@ const command: ICommand = {
                 outputEmbed.addField(`${channelName}`, 'Invalid channel name or channel already exists on this server.');
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
                 try { // send output embed with information about the command's success
-                    return await message.channel.send(outputEmbed);
+                    return await message.channel.send({ embeds: [outputEmbed] });
                 } catch (e) {
                     console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
                     console.log(e);
@@ -138,7 +138,7 @@ const command: ICommand = {
                 outputEmbed.addField(`${channelName}`, 'Invalid channel name or channel already exists on this server.');
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
                 try { // send output embed with information about the command's success
-                    return await message.channel.send(outputEmbed);
+                    return await message.channel.send({ embeds: [outputEmbed] });
                 } catch (e) {
                     console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
                     console.log(e);
@@ -167,7 +167,7 @@ const command: ICommand = {
                 outputEmbed.addField(`${channelName}`, 'Invalid channel name or channel already exists on this server.');
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
                 try { // send output embed with information about the command's success
-                    return await message.channel.send(outputEmbed);
+                    return await message.channel.send({ embeds: [outputEmbed] });
                 } catch (e) {
                     console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
                     console.log(e);
@@ -191,7 +191,7 @@ const command: ICommand = {
         try { // send output embed with information about the command's success
             if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Channel created:** ${channelName}`);
-                await message.channel.send(outputEmbed);
+                await message.channel.send({ embeds: [outputEmbed] });
             }
             console.log(`Command createchannel, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {

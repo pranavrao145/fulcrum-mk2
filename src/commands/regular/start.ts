@@ -36,7 +36,7 @@ const command: ICommand = {
             try { // send output embed with information about the command's success
                 if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                     outputEmbed.setDescription(`Thanks for adding Fulcrum! Read below to get started!`);
-                    await message.channel.send(outputEmbed);
+                    await message.channel.send({ embeds: [outputEmbed] });
                 }
                 console.log(`Command start, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
             } catch (e) {
