@@ -1,6 +1,6 @@
-import {Channel, Message, MessageEmbed, TextChannel} from 'discord.js';
-import {ICommand} from '../../utils/types';
-import {Client} from 'pg';
+import { Channel, Message, MessageEmbed, TextChannel } from 'discord.js';
+import { ICommand } from '../../utils/types';
+import { Client } from 'pg';
 
 const command: ICommand = {
     name: 'start',
@@ -72,7 +72,7 @@ const command: ICommand = {
             try { // send output embed with information about the command's success
                 if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                     outputEmbed.setDescription(`Thanks for adding Fulcrum! Read below to get started!`);
-                    await (message as TextChannel).send(outputEmbed);
+                    await (message as TextChannel).send({ embeds: [outputEmbed] });
                 }
                 console.log('Ambient start message ')
                 console.log(`Ambient start message sequence completed successfully in ${(message as TextChannel).guild.name}.`);
