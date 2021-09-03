@@ -36,7 +36,7 @@ const command: ICommand = {
             console.log(e);
         }
 
-        const voiceChannels = message.guild!.channels.cache.filter(c => c.type === 'voice').values(); // get all the voice channels in the server
+        const voiceChannels = message.guild!.channels.cache.filter(c => c.type === 'GUILD_VOICE').values(); // get all the voice channels in the server
 
         for (const voiceChannel of voiceChannels) { // iterate through each of the voice channel IDs to create a voice channel role for each
             if (!voiceChannel) { // check if the voice channel actually exists

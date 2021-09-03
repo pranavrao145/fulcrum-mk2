@@ -59,7 +59,7 @@ const command: ICommand = {
                     }
                 }
 
-                const channelCount = message.guild!.channels.cache.filter(c => c.type === 'text' || c.type === 'voice').size; // get the number of channels in the guild
+                const channelCount = message.guild!.channels.cache.filter(c => c.type === 'GUILD_TEXT' || c.type === 'GUILD_VOICE').size; // get the number of channels in the guild
                 const nameToBeSet = `💬|Channel Count: ${channelCount}` // what the channel count channel should display
 
                 if (voiceChannel.name === nameToBeSet) { // if the voice channel name is already correct, no need to change it
@@ -121,7 +121,7 @@ const command: ICommand = {
                     return;
                 }
 
-                const channelCount = message.channels.cache.filter(c => c.type === 'text' || c.type === 'voice').size; // get the number of channels in the guild
+                const channelCount = message.channels.cache.filter(c => c.type === 'GUILD_TEXT' || c.type === 'GUILD_VOICE').size; // get the number of channels in the guild
                 const nameToBeSet = `💬|Channel Count: ${channelCount}` // what the channel count channel should display
 
                 if (voiceChannel.name === nameToBeSet) { // if the voice channel name is already correct, no need to change it

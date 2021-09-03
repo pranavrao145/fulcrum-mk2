@@ -63,7 +63,7 @@ const command: ICommand = {
             }
         }
 
-        if (message.channel.type !== 'text') { // check if the channel type is actually a text channel (or can't bulk delete)
+        if (message.channel.type !== 'GUILD_TEXT') { // check if the channel type is actually a text channel (or can't bulk delete)
             try {
                 console.log('Invalid channel type for purge chat. Stopping execution.');
                 return await message.channel.send('Can\'t use purgechat in this type of channel!')

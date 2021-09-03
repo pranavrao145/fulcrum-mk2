@@ -57,7 +57,7 @@ const command: ICommand = {
                 outputEmbed.addField('Status', 'Failed');
             }
         } else if (vcRole) { // else if a role is given, check if it is associated with a voice channel
-            const voiceChannel = message.guild!.channels.cache.filter(c => c.type === 'voice').find(c => c.name === vcRole.name); // attempt to get the voice channel associated with the role
+            const voiceChannel = message.guild!.channels.cache.filter(c => c.type === 'GUILD_VOICE').find(c => c.name === vcRole.name); // attempt to get the voice channel associated with the role
 
             if (!voiceChannel) { // if the channel associated with the role does not exist
                 console.log('No voice channel found associated with the role supplied. Stopping execution.');

@@ -59,7 +59,7 @@ const command: ICommand = {
 
             const typeFormatted = type!.toLowerCase(); // lowercase the type for consistent formatting
 
-            if (typeFormatted !== 'text' && typeFormatted !== 'voice') { // check if the type given was valid
+            if (typeFormatted !== 'GUILD_TEXT' && typeFormatted !== 'GUILD_VOICE') { // check if the type given was valid
                 try {
                     console.log('Type supplied was invalid. Stopping execution.');
                     return await message.channel.send('Invalid value for type! Must be text or voice.')
@@ -122,7 +122,7 @@ const command: ICommand = {
 
             const typeFormatted = type!.toLowerCase(); // lowercase the type for consistent formatting
 
-            if (typeFormatted !== 'text' && typeFormatted !== 'voice') { // check if the type given was valid
+            if (typeFormatted !== 'GUILD_TEXT' && typeFormatted !== 'GUILD_VOICE') { // check if the type given was valid
                 try {
                     console.log('Type supplied was invalid. Stopping execution.');
                     return await message.channel.send('Invalid value for type! Must be text or voice.')
@@ -179,7 +179,7 @@ const command: ICommand = {
                 await message.guild!.channels.create(channelName);  // create a channel with the defualt options 
 
                 outputEmbed.addField(`Status`, 'Success');
-                outputEmbed.addField('Type', 'Text');
+                outputEmbed.addField('Type', 'GUILD_TEXT');
                 outputEmbed.addField('Privacy', 'Public');
             }
             catch (e) {

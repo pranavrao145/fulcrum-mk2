@@ -53,7 +53,7 @@ const command: ICommand = {
             }
         }
 
-        const voiceChannel = message.guild!.channels.cache.filter(c => c.type === 'voice').find(c => c.name === role!.name); // get the voice channel associated with the role
+        const voiceChannel = message.guild!.channels.cache.filter(c => c.type === 'GUILD_VOICE').find(c => c.name === role!.name); // get the voice channel associated with the role
 
         if (!voiceChannel) { // check if there is actually a voice channel associated with the role supplied
             console.log('No voice channel found associated with the role supplied. Stopping execution.');
