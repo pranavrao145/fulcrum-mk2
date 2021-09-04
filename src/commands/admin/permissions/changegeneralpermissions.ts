@@ -139,7 +139,7 @@ const command: ICommand = {
                 console.log('Operation is reset.')
                 try {
                     await timeout(300); // setting a short timeout to prevent abuse of Discord's API
-                    await role.setPermissions(0); // wipe all permissions from the role
+                    await role.setPermissions(0n); // wipe all permissions from the role
                     console.log(`Successfully reset permissions on role ${role.name}.`);
                     outputEmbedText += `**RESET PERMISSIONS**: Permissions reset successfully\n`
                 } catch (e) {
