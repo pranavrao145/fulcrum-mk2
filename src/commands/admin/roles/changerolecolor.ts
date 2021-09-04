@@ -1,4 +1,4 @@
-import {Message, MessageEmbed} from 'discord.js';
+import {ColorResolvable, Message, MessageEmbed} from 'discord.js';
 import {ICommand} from '../../../utils/types';
 import {Client} from 'pg';
 import {getRoleFromMention, isValidColor} from '../../../utils/helpers';
@@ -79,7 +79,7 @@ const command: ICommand = {
         }
 
         try {
-            await role.setColor(roleColor!);
+            await role.setColor((roleColor as ColorResolvable)!);
             console.log(`Color of role ${role.name} changed successfully.`);
             outputEmbed.addField('Status', 'Success');
             outputEmbed.addField('New Color', `${roleColor}`);
