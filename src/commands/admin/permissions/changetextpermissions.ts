@@ -152,7 +152,7 @@ const command: ICommand = {
                 console.log('Operation is reset.')
                 try {
                     await timeout(300); // setting a short timeout to prevent abuse of Discord's API
-                    const currentOverwrites = (textChannel as TextChannel).permissionOverwrites.get(role.id); // get the current permissions for the role
+                    const currentOverwrites = (textChannel as TextChannel).permissionOverwrites.cache.get(role.id); // get the current permissions for the role
                     if (currentOverwrites) { // only act if the permission overwrites actually exist
                         await currentOverwrites.delete(); // attempt to delete permission overwrites
                     }

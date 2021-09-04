@@ -40,7 +40,7 @@ const command: ICommand = {
         for (const textChannel of textChannels) { // iterate through each of the text channels in the guild
             try {
                 await timeout(300); // setting a short timeout to prevent abuse of Discord's API
-                await (textChannel as TextChannel).permissionOverwrites.get(message.guild!.roles.everyone.id)!.delete();
+                await (textChannel as TextChannel).permissionOverwrites.cache.get(message.guild!.roles.everyone.id)!.delete();
                 console.log(`Successfully unlocked ${(textChannel as TextChannel).name}.`);
             } catch (e) {
                 console.log(`Failed to unlock ${(textChannel as TextChannel).name}.`); 
@@ -51,7 +51,7 @@ const command: ICommand = {
         for (const voiceChannel of voiceChannels) { // iterate through each of the voice channels in the guild
             try {
                 await timeout(300); // setting a short timeout to prevent abuse of Discord's API
-                await (voiceChannel as VoiceChannel).permissionOverwrites.get(message.guild!.roles.everyone.id)!.delete();
+                await (voiceChannel as VoiceChannel).permissionOverwrites.cache.get(message.guild!.roles.everyone.id)!.delete();
                 console.log(`Successfully unlocked ${(voiceChannel as VoiceChannel).name}.`);
             } catch (e) {
                 console.log(`Failed to unlock ${(voiceChannel as VoiceChannel).name}.`); 
