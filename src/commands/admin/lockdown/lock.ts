@@ -29,7 +29,7 @@ const command: ICommand = {
         const messageChannel = message.channel; // get the message's chanel (like this so it can later be cast to TextChannel)
 
         try {
-            await (messageChannel as TextChannel).updateOverwrite((messageChannel as TextChannel).guild.roles.everyone, { SEND_MESSAGES: false }); // set the channel as read only for everyone
+            await (messageChannel as TextChannel).permissionOverwrites.create((messageChannel as TextChannel).guild.roles.everyone, { SEND_MESSAGES: false }); // set the channel as read only for everyone
             console.log(`Successfully locked ${(messageChannel as TextChannel).name}.`);
             outputEmbed.addField('Status', 'Success');
         } catch (e) {

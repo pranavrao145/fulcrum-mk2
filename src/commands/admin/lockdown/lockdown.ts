@@ -45,7 +45,7 @@ const command: ICommand = {
         for (const textChannel of textChannels) { // iterate through each of the text channels in the guild
             try {
                 await timeout(300); // setting a short timeout to prevent abuse of Discord's API
-                await (textChannel as TextChannel).updateOverwrite((textChannel as TextChannel).guild.roles.everyone, { SEND_MESSAGES: false }); // set the channel as read only for everyone
+                await (textChannel as TextChannel).permissionOverwrites.create((textChannel as TextChannel).guild.roles.everyone, { SEND_MESSAGES: false }); // set the channel as read only for everyone
                 console.log(`Successfully locked ${(textChannel as TextChannel).name}.`);
             } catch (e) {
                 console.log(`Failed to lock ${(textChannel as TextChannel).name}.`); 
@@ -56,7 +56,7 @@ const command: ICommand = {
         for (const voiceChannel of voiceChannels) { // iterate through each of the voice channels in the guild
             try {
                 await timeout(300); // setting a short timeout to prevent abuse of Discord's API
-                await (voiceChannel as VoiceChannel).updateOverwrite((voiceChannel as VoiceChannel).guild.roles.everyone, { CONNECT: false }); // get rid of the ability to connect to voice channels for everyone role
+                await (voiceChannel as VoiceChannel).permissionOverwrites.create((voiceChannel as VoiceChannel).guild.roles.everyone, { CONNECT: false }); // get rid of the ability to connect to voice channels for everyone role
                 console.log(`Successfully locked ${(voiceChannel as VoiceChannel).name}.`);
             } catch (e) {
                 console.log(`Failed to lock ${(voiceChannel as VoiceChannel).name}.`); 
@@ -79,7 +79,7 @@ const command: ICommand = {
                 case 'y':
                     console.log('Yes given for wheter to delete invites. Attempting to delete invites.');
                     try {
-                        const invites = await message.guild!.fetchInvites(); // attempt to fetch invites of guild
+                        const invites = await message.guild!.invites.fetch(); // attempt to fetch invites of guild
                         const inviteValues = invites.values(); // get the actual invites
                         console.log('Invites for server fetched successfully.')
                         for (const invite of inviteValues) { // iterate through each of the invite IDs and delete them from the collection

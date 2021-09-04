@@ -135,7 +135,7 @@ const command: ICommand = {
                     case '+':
                         try {
                             await timeout(300); // setting a short timeout to prevent abuse of Discord's API
-                            await (voiceChannel as VoiceChannel).updateOverwrite(role, voiceChannelPermissionsEnable.get((permission as PermissionResolvable))); // add the permission given
+                            await (voiceChannel as VoiceChannel).permissionOverwrites.create(role, voiceChannelPermissionsEnable.get((permission as PermissionResolvable))); // add the permission given
                             console.log(`Successfully added permission ${permission.toString()} to role ${role.name}.`);
                             outputEmbedText += `**${permission}**: Permission added successfully\n`
                         } catch (e) {
@@ -146,7 +146,7 @@ const command: ICommand = {
                     case '-':
                         try {
                             await timeout(300); // setting a short timeout to prevent abuse of Discord's API
-                            await (voiceChannel as VoiceChannel).updateOverwrite(role, voiceChannelPermissionsDisable.get((permission as PermissionResolvable))); // remove the permission given
+                            await (voiceChannel as VoiceChannel).permissionOverwrites.create(role, voiceChannelPermissionsDisable.get((permission as PermissionResolvable))); // remove the permission given
                             console.log(`Successfully removed permission ${permission.toString()} from role ${role.name}.`);
                             outputEmbedText += `**${permission}**: Permission removed successfully\n`
                         } catch (e) {
