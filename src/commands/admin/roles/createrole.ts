@@ -1,7 +1,7 @@
-import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {getChannelFromMention, getRoleFromMention, getUserFromMention, isValidColor} from '../../../utils/helpers';
+import { ColorResolvable, Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { getChannelFromMention, getRoleFromMention, getUserFromMention, isValidColor } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'createrole',
@@ -82,11 +82,9 @@ const command: ICommand = {
 
             try {
                 await message.guild!.roles.create({ // create the role with the needed data
-                    data: {
-                        name: roleName,
-                        color: roleColor
-                    }
-                })
+                    name: roleName,
+                    color: (roleColor as ColorResolvable)
+                });
 
                 outputEmbed.addField('Status', 'Success');
                 outputEmbed.addField('Colour', `${roleColor}`);
@@ -100,9 +98,7 @@ const command: ICommand = {
             try {
                 console.log('No role colour detected. Attempting to create role without colour.')
                 await message.guild!.roles.create({ // create the role with the needed data
-                    data: {
-                        name: roleName,
-                    }
+                    name: roleName,
                 })
                 outputEmbed.addField(`Status`, 'Success');
                 console.log(`Role ${roleName} created successfully in ${message.guild!.name}.`)

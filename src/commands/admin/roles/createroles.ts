@@ -1,7 +1,7 @@
-import {ICommand} from '../../../utils/types';
-import {Message, MessageEmbed} from 'discord.js';
-import {Client} from 'pg';
-import {getChannelFromMention, getRoleFromMention, getUserFromMention} from '../../../utils/helpers';
+import { ICommand } from '../../../utils/types';
+import { Message, MessageEmbed } from 'discord.js';
+import { Client } from 'pg';
+import { getChannelFromMention, getRoleFromMention, getUserFromMention } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'createroles',
@@ -54,9 +54,7 @@ const command: ICommand = {
 
             try {
                 await message.guild!.roles.create({ // create the role with the needed data
-                    data: {
-                        name: roleName,
-                    }
+                    name: roleName,
                 });
                 outputEmbedText += `\n**${roleName}:** Role created successfully.`;
                 console.log(`Role ${roleName} created successfully in ${message.guild!.name}.`)
