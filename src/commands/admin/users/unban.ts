@@ -1,6 +1,6 @@
-import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
+import { Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
 
 const command: ICommand = {
     name: 'unban',
@@ -42,7 +42,7 @@ const command: ICommand = {
         let ban: any; // declaring ban object for use with logic below
 
         try {
-            ban = await message.guild!.fetchBan(userID!); // attempt to get the user's ban info
+            ban = await message.guild!.bans.fetch(userID!); // attempt to get the user's ban info
         } catch (e) {
             console.log('User ID supplied was invalid or couldn\'t find ban. Stopping execution.');
             try {
