@@ -1,4 +1,4 @@
-import {Message, MessageEmbed} from 'discord.js';
+import {Collection, GuildMember, Message, MessageEmbed} from 'discord.js';
 import {ICommand} from '../../../utils/types';
 import {Client} from 'pg';
 import {getRoleFromMention, timeout} from '../../../utils/helpers';
@@ -65,8 +65,8 @@ const command: ICommand = {
                 return;
             }
         }
-        
-        const vcMembers = voiceChannel.members.values(); // get all the members in the voice channel
+       
+        const vcMembers = (voiceChannel.members as Collection<string, GuildMember>).values(); // get all the members in the voice channel
 
         for (const member of vcMembers) { // iterate through each of the members to mute them
             if (!member) { // if the member doesn't exist

@@ -1,4 +1,4 @@
-import {Message, MessageEmbed} from 'discord.js';
+import {Collection, GuildMember, Message, MessageEmbed} from 'discord.js';
 import {ICommand} from '../../../utils/types';
 import {Client} from 'pg';
 import {timeout} from '../../../utils/helpers';
@@ -50,7 +50,7 @@ const command: ICommand = {
                 continue;
             }
 
-            const vcMembers = voiceChannel.members.values(); // get the members of the voice channel
+            const vcMembers = (voiceChannel.members as Collection<string, GuildMember>).values(); // get the members of the voice channel
 
             // make sure all the people in the voice channel have the role
             for (const vcMember of vcMembers) {

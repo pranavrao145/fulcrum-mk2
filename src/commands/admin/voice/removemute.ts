@@ -1,4 +1,4 @@
-import {Message, MessageEmbed} from 'discord.js';
+import {Collection, GuildMember, Message, MessageEmbed} from 'discord.js';
 import {ICommand} from '../../../utils/types';
 import {Client} from 'pg';
 import {getRoleFromMention, timeout} from '../../../utils/helpers';
@@ -66,10 +66,10 @@ const command: ICommand = {
             }
         }
         
-        const members = voiceChannel.members.values(); // get all the members in the voice channel
+        const vcMembers = (voiceChannel.members as Collection<string, GuildMember>).values(); // get all the members in the voice channel
 
-        for (const member of members) { // iterate through each of the members to mute them
-            if (!member) { // if the member doesn't exist
+        for (const vcMember of vcMembers) { // iterate through each of the members to mute them
+            if (!vcMember) { // if the member doesn't exist
                 console.log('A member in the voice channel did not exists. Skipping over them.');
                 overallSuccess = false; // if a member for a role does not exists, the function has failed to mute all members in the channel
                 continue;
@@ -77,10 +77,10 @@ const command: ICommand = {
 
             try {
                 await timeout(300); // setting a short timeout to prevent abuse of Discord's API
-                await member.voice.setMute(false); // attempt to mute the member
-                console.log(`Mute lifted successfully from member ${member.user.tag} in voice channel ${voiceChannel.name}`);
+                await vcMember.voice.setMute(false); // attempt to mute the member
+                console.log(`Mute lifted successfully from member ${vcMember.user.tag} in voice channel ${voiceChannel.name}`);
             } catch (e) {
-                console.log(`Failed to lift mute from member ${member.user.tag} in voice channel ${voiceChannel.name}`);
+                console.log(`Failed to lift mute from member ${vcMember.user.tag} in voice channel ${voiceChannel.name}`);
                 overallSuccess = false; // function failed to mute all members
             }
         }

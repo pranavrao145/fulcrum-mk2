@@ -1,4 +1,4 @@
-import {Message, MessageEmbed} from 'discord.js';
+import {Collection, GuildMember, Message, MessageEmbed} from 'discord.js';
 import {ICommand} from '../../../utils/types';
 import {Client} from 'pg';
 import {getRoleFromMention, timeout} from '../../../utils/helpers';
@@ -70,7 +70,7 @@ const command: ICommand = {
             }
         }
 
-        const vcMembers = vcFrom!.members.values(); // get the members currently in the voice channel
+        const vcMembers = (vcFrom!.members as Collection<string, GuildMember>).values(); // get the members currently in the voice channel
 
         for (const guildMember of vcMembers) { // iterate through each member currently in the voice channel
             if (!guildMember) { // check if the guild member actually exists
