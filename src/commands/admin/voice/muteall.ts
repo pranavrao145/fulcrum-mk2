@@ -66,9 +66,9 @@ const command: ICommand = {
             }
         }
         
-        const members = voiceChannel.members.values(); // get all the members in the voice channel
+        const vcMembers = voiceChannel.members.values(); // get all the members in the voice channel
 
-        for (const member of members) { // iterate through each of the members to mute them
+        for (const member of vcMembers) { // iterate through each of the members to mute them
             if (!member) { // if the member doesn't exist
                 console.log('A member in the voice channel did not exists. Skipping over them.');
                 overallSuccess = false; // if a member for a role does not exists, the function has failed to mute all members in the channel
