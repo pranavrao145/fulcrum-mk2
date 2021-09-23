@@ -1,4 +1,4 @@
-import {Collection, GuildMember, Message, MessageEmbed} from 'discord.js';
+import {Collection, GuildMember, Message, MessageEmbed, VoiceChannel} from 'discord.js';
 import {ICommand} from '../../../utils/types';
 import {Client} from 'pg';
 import {getRoleFromMention, timeout} from '../../../utils/helpers';
@@ -81,7 +81,7 @@ const command: ICommand = {
 
             try {
                 await timeout(300);
-                await guildMember.voice.setChannel(vcTo); // move user to the correct voice channel
+                await guildMember.voice.setChannel((vcTo as VoiceChannel)); // move user to the correct voice channel
                 console.log(`Moved ${guildMember.user.tag} from voice channel ${vcFrom.name} to voice channel ${vcTo.name}.`);
             } catch (e) {
                 console.log(`Failed to move ${guildMember.user.tag} from voice channel ${vcFrom.name} to voice channel ${vcTo.name}.`);
