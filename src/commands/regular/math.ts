@@ -30,7 +30,7 @@ const command: ICommand = {
         try {
             const result = Parser.evaluate(mathExpression); // attempt to evaluate the expression they give
             console.log(`Expression ${mathExpression} evaluated successfully.`)
-            outputEmbed.addField('Result', result);
+            outputEmbed.addField('Result', result.toString());
         } catch (e) { // if the expressions is invalid (fails to evaluate or error)
             console.log('Failed to evaluate expression.')
             outputEmbed.addField('Result', 'Error');
