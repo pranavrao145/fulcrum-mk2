@@ -56,7 +56,7 @@ export const generalPermissions: PermissionResolvable[] = [ // list of permissio
     'MANAGE_NICKNAMES',
     'MANAGE_ROLES',
     'MANAGE_WEBHOOKS',
-    'MANAGE_EMOJIS',
+    'MANAGE_EMOJIS_AND_STICKERS',
 ]
 export const voiceChannelPermissions: PermissionResolvable[] = [ // list of permission overwrites for voice channels
     'CREATE_INSTANT_INVITE',
