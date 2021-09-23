@@ -25,7 +25,7 @@ const command: ICommand = {
                 outputEmbed.setDescription(`**Service:** ${serviceMention}`); // add the command to the help message
 
                 const serviceDescription = serviceList.get(serviceMention); // get the description for the service provided
-                outputEmbed.addField('Description', serviceDescription); // add the description to the output embe 
+                outputEmbed.addField('Description', serviceDescription!); // add the description to the output embe 
             } else { // if the service does not exist
                 outputEmbed.addField('\u200B', 'Invalid service, no help available.');
             }
