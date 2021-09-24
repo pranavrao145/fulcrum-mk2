@@ -86,7 +86,7 @@ client.on('ready', async () => {
 });
 
 // on a message, parse message for commands and execute accordingly
-client.on('message', async (message: Discord.Message) => {
+client.on('messageCreate', async (message: Discord.Message) => {
     // check if the message contains the prefix, and is not by a bot or in a dm 
     if (!message.content.toLowerCase().startsWith(prefix) || message.author.bot || message.guild === null) return;
 
