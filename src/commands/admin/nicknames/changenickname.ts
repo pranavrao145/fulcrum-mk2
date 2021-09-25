@@ -7,7 +7,7 @@ const command: ICommand = {
     name: 'changenickname',
     description: 'Changes the nickname of the given user to the new nickname given.',
     alias: ['changenick', 'cn'],
-    syntax: 'f!changenickname [user mention] [new nickname]',
+    syntax: 'f!changenickname [user mention] [new nickname (underscores for spaces)]',
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command lock started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
