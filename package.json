@@ -1,6 +1,6 @@
 {
   "name": "fulcrum-mk2",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "A Discord bot for all the features you never knew you needed on your server.",
   "main": "index.js",
   "author": "Pranav Rao",
