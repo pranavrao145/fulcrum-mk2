@@ -1,7 +1,7 @@
-import {Message, MessageEmbed, TextChannel} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {timeout} from '../../../utils/helpers';
+import { Message, MessageEmbed, TextChannel } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { timeout } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'lock',
@@ -11,8 +11,8 @@ const command: ICommand = {
         console.log(`Command lock started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         const outputEmbed = new MessageEmbed() // create a new embed for output
-        .setColor('#FFFCF4')
-        .setTitle('Lock Channel - Report');
+            .setColor('#FFFCF4')
+            .setTitle('Lock Channel - Report');
 
         if (!message.member!.permissions.has('MANAGE_CHANNELS')) { // check for adequate permissions
             try {
@@ -24,7 +24,7 @@ const command: ICommand = {
                 return;
             }
         }
-        
+
 
         const messageChannel = message.channel; // get the message's chanel (like this so it can later be cast to TextChannel)
 
@@ -51,7 +51,7 @@ const command: ICommand = {
             console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
             console.log(e);
         }
- 
+
     }
 }
 

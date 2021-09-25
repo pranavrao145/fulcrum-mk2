@@ -1,7 +1,7 @@
-import {Collection, GuildMember, Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {getRoleFromMention, timeout} from '../../../utils/helpers';
+import { Collection, GuildMember, Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { getRoleFromMention, timeout } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'removemute',
@@ -10,10 +10,10 @@ const command: ICommand = {
     syntax: 'f!removemute [voice channel role mention]',
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command removemute started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
- 
+
         const outputEmbed = new MessageEmbed() // create a new embed for output
-        .setColor('#FFFCF4')
-        .setTitle('Remove Mute - Report');
+            .setColor('#FFFCF4')
+            .setTitle('Remove Mute - Report');
 
         let overallSuccess = true; // to keep track of whether or not the function was overall successful
 
@@ -38,7 +38,7 @@ const command: ICommand = {
                 return;
             }
         }
- 
+
         const roleMention = args!.shift(); // find the mention of the role numbers in the args
         const vcRole = getRoleFromMention(message, roleMention!); // get the actual voice channel role
 
@@ -65,7 +65,7 @@ const command: ICommand = {
                 return;
             }
         }
-        
+
         const vcMembers = (voiceChannel.members as Collection<string, GuildMember>).values(); // get all the members in the voice channel
 
         for (const vcMember of vcMembers) { // iterate through each of the members to mute them
@@ -84,13 +84,13 @@ const command: ICommand = {
                 overallSuccess = false; // function failed to mute all members
             }
         }
- 
+
         if (overallSuccess) { // check if the function was successful and add the right output message
             outputEmbed.addField('Status', 'Success');
         } else {
             outputEmbed.addField('Status', 'Failed - some members may still be muted');
         }
- 
+
         try { // send output embed with information about the command's success
             if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Voice channel unmuted:** ${voiceChannel.name}`);

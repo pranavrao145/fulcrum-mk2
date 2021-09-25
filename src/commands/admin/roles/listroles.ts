@@ -1,7 +1,7 @@
-import {ICommand} from '../../../utils/types';
-import {Message, MessageEmbed} from 'discord.js';
-import {Client} from 'pg';
-import {editMessageWithPaginatedEmbeds} from 'discord.js-pagination-ts'
+import { ICommand } from '../../../utils/types';
+import { Message, MessageEmbed } from 'discord.js';
+import { Client } from 'pg';
+import { editMessageWithPaginatedEmbeds } from 'discord.js-pagination-ts'
 
 const command: ICommand = {
     name: 'listroles',

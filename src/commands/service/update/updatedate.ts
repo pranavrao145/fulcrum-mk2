@@ -1,9 +1,9 @@
-import {Message, MessageEmbed} from 'discord.js';
+import { Message, MessageEmbed } from 'discord.js';
 import Discord from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {daysList, monthsList} from '../../../utils/information';
-import {timeout} from '../../../utils/helpers';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { daysList, monthsList } from '../../../utils/information';
+import { timeout } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'updatedate',

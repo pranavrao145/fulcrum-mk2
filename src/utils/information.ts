@@ -1,8 +1,8 @@
-import {PermissionResolvable} from 'discord.js';
+import { PermissionResolvable } from 'discord.js';
 
 export const monthsList = [
     'Jan',
-    'Feb', 
+    'Feb',
     'Mar',
     'Apr',
     'May',
@@ -104,7 +104,7 @@ export const textChannelPermissionsEnable: Map<PermissionResolvable, any> = new 
     ['MENTION_EVERYONE', { MENTION_EVERYONE: true }],
     ['USE_EXTERNAL_EMOJIS', { USE_EXTERNAL_EMOJIS: true }],
     ['MANAGE_ROLES', { MANAGE_ROLES: true }],
-    ['MANAGE_WEBHOOKS', {MANAGE_WEBHOOKS: true}]
+    ['MANAGE_WEBHOOKS', { MANAGE_WEBHOOKS: true }]
 ])
 
 export const textChannelPermissionDisable: Map<PermissionResolvable, any> = new Map([ // list of permissions for text channels with the corresponding permission overwrites to disable them
@@ -121,7 +121,7 @@ export const textChannelPermissionDisable: Map<PermissionResolvable, any> = new 
     ['MENTION_EVERYONE', { MENTION_EVERYONE: false }],
     ['USE_EXTERNAL_EMOJIS', { USE_EXTERNAL_EMOJIS: false }],
     ['MANAGE_ROLES', { MANAGE_ROLES: false }],
-    ['MANAGE_WEBHOOKS', {MANAGE_WEBHOOKS: false}]
+    ['MANAGE_WEBHOOKS', { MANAGE_WEBHOOKS: false }]
 ])
 
 export const voiceChannelPermissionsEnable: Map<PermissionResolvable, any> = new Map([ // list of permission overwrites for voice channels
@@ -158,5 +158,5 @@ export const serviceList: Map<string, string> = new Map([ // map to contain serv
     ['vcroles', 'Admins can run "f!setup vcroles" to set up voice channel roles. If anyone joins a voice channel, Fulcrum will give them a role with the same name as that voice channel. This means you can @ everyone in a voice channel by mentioning the name of that voice channel. While this process is automatic, admins can force-update everyone\'s voice channel roles by running f!update vcroles. Note that voice channel roles are case sensitive.'],
     ['date', 'Admins can run f!setup date [voice channel role] to set this feature up. If this is done, every day, Fulcrum will automatically update the name of the channel associated with the role specified everyday to reflect the current date in EST. Recommended to make voice channel read-only (everyone can see, but no one can join). Although this process is automatic, admins can force a date update using f!update date. NOTE: recommended to run "f!setup vcroles" just before setting this feature up.'],
     ['membercount', 'Admins can run f!setup membercount [voice channel role] to set this feature up. If this is done, Fulcrum will automatically update the name of the channel associated with the role specified to reflect the number of members currently in your server. Recommended to make voice channel read-only (everyone can see, but no one can join). Although this process is automatic, admins can force a member count update using f!update membercount. NOTE: recommended to run "f!setup vcroles" just before setting this feature up.'],
-    ['channelcount','Admins can run f!setup channelcount [voice channel role] to set this feature up. If this is done, Fulcrum will automatically update the name of the channel associated with the role specified to reflect the number of channels in your server. Recommended to make voice channel read-only (everyone can see, but no one can join). Although this process is automatic, admins can force a channel count update using f!update channelcount. NOTE: recommended to run "f!setup vcroles" just before setting this feature up.']
+    ['channelcount', 'Admins can run f!setup channelcount [voice channel role] to set this feature up. If this is done, Fulcrum will automatically update the name of the channel associated with the role specified to reflect the number of channels in your server. Recommended to make voice channel read-only (everyone can see, but no one can join). Although this process is automatic, admins can force a channel count update using f!update channelcount. NOTE: recommended to run "f!setup vcroles" just before setting this feature up.']
 ]);

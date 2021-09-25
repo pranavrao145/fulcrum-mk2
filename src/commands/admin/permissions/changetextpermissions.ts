@@ -1,8 +1,8 @@
-import {Message, MessageEmbed, PermissionResolvable, TextChannel} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {getChannelFromMention, getRoleFromMention, timeout} from '../../../utils/helpers';
-import {textChannelPermissions, textChannelPermissionsEnable, textChannelPermissionDisable} from '../../../utils/information';
+import { Message, MessageEmbed, PermissionResolvable, TextChannel } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { getChannelFromMention, getRoleFromMention, timeout } from '../../../utils/helpers';
+import { textChannelPermissions, textChannelPermissionsEnable, textChannelPermissionDisable } from '../../../utils/information';
 
 const command: ICommand = {
     name: 'changetextpermissions',

@@ -1,7 +1,7 @@
 import translate from '@iamtraction/google-translate';
-import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../utils/types';
-import {Client} from 'pg';
+import { Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../utils/types';
+import { Client } from 'pg';
 
 const command: ICommand = {
     name: 'translate',
@@ -30,7 +30,7 @@ const command: ICommand = {
         const phrase = args.join(' '); // join the rest of the message to get the phrase to translate
 
         try {
-            const translation = await translate(phrase, {to: toLang}); // request api for translation with the given data
+            const translation = await translate(phrase, { to: toLang }); // request api for translation with the given data
             outputEmbed.addField(`Translation to ${toLang}`, translation.text);
         } catch (e) {
             console.log('There was an error translating the phrase given.')

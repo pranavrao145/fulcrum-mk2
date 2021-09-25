@@ -1,7 +1,7 @@
-import {Message, MessageEmbed, TextChannel, VoiceChannel} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {timeout} from '../../../utils/helpers';
+import { Message, MessageEmbed, TextChannel, VoiceChannel } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { timeout } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'lockdown',
@@ -15,7 +15,7 @@ const command: ICommand = {
             .setTitle('Lockdown - Report')
 
         let outputEmbedText = '';
- 
+
 
         if (!message.member!.permissions.has('ADMINISTRATOR')) { // check for adequate permissions
             try {
@@ -27,7 +27,7 @@ const command: ICommand = {
                 return;
             }
         }
- 
+
         try {
             await message.channel.send('Beginning server lockdown sequence. This may take a moment...');
         } catch (e) {
@@ -48,7 +48,7 @@ const command: ICommand = {
                 await (textChannel as TextChannel).permissionOverwrites.create((textChannel as TextChannel).guild.roles.everyone, { SEND_MESSAGES: false }); // set the channel as read only for everyone
                 console.log(`Successfully locked ${(textChannel as TextChannel).name}.`);
             } catch (e) {
-                console.log(`Failed to lock ${(textChannel as TextChannel).name}.`); 
+                console.log(`Failed to lock ${(textChannel as TextChannel).name}.`);
                 overallLockingSuccess = false;
             }
         }
@@ -59,7 +59,7 @@ const command: ICommand = {
                 await (voiceChannel as VoiceChannel).permissionOverwrites.create((voiceChannel as VoiceChannel).guild.roles.everyone, { CONNECT: false }); // get rid of the ability to connect to voice channels for everyone role
                 console.log(`Successfully locked ${(voiceChannel as VoiceChannel).name}.`);
             } catch (e) {
-                console.log(`Failed to lock ${(voiceChannel as VoiceChannel).name}.`); 
+                console.log(`Failed to lock ${(voiceChannel as VoiceChannel).name}.`);
                 overallLockingSuccess = false;
             }
         }
@@ -109,9 +109,9 @@ const command: ICommand = {
             }
         } else { // if there is no specification as to whether or not to delete the invites
             console.log('No specification given for whether to delete invites. Defaulting to no.')
-            outputEmbedText += 'No invites were deleted' 
+            outputEmbedText += 'No invites were deleted'
         }
- 
+
         try { // send output embed with information about the command's success
             outputEmbed.addField('Invitation Deletion', outputEmbedText); // add whatever text was accumulated throughout the command to the embed
             if (outputEmbedText !== '' && outputEmbed.fields.length > 0) { // check if there is actually any text to send the embed with

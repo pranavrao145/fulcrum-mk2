@@ -1,8 +1,8 @@
-import {Message, MessageEmbed, PermissionResolvable} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {getRoleFromMention, timeout} from '../../../utils/helpers';
-import {generalPermissions} from '../../../utils/information';
+import { Message, MessageEmbed, PermissionResolvable } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { getRoleFromMention, timeout } from '../../../utils/helpers';
+import { generalPermissions } from '../../../utils/information';
 
 const command: ICommand = {
     name: 'changegeneralpermissions',

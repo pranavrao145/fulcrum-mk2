@@ -1,7 +1,7 @@
-import {Message, MessageEmbed, TextChannel, VoiceChannel} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {getChannelFromMention, getRoleFromMention} from '../../../utils/helpers';
+import { Message, MessageEmbed, TextChannel, VoiceChannel } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { getChannelFromMention, getRoleFromMention } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'renamechannel',

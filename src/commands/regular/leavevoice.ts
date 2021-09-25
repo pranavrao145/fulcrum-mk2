@@ -1,6 +1,6 @@
-import {ICommand} from '../../utils/types';
-import {Message} from 'discord.js';
-import {Client} from 'pg';
+import { ICommand } from '../../utils/types';
+import { Message } from 'discord.js';
+import { Client } from 'pg';
 
 const command: ICommand = {
     name: 'leavevoice',

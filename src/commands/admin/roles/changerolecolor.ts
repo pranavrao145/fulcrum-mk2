@@ -1,7 +1,7 @@
-import {ColorResolvable, Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {getRoleFromMention, isValidColor} from '../../../utils/helpers';
+import { ColorResolvable, Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { getRoleFromMention, isValidColor } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'changerolecolor',

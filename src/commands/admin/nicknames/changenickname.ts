@@ -1,7 +1,7 @@
-import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {getUserFromMention} from '../../../utils/helpers';
+import { Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { getUserFromMention } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'changenickname',
@@ -12,8 +12,8 @@ const command: ICommand = {
         console.log(`Command lock started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         const outputEmbed = new MessageEmbed() // create a new embed for output
-        .setColor('#FFFCF4')
-        .setTitle('Change Nickname - Report');
+            .setColor('#FFFCF4')
+            .setTitle('Change Nickname - Report');
 
         if (!message.member!.permissions.has('MANAGE_NICKNAMES')) { // check for adequate permissions
             try {
@@ -64,7 +64,7 @@ const command: ICommand = {
             }
         }
 
-        try  { // attempt to set the user's nickname to the new nickname given
+        try { // attempt to set the user's nickname to the new nickname given
             await user.setNickname(newNick);
             console.log(`Successfully changed ${user!.user.tag}'s nickname to ${user.nickname}.'`);
             outputEmbed.addField('Status', 'Success');

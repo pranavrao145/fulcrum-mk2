@@ -1,7 +1,7 @@
-import {Message, MessageEmbed, TextChannel, VoiceChannel} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {timeout} from '../../../utils/helpers';
+import { Message, MessageEmbed, TextChannel, VoiceChannel } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { timeout } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'unlockdown',
@@ -43,7 +43,7 @@ const command: ICommand = {
                 await (textChannel as TextChannel).permissionOverwrites.cache.get(message.guild!.roles.everyone.id)!.delete();
                 console.log(`Successfully unlocked ${(textChannel as TextChannel).name}.`);
             } catch (e) {
-                console.log(`Failed to unlock ${(textChannel as TextChannel).name}.`); 
+                console.log(`Failed to unlock ${(textChannel as TextChannel).name}.`);
                 overallUnlockingSuccess = false;
             }
         }
@@ -54,7 +54,7 @@ const command: ICommand = {
                 await (voiceChannel as VoiceChannel).permissionOverwrites.cache.get(message.guild!.roles.everyone.id)!.delete();
                 console.log(`Successfully unlocked ${(voiceChannel as VoiceChannel).name}.`);
             } catch (e) {
-                console.log(`Failed to unlock ${(voiceChannel as VoiceChannel).name}.`); 
+                console.log(`Failed to unlock ${(voiceChannel as VoiceChannel).name}.`);
                 overallUnlockingSuccess = false;
             }
         }

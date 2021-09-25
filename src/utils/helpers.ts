@@ -1,4 +1,4 @@
-import {Channel, GuildMember, Message, Role} from 'discord.js'
+import { Channel, GuildMember, Message, Role } from 'discord.js'
 
 export function getRoleFromMention(message: Message, mention: string): Role | undefined {
     if (mention.startsWith('<@') && mention.endsWith('>')) {

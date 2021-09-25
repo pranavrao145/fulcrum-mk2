@@ -1,7 +1,7 @@
-import {ICommand} from '../../../utils/types';
-import {Message, MessageEmbed} from 'discord.js';
-import {Client} from 'pg';
-import {getRoleFromMention, timeout} from '../../../utils/helpers';
+import { ICommand } from '../../../utils/types';
+import { Message, MessageEmbed } from 'discord.js';
+import { Client } from 'pg';
+import { getRoleFromMention, timeout } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'deleteroles',

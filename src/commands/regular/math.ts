@@ -1,7 +1,7 @@
-import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../utils/types';
-import {Client} from 'pg';
-import {Parser} from 'expr-eval';
+import { Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../utils/types';
+import { Client } from 'pg';
+import { Parser } from 'expr-eval';
 
 const command: ICommand = {
     name: 'math',

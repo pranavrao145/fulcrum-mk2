@@ -1,7 +1,7 @@
-import {Message, MessageEmbed, TextChannel} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {timeout} from '../../../utils/helpers';
+import { Message, MessageEmbed, TextChannel } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { timeout } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'unlock',
@@ -29,7 +29,7 @@ const command: ICommand = {
         const messageChannel = message.channel; // get the message's chanel (like this so it can later be cast to TextChannel)
 
         try {
-            await (messageChannel as TextChannel).permissionOverwrites.create((messageChannel as TextChannel).guild.roles.everyone, {SEND_MESSAGES: true}); // set the channel as read only for everyone
+            await (messageChannel as TextChannel).permissionOverwrites.create((messageChannel as TextChannel).guild.roles.everyone, { SEND_MESSAGES: true }); // set the channel as read only for everyone
             console.log(`Successfully unlocked ${(messageChannel as TextChannel).name}.`);
             outputEmbed.addField('Status', 'Success');
         } catch (e) {

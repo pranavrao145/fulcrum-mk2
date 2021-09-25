@@ -1,8 +1,8 @@
-import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {getRoleFromMention} from '../../../utils/helpers';
-import {promisify} from 'util';
+import { Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { getRoleFromMention } from '../../../utils/helpers';
+import { promisify } from 'util';
 import glob from 'glob';
 
 const command: ICommand = {

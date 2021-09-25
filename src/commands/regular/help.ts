@@ -1,7 +1,7 @@
-import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../utils/types';
-import {Client} from 'pg';
-import {promisify} from 'util'
+import { Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../utils/types';
+import { Client } from 'pg';
+import { promisify } from 'util'
 import glob from 'glob';
 
 const command: ICommand = {
@@ -75,15 +75,15 @@ const command: ICommand = {
             } else { // if command not found
                 outputEmbed.addField('\u200B', 'Invalid command, no help available.');
             }
-                try { // send output embed with information about the command's success
-                    if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
-                        await message.channel.send({ embeds: [outputEmbed] });
-                    }
-                    console.log(`Command help, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
-                } catch (e) {
-                    console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
-                    console.log(e);
+            try { // send output embed with information about the command's success
+                if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
+                    await message.channel.send({ embeds: [outputEmbed] });
                 }
+                console.log(`Command help, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
+            } catch (e) {
+                console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
+                console.log(e);
+            }
         } else { // if the original message does not contain any arguments (general help message)
             outputEmbed.setDescription('General Help\nUse the prefix **f!** before any of these commands\nFor information on a specific command, type f!help [command]');
 

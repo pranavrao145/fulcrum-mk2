@@ -1,7 +1,7 @@
-import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../utils/types';
-import {Client} from 'pg';
-import {generalPermissions, textChannelPermissions, voiceChannelPermissions} from '../../utils/information';
+import { Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../utils/types';
+import { Client } from 'pg';
+import { generalPermissions, textChannelPermissions, voiceChannelPermissions } from '../../utils/information';
 
 const command: ICommand = {
     name: 'listpermissions',

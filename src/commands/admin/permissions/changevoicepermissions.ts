@@ -1,8 +1,8 @@
-import {Message, MessageEmbed, PermissionResolvable, VoiceChannel} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {getRoleFromMention, timeout} from '../../../utils/helpers';
-import {voiceChannelPermissions, voiceChannelPermissionsEnable, voiceChannelPermissionsDisable} from '../../../utils/information';
+import { Message, MessageEmbed, PermissionResolvable, VoiceChannel } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { getRoleFromMention, timeout } from '../../../utils/helpers';
+import { voiceChannelPermissions, voiceChannelPermissionsEnable, voiceChannelPermissionsDisable } from '../../../utils/information';
 
 const command: ICommand = {
     name: 'changevoicepermissions',
