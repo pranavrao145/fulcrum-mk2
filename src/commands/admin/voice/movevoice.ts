@@ -1,7 +1,7 @@
-import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {getRoleFromMention, timeout} from '../../../utils/helpers';
+import { Collection, GuildMember, Message, MessageEmbed, VoiceChannel } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { getRoleFromMention, timeout } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'movevoice',
@@ -17,7 +17,7 @@ const command: ICommand = {
 
         let overallSuccess = true; // to keep track of whether or not the function was overall successful
 
-        if (!message.member!.hasPermission('MOVE_MEMBERS')) { // check for adequate permissions
+        if (!message.member!.permissions.has('MOVE_MEMBERS')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `MOVE_MEMBERS` permission to use this command.');
@@ -56,8 +56,8 @@ const command: ICommand = {
             }
         }
 
-        const vcFrom = message.guild!.channels.cache.filter(c => c.type === 'voice').find(c => c.name === roleFrom.name); // find the voice channel associated with the from role
-        const vcTo = message.guild!.channels.cache.filter(c => c.type === 'voice').find(c => c.name === roleTo.name); // find the voice channel associated with the to role
+        const vcFrom = message.guild!.channels.cache.filter(c => c.type === 'GUILD_VOICE').find(c => c.name === roleFrom.name); // find the voice channel associated with the from role
+        const vcTo = message.guild!.channels.cache.filter(c => c.type === 'GUILD_VOICE').find(c => c.name === roleTo.name); // find the voice channel associated with the to role
 
         if (!vcFrom || !vcTo) { // check if the roles are actually associated with a voice channel
             try {
@@ -70,7 +70,7 @@ const command: ICommand = {
             }
         }
 
-        const vcMembers = vcFrom!.members.values(); // get the members currently in the voice channel
+        const vcMembers = (vcFrom!.members as Collection<string, GuildMember>).values(); // get the members currently in the voice channel
 
         for (const guildMember of vcMembers) { // iterate through each member currently in the voice channel
             if (!guildMember) { // check if the guild member actually exists
@@ -81,7 +81,7 @@ const command: ICommand = {
 
             try {
                 await timeout(300);
-                await guildMember.voice.setChannel(vcTo); // move user to the correct voice channel
+                await guildMember.voice.setChannel((vcTo as VoiceChannel)); // move user to the correct voice channel
                 console.log(`Moved ${guildMember.user.tag} from voice channel ${vcFrom.name} to voice channel ${vcTo.name}.`);
             } catch (e) {
                 console.log(`Failed to move ${guildMember.user.tag} from voice channel ${vcFrom.name} to voice channel ${vcTo.name}.`);
@@ -98,7 +98,7 @@ const command: ICommand = {
             }
 
             outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**From:** ${vcFrom.name}\n**To:** ${vcTo.name}`);
-            await message.channel.send(outputEmbed);
+            await message.channel.send({ embeds: [outputEmbed] });
             console.log(`Command movevoice, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {
             console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);

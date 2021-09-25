@@ -1,7 +1,7 @@
-import {Message, MessageEmbed, TextChannel} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {timeout} from '../../../utils/helpers';
+import { Message, MessageEmbed, TextChannel } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { timeout } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'unlock',
@@ -14,7 +14,7 @@ const command: ICommand = {
             .setColor('#FFFCF4')
             .setTitle('Unlock Channel - Report');
 
-        if (!message.member!.hasPermission('MANAGE_CHANNELS')) { // check for adequate permissions
+        if (!message.member!.permissions.has('MANAGE_CHANNELS')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `MANAGE_CHANNELS` permission to use this command.');
@@ -29,7 +29,7 @@ const command: ICommand = {
         const messageChannel = message.channel; // get the message's chanel (like this so it can later be cast to TextChannel)
 
         try {
-            await (messageChannel as TextChannel).updateOverwrite((messageChannel as TextChannel).guild.roles.everyone, {SEND_MESSAGES: true}); // set the channel as read only for everyone
+            await (messageChannel as TextChannel).permissionOverwrites.create((messageChannel as TextChannel).guild.roles.everyone, { SEND_MESSAGES: true }); // set the channel as read only for everyone
             console.log(`Successfully unlocked ${(messageChannel as TextChannel).name}.`);
             outputEmbed.addField('Status', 'Success');
         } catch (e) {
@@ -41,7 +41,7 @@ const command: ICommand = {
             if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
                 outputEmbed.setFooter(`This message will be automatically deleted in 5 seconds.`)
-                const outputEmbedMessage = await message.channel.send(outputEmbed); // keep track of the message with the embed for deletion
+                const outputEmbedMessage = await message.channel.send({ embeds: [outputEmbed] }); // keep track of the message with the embed for deletion
                 await timeout(5000); // wait 5 seconds
                 await outputEmbedMessage.delete(); // delete output embed message
                 await message.delete();

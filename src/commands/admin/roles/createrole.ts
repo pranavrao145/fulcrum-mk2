@@ -1,7 +1,7 @@
-import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {getChannelFromMention, getRoleFromMention, getUserFromMention, isValidColor} from '../../../utils/helpers';
+import { ColorResolvable, Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { getChannelFromMention, getRoleFromMention, getUserFromMention, isValidColor } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'createrole',
@@ -16,7 +16,7 @@ const command: ICommand = {
             .setTitle('Create Role - Report');
 
 
-        if (!message.member!.hasPermission('MANAGE_ROLES')) { // check for adequate permissions
+        if (!message.member!.permissions.has('MANAGE_ROLES')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `MANAGE_ROLES` permission to use this command.');
@@ -52,7 +52,7 @@ const command: ICommand = {
             outputEmbed.addField(`${roleName}`, 'Invalid role name or role already exists on this server.');
             outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
             try { // send output embed with information about the command's success
-                return await message.channel.send(outputEmbed);
+                return await message.channel.send({ embeds: [outputEmbed] });
             } catch (e) {
                 console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
@@ -82,11 +82,9 @@ const command: ICommand = {
 
             try {
                 await message.guild!.roles.create({ // create the role with the needed data
-                    data: {
-                        name: roleName,
-                        color: roleColor
-                    }
-                })
+                    name: roleName,
+                    color: (roleColor as ColorResolvable)
+                });
 
                 outputEmbed.addField('Status', 'Success');
                 outputEmbed.addField('Colour', `${roleColor}`);
@@ -100,9 +98,7 @@ const command: ICommand = {
             try {
                 console.log('No role colour detected. Attempting to create role without colour.')
                 await message.guild!.roles.create({ // create the role with the needed data
-                    data: {
-                        name: roleName,
-                    }
+                    name: roleName,
                 })
                 outputEmbed.addField(`Status`, 'Success');
                 console.log(`Role ${roleName} created successfully in ${message.guild!.name}.`)
@@ -116,7 +112,7 @@ const command: ICommand = {
         try { // send output embed with information about the command's success
             if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Role created:** ${roleName}`);
-                await message.channel.send(outputEmbed);
+                await message.channel.send({ embeds: [outputEmbed] });
             }
             console.log(`Command createrole, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {

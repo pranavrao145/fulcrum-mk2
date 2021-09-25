@@ -1,8 +1,8 @@
-import {Message, MessageEmbed, PermissionResolvable} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {getRoleFromMention, timeout} from '../../../utils/helpers';
-import {generalPermissions} from '../../../utils/information';
+import { Message, MessageEmbed, PermissionResolvable } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { getRoleFromMention, timeout } from '../../../utils/helpers';
+import { generalPermissions } from '../../../utils/information';
 
 const command: ICommand = {
     name: 'changegeneralpermissions',
@@ -18,7 +18,7 @@ const command: ICommand = {
 
         let outputEmbedText = '';
 
-        if (!message.member!.hasPermission('MANAGE_ROLES')) { // check for adequate permissions
+        if (!message.member!.permissions.has('MANAGE_ROLES')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `MANAGE_ROLES` permission to use this command.');
@@ -139,7 +139,7 @@ const command: ICommand = {
                 console.log('Operation is reset.')
                 try {
                     await timeout(300); // setting a short timeout to prevent abuse of Discord's API
-                    await role.setPermissions(0); // wipe all permissions from the role
+                    await role.setPermissions(0n); // wipe all permissions from the role
                     console.log(`Successfully reset permissions on role ${role.name}.`);
                     outputEmbedText += `**RESET PERMISSIONS**: Permissions reset successfully\n`
                 } catch (e) {
@@ -156,7 +156,7 @@ const command: ICommand = {
             outputEmbed.addField('\u200B', outputEmbedText); // add whatever text was accumulated throughout the command to the embed
             if (outputEmbedText !== '') { // check if there is actually any text to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Modified perimssions of role:** ${role.name}`);
-                await message.channel.send(outputEmbed);
+                await message.channel.send({ embeds: [outputEmbed] });
             }
             console.log(`Command changegeneralpermissions, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {

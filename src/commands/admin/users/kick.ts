@@ -1,7 +1,7 @@
-import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {getUserFromMention} from '../../../utils/helpers';
+import { Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { getUserFromMention } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'kick',
@@ -14,7 +14,7 @@ const command: ICommand = {
             .setColor('#FFFCF4')
             .setTitle('Kick - Report')
 
-        if (!message.member!.hasPermission('KICK_MEMBERS')) { // check for adequate permissions
+        if (!message.member!.permissions.has('KICK_MEMBERS')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `KICK_MEMBERS` permission to use this command.');
@@ -78,7 +78,7 @@ const command: ICommand = {
         try { // send output embed with information about the command's success
             if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**User kicked:** ${user!.user.tag}`);
-                await message.channel.send(outputEmbed);
+                await message.channel.send({ embeds: [outputEmbed] });
             }
             console.log(`Command kick, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {

@@ -1,7 +1,7 @@
-import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {getRoleFromMention, timeout} from '../../../utils/helpers';
+import { Collection, GuildMember, Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { getRoleFromMention, timeout } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'clearvoice',
@@ -17,7 +17,7 @@ const command: ICommand = {
 
         let overallSuccess = true; // to keep track of whether or not the function was overall successful
 
-        if (!message.member!.hasPermission('MOVE_MEMBERS')) { // check for adequate permissions
+        if (!message.member!.permissions.has('MOVE_MEMBERS')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `MOVE_MEMBERS` permission to use this command.');
@@ -53,7 +53,7 @@ const command: ICommand = {
             }
         }
 
-        const voiceChannel = message.guild!.channels.cache.filter(c => c.type === 'voice').find(c => c.name === role!.name); // get the voice channel associated with the role
+        const voiceChannel = message.guild!.channels.cache.filter(c => c.type === 'GUILD_VOICE').find(c => c.name === role!.name); // get the voice channel associated with the role
 
         if (!voiceChannel) { // check if there is actually a voice channel associated with the role supplied
             console.log('No voice channel found associated with the role supplied. Stopping execution.');
@@ -66,7 +66,7 @@ const command: ICommand = {
             }
         }
 
-        const vcMembers = voiceChannel!.members.values(); // get the members currently in the voice channel
+        const vcMembers = (voiceChannel!.members as Collection<string, GuildMember>).values(); // get the members currently in the voice channel
 
         for (const guildMember of vcMembers) { // iterate through each member currently in the voice channel
             if (!guildMember) { // check if the guild member actually exists
@@ -94,7 +94,7 @@ const command: ICommand = {
             }
 
             outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Voice channel cleared:** ${voiceChannel!.name}`);
-            await message.channel.send(outputEmbed);
+            await message.channel.send({ embeds: [outputEmbed] });
             console.log(`Command clearvoice, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {
             console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);

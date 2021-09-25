@@ -1,8 +1,8 @@
-import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {getRoleFromMention} from '../../../utils/helpers';
-import {promisify} from 'util';
+import { Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { getRoleFromMention } from '../../../utils/helpers';
+import { promisify } from 'util';
 import glob from 'glob';
 
 const command: ICommand = {
@@ -17,7 +17,7 @@ const command: ICommand = {
             .setColor('#FFFCF4')
             .setTitle('Setup Member Count Channel - Report');
 
-        if (!message.member!.hasPermission('MANAGE_CHANNELS')) { // check for adequate permissions
+        if (!message.member!.permissions.has('MANAGE_CHANNELS')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `MANAGE_CHANNELS` permission to use this command.');
@@ -54,7 +54,7 @@ const command: ICommand = {
             }
         }
 
-        const voiceChannel = message.guild!.channels.cache.filter(c => c.type === 'voice').find(c => c.name === vcRole.name); // attempt to get voice channel with the same name
+        const voiceChannel = message.guild!.channels.cache.filter(c => c.type === 'GUILD_VOICE').find(c => c.name === vcRole.name); // attempt to get voice channel with the same name
 
         if (!voiceChannel) {
             console.log('No voice channel found associated with the role supplied. Stopping execution.');
@@ -124,7 +124,7 @@ const command: ICommand = {
         try { // send output embed with information about the command's success
             if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
-                await message.channel.send(outputEmbed);
+                await message.channel.send({ embeds: [outputEmbed] });
             }
             console.log(`Command setupmembercount, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {

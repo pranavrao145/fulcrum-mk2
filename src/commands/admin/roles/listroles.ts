@@ -1,7 +1,7 @@
-import {ICommand} from '../../../utils/types';
-import {Message, MessageEmbed} from 'discord.js';
-import {Client} from 'pg';
-import {editMessageWithPaginatedEmbeds} from 'discord.js-pagination-ts'
+import { ICommand } from '../../../utils/types';
+import { Message, MessageEmbed } from 'discord.js';
+import { Client } from 'pg';
+import { editMessageWithPaginatedEmbeds } from 'discord.js-pagination-ts'
 
 const command: ICommand = {
     name: 'listroles',
@@ -16,7 +16,7 @@ const command: ICommand = {
         let embedList: MessageEmbed[] = []; // declare a list of message embeds, which will be paginated
         let outputEmbedText = '';
 
-        if (!message.member!.hasPermission('MANAGE_ROLES')) { // check for adequate permissions
+        if (!message.member!.permissions.has('MANAGE_ROLES')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `MANAGE_ROLES` permission to use this command.');

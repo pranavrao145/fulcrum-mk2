@@ -1,8 +1,8 @@
-import {Message, MessageEmbed, PermissionResolvable, TextChannel} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {getChannelFromMention, getRoleFromMention, timeout} from '../../../utils/helpers';
-import {textChannelPermissions, textChannelPermissionsEnable, textChannelPermissionDisable} from '../../../utils/information';
+import { Message, MessageEmbed, PermissionResolvable, TextChannel } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { getChannelFromMention, getRoleFromMention, timeout } from '../../../utils/helpers';
+import { textChannelPermissions, textChannelPermissionsEnable, textChannelPermissionDisable } from '../../../utils/information';
 
 const command: ICommand = {
     name: 'changetextpermissions',
@@ -18,7 +18,7 @@ const command: ICommand = {
 
         let outputEmbedText = '';
 
-        if (!message.member!.hasPermission('MANAGE_CHANNELS')) { // check for adequate permissions
+        if (!message.member!.permissions.has('MANAGE_CHANNELS')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `MANAGE_CHANNELS` permission to use this command.');
@@ -124,7 +124,7 @@ const command: ICommand = {
                     case '+':
                         try {
                             await timeout(300); // setting a short timeout to prevent abuse of Discord's API
-                            await (textChannel as TextChannel).updateOverwrite(role, textChannelPermissionsEnable.get((permission as PermissionResolvable))); // add the permission given
+                            await (textChannel as TextChannel).permissionOverwrites.create(role, textChannelPermissionsEnable.get((permission as PermissionResolvable))); // add the permission given
                             console.log(`Successfully added permission ${permission.toString()} to role ${role.name}.`);
                             outputEmbedText += `**${permission}**: Permission added successfully\n`
                         } catch (e) {
@@ -135,7 +135,7 @@ const command: ICommand = {
                     case '-':
                         try {
                             await timeout(300); // setting a short timeout to prevent abuse of Discord's API
-                            await (textChannel as TextChannel).updateOverwrite(role, textChannelPermissionDisable.get((permission as PermissionResolvable))); // remove the permission given
+                            await (textChannel as TextChannel).permissionOverwrites.create(role, textChannelPermissionDisable.get((permission as PermissionResolvable))); // remove the permission given
                             console.log(`Successfully removed permission ${permission.toString()} from role ${role.name}.`);
                             outputEmbedText += `**${permission}**: Permission removed successfully\n`
                         } catch (e) {
@@ -152,7 +152,7 @@ const command: ICommand = {
                 console.log('Operation is reset.')
                 try {
                     await timeout(300); // setting a short timeout to prevent abuse of Discord's API
-                    const currentOverwrites = (textChannel as TextChannel).permissionOverwrites.get(role.id); // get the current permissions for the role
+                    const currentOverwrites = (textChannel as TextChannel).permissionOverwrites.cache.get(role.id); // get the current permissions for the role
                     if (currentOverwrites) { // only act if the permission overwrites actually exist
                         await currentOverwrites.delete(); // attempt to delete permission overwrites
                     }
@@ -170,7 +170,7 @@ const command: ICommand = {
             outputEmbed.addField('\u200B', outputEmbedText); // add whatever text was accumulated throughout the command to the embed
             if (outputEmbedText !== '') { // check if there is actually any text to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Modified perimssions of role:** ${role.name}\n**Modified role's permissions in:** ${(textChannel as TextChannel).name}`);
-                await message.channel.send(outputEmbed);
+                await message.channel.send({ embeds: [outputEmbed] });
             }
             console.log(`Command changetextpermissions, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {

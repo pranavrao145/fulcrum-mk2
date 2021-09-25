@@ -1,5 +1,5 @@
-import {Message} from 'discord.js';
-import {Client} from 'pg';
+import { Message } from 'discord.js';
+import { Client } from 'pg';
 
 // interface for a bot command
 export interface ICommand {
@@ -17,4 +17,4 @@ export interface ICommand {
     syntax: string
     execute(message: Message | any, _con: Client, args?: string[]): any
 }
- 
+

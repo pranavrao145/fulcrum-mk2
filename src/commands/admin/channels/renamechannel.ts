@@ -1,7 +1,7 @@
-import {Message, MessageEmbed, TextChannel, VoiceChannel} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {getChannelFromMention, getRoleFromMention} from '../../../utils/helpers';
+import { Message, MessageEmbed, TextChannel, VoiceChannel } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { getChannelFromMention, getRoleFromMention } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'renamechannel',
@@ -15,7 +15,7 @@ const command: ICommand = {
             .setColor('#FFFCF4')
             .setTitle('Rename Channel - Report');
 
-        if (!message.member!.hasPermission('MANAGE_CHANNELS')) { // check for adequate permissions
+        if (!message.member!.permissions.has('MANAGE_CHANNELS')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `MANAGE_CHANNELS` permission to use this command.');
@@ -57,7 +57,7 @@ const command: ICommand = {
                 outputEmbed.addField('Status', 'Failed');
             }
         } else if (vcRole) { // else if a role is given, check if it is associated with a voice channel
-            const voiceChannel = message.guild!.channels.cache.filter(c => c.type === 'voice').find(c => c.name === vcRole.name); // attempt to get the voice channel associated with the role
+            const voiceChannel = message.guild!.channels.cache.filter(c => c.type === 'GUILD_VOICE').find(c => c.name === vcRole.name); // attempt to get the voice channel associated with the role
 
             if (!voiceChannel) { // if the channel associated with the role does not exist
                 console.log('No voice channel found associated with the role supplied. Stopping execution.');
@@ -95,7 +95,7 @@ const command: ICommand = {
 
         try { // send output embed with information about the command's success
             if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
-                await message.channel.send(outputEmbed);
+                await message.channel.send({ embeds: [outputEmbed] });
             }
             console.log(`Command define, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {

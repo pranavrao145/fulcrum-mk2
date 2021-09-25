@@ -1,7 +1,7 @@
-import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {timeout} from '../../../utils/helpers';
+import { Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { timeout } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'setupvcroles',
@@ -9,16 +9,16 @@ const command: ICommand = {
     alias: ['svc'],
     syntax: 'f!setupvcroles',
     async execute(message: Message, _con: Client, _args?: string[]) {
-        console.log(`Command setupvcroles started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`); 
+        console.log(`Command setupvcroles started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         const outputEmbed = new MessageEmbed() // create a new embed for output
-        .setColor('#FFFCF4')
-        .setTitle('Setup Voice Channel Roles - Report');
+            .setColor('#FFFCF4')
+            .setTitle('Setup Voice Channel Roles - Report');
 
         let overallSuccess = true; // to keep track of whether or not the function was overall successful
 
 
-        if (!message.member!.hasPermission('MANAGE_ROLES')) { // check for adequate permissions
+        if (!message.member!.permissions.has('MANAGE_ROLES')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `MANAGE_ROLES` permission to use this command.');
@@ -36,15 +36,15 @@ const command: ICommand = {
             console.log(e);
         }
 
-        const voiceChannels = message.guild!.channels.cache.filter(c => c.type === 'voice').values(); // get all the voice channels in the server
+        const voiceChannels = message.guild!.channels.cache.filter(c => c.type === 'GUILD_VOICE').values(); // get all the voice channels in the server
 
         for (const voiceChannel of voiceChannels) { // iterate through each of the voice channel IDs to create a voice channel role for each
             if (!voiceChannel) { // check if the voice channel actually exists
                 console.log(`A voice channel did not exist. Skipping over it.`)
                 continue;
             }
-            
-           
+
+
             const vcRole = message.guild!.roles.cache.find(r => r.name === voiceChannel.name); // attempt to find a role in the server with the same name as the channel
 
             if (vcRole) { // check if the role already exists
@@ -55,9 +55,7 @@ const command: ICommand = {
             try {
                 await timeout(300);
                 const vcRoleCreated = await message.guild!.roles.create({ // create the role with the same name as the voice channel
-                    data: {
-                        name: voiceChannel.name,
-                    }
+                    name: voiceChannel.name,
                 });
                 console.log(`Role ${vcRoleCreated.name} created successfully.`)
             } catch (e) {
@@ -78,7 +76,7 @@ const command: ICommand = {
         try { // send output embed with information about the command's success
             if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
-                await message.channel.send(outputEmbed);
+                await message.channel.send({ embeds: [outputEmbed] });
             }
             console.log(`Command setupvcroles, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {

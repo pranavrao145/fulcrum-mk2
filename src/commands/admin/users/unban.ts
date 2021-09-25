@@ -1,6 +1,6 @@
-import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
+import { Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
 
 const command: ICommand = {
     name: 'unban',
@@ -14,7 +14,7 @@ const command: ICommand = {
             .setColor('#FFFCF4')
             .setTitle('Unban - Report')
 
-        if (!message.member!.hasPermission('BAN_MEMBERS')) { // check for adequate permissions
+        if (!message.member!.permissions.has('BAN_MEMBERS')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `BAN_MEMBERS` permission to use this command.');
@@ -42,7 +42,7 @@ const command: ICommand = {
         let ban: any; // declaring ban object for use with logic below
 
         try {
-            ban = await message.guild!.fetchBan(userID!); // attempt to get the user's ban info
+            ban = await message.guild!.bans.fetch(userID!); // attempt to get the user's ban info
         } catch (e) {
             console.log('User ID supplied was invalid or couldn\'t find ban. Stopping execution.');
             try {
@@ -79,7 +79,7 @@ const command: ICommand = {
         try { // send output embed with information about the command's success
             if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**User unbanned:** ${ban!.user.tag}`);
-                await message.channel.send(outputEmbed);
+                await message.channel.send({ embeds: [outputEmbed] });
             }
             console.log(`Command unban, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {

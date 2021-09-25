@@ -1,7 +1,7 @@
-import {Guild, Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {timeout} from '../../../utils/helpers';
+import { Guild, Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { timeout } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'updatechannelcount',
@@ -16,7 +16,7 @@ const command: ICommand = {
                 .setColor('#FFFCF4')
                 .setTitle('Update Channel Count - Report')
 
-            if (!message.member!.hasPermission('MANAGE_CHANNELS')) { // check for adequate permissions
+            if (!message.member!.permissions.has('MANAGE_CHANNELS')) { // check for adequate permissions
                 try {
                     console.log('Insufficient permissions. Stopping execution.')
                     return await message.reply('sorry, you need to have the `MANAGE_CHANNELS` permission to use this command.');
@@ -59,7 +59,7 @@ const command: ICommand = {
                     }
                 }
 
-                const channelCount = message.guild!.channels.cache.filter(c => c.type === 'text' || c.type === 'voice').size; // get the number of channels in the guild
+                const channelCount = message.guild!.channels.cache.filter(c => c.type === 'GUILD_TEXT' || c.type === 'GUILD_VOICE').size; // get the number of channels in the guild
                 const nameToBeSet = `💬|Channel Count: ${channelCount}` // what the channel count channel should display
 
                 if (voiceChannel.name === nameToBeSet) { // if the voice channel name is already correct, no need to change it
@@ -91,7 +91,7 @@ const command: ICommand = {
             try { // send output embed with information about the command's success
                 if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                     outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
-                    await message.channel.send(outputEmbed);
+                    await message.channel.send({ embeds: [outputEmbed] });
                 }
                 console.log(`Command updatechannelcount, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
             } catch (e) {
@@ -121,7 +121,7 @@ const command: ICommand = {
                     return;
                 }
 
-                const channelCount = message.channels.cache.filter(c => c.type === 'text' || c.type === 'voice').size; // get the number of channels in the guild
+                const channelCount = message.channels.cache.filter(c => c.type === 'GUILD_TEXT' || c.type === 'GUILD_VOICE').size; // get the number of channels in the guild
                 const nameToBeSet = `💬|Channel Count: ${channelCount}` // what the channel count channel should display
 
                 if (voiceChannel.name === nameToBeSet) { // if the voice channel name is already correct, no need to change it

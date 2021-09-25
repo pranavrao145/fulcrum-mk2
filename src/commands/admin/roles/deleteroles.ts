@@ -1,7 +1,7 @@
-import {ICommand} from '../../../utils/types';
-import {Message, MessageEmbed} from 'discord.js';
-import {Client} from 'pg';
-import {getRoleFromMention, timeout} from '../../../utils/helpers';
+import { ICommand } from '../../../utils/types';
+import { Message, MessageEmbed } from 'discord.js';
+import { Client } from 'pg';
+import { getRoleFromMention, timeout } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'deleteroles',
@@ -17,7 +17,7 @@ const command: ICommand = {
 
         let outputEmbedText: string = ''; // text that will eventually be sent as a field in outputEmbed. Mainly for formatting
 
-        if (!message.member!.hasPermission('MANAGE_ROLES')) { // check for adequate permissions
+        if (!message.member!.permissions.has('MANAGE_ROLES')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `MANAGE_ROLES` permission to use this command.');
@@ -73,7 +73,7 @@ const command: ICommand = {
             outputEmbed.addField('\u200B', outputEmbedText); // add whatever text was accumulated throughout the command to the embed
             if (outputEmbedText !== '') { // check if there is actually any text to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
-                await message.channel.send(outputEmbed);
+                await message.channel.send({ embeds: [outputEmbed] });
             }
             console.log(`Command deleteroles, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {

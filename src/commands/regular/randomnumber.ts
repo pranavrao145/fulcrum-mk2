@@ -1,7 +1,7 @@
-import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../utils/types';
-import {Client} from 'pg';
-import {getRandomInteger} from '../../utils/helpers';
+import { Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../utils/types';
+import { Client } from 'pg';
+import { getRandomInteger } from '../../utils/helpers';
 
 
 const command: ICommand = {
@@ -29,12 +29,12 @@ const command: ICommand = {
 
         const min = args.shift(); // get the minimum number given
         const max = args.shift(); // get the maximum number given  
- 
+
         // conver the strings to integers for validation and comparison
         const numMin = parseInt(min!);
-        const numMax= parseInt(max!);
+        const numMax = parseInt(max!);
 
-        if(isNaN(numMin) || isNaN(numMax)) { // if either the minimum or the maximum is not a number
+        if (isNaN(numMin) || isNaN(numMax)) { // if either the minimum or the maximum is not a number
             try {
                 console.log('Invalid value given for minimum or maximum value. Stopping execution.')
                 return await message.channel.send('Invalid number for one or more arguments.');
@@ -51,7 +51,7 @@ const command: ICommand = {
         try { // send output embed with information about the command's success
             if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n\n**Range start:** ${numMin}\n**Range end:** ${numMax}`);
-                await message.channel.send(outputEmbed);
+                await message.channel.send({ embeds: [outputEmbed] });
             }
             console.log(`Command randomnumber, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {

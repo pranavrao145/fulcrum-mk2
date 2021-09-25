@@ -1,7 +1,7 @@
-import {Message, MessageEmbed, TextChannel, VoiceChannel} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {getChannelFromMention, getRoleFromMention, timeout} from '../../../utils/helpers';
+import { Message, MessageEmbed, TextChannel, VoiceChannel } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { getChannelFromMention, getRoleFromMention, timeout } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'deletechannels',
@@ -17,7 +17,7 @@ const command: ICommand = {
 
         let outputEmbedText: string = ''; // text that will eventually be sent as a field in outputEmbed. Mainly for formatting
 
-        if (!message.member!.hasPermission('MANAGE_CHANNELS')) { // check for adequate permissions
+        if (!message.member!.permissions.has('MANAGE_CHANNELS')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `MANAGE_CHANNELS` permission to use this command.');
@@ -54,7 +54,7 @@ const command: ICommand = {
                     outputEmbedText += `\n**${(textChannel as TextChannel).name}**: Couldn\'t delete channel.`;
                 }
             } else if (vcRole) { // else if a role is given, check if it is associated with a voice channel
-                const voiceChannel = message.guild!.channels.cache.filter(c => c.type === 'voice').find(c => c.name === vcRole.name); // attempt to get the voice channel associated with the role
+                const voiceChannel = message.guild!.channels.cache.filter(c => c.type === 'GUILD_VOICE').find(c => c.name === vcRole.name); // attempt to get the voice channel associated with the role
 
                 if (!voiceChannel) { // if the channel associated with the role does not exist
                     console.log('Role supplied was invalid or not associated with a voice channel. Skipping over it.');
@@ -83,7 +83,7 @@ const command: ICommand = {
             outputEmbed.addField('\u200B', outputEmbedText); // add whatever text was accumulated throughout the command to the embed
             if (outputEmbedText !== '') { // check if there is actually any text to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
-                await message.channel.send(outputEmbed);
+                await message.channel.send({ embeds: [outputEmbed] });
             }
             console.log(`Command deletechannels, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {

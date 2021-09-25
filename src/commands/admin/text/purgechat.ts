@@ -1,7 +1,7 @@
-import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {timeout} from '../../../utils/helpers';
+import { Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { timeout } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'purgechat',
@@ -15,7 +15,7 @@ const command: ICommand = {
             .setColor('#FFFCF4')
             .setTitle('Purge Chat - Report')
 
-        if (!message.member!.hasPermission('MANAGE_MESSAGES')) { // check for adequate permissions
+        if (!message.member!.permissions.has('MANAGE_MESSAGES')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `MANAGE_MESSAGES` permission to use this command.');
@@ -63,7 +63,7 @@ const command: ICommand = {
             }
         }
 
-        if (message.channel.type !== 'text') { // check if the channel type is actually a text channel (or can't bulk delete)
+        if (message.channel.type !== 'GUILD_TEXT') { // check if the channel type is actually a text channel (or can't bulk delete)
             try {
                 console.log('Invalid channel type for purge chat. Stopping execution.');
                 return await message.channel.send('Can\'t use purgechat in this type of channel!')
@@ -86,7 +86,7 @@ const command: ICommand = {
             if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
                 outputEmbed.setFooter(`This message will be automatically deleted in 5 seconds.`)
-                const outputEmbedMessage = await message.channel.send(outputEmbed); // keep track of the message with the embed for deletion
+                const outputEmbedMessage = await message.channel.send({ embeds: [outputEmbed] }); // keep track of the message with the embed for deletion
                 await timeout(5000); // wait 5 seconds
                 await outputEmbedMessage.delete(); // delete output embed message
             }

@@ -1,7 +1,7 @@
-import {Guild, Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {timeout} from '../../../utils/helpers';
+import { Guild, Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { timeout } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'updatemembercount',
@@ -16,7 +16,7 @@ const command: ICommand = {
                 .setColor('#FFFCF4')
                 .setTitle('Update Member Count - Report')
 
-            if (!message.member!.hasPermission('MANAGE_CHANNELS')) { // check for adequate permissions
+            if (!message.member!.permissions.has('MANAGE_CHANNELS')) { // check for adequate permissions
                 try {
                     console.log('Insufficient permissions. Stopping execution.')
                     return await message.reply('sorry, you need to have the `MANAGE_CHANNELS` permission to use this command.');
@@ -91,7 +91,7 @@ const command: ICommand = {
             try { // send output embed with information about the command's success
                 if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                     outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
-                    await message.channel.send(outputEmbed);
+                    await message.channel.send({ embeds: [outputEmbed] });
                 }
                 console.log(`Command updatemembercount, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
             } catch (e) {

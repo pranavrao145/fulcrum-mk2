@@ -1,7 +1,7 @@
-import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../utils/types';
-import {Client} from 'pg';
-import {Parser} from 'expr-eval';
+import { Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../utils/types';
+import { Client } from 'pg';
+import { Parser } from 'expr-eval';
 
 const command: ICommand = {
     name: 'math',
@@ -30,7 +30,7 @@ const command: ICommand = {
         try {
             const result = Parser.evaluate(mathExpression); // attempt to evaluate the expression they give
             console.log(`Expression ${mathExpression} evaluated successfully.`)
-            outputEmbed.addField('Result', result);
+            outputEmbed.addField('Result', result.toString());
         } catch (e) { // if the expressions is invalid (fails to evaluate or error)
             console.log('Failed to evaluate expression.')
             outputEmbed.addField('Result', 'Error');
@@ -39,7 +39,7 @@ const command: ICommand = {
         try { // send output embed with information about the command's success
             if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Expression evaluated:** ${mathExpression}`);
-                await message.channel.send(outputEmbed);
+                await message.channel.send({ embeds: [outputEmbed] });
             }
             console.log(`Command math, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {

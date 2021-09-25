@@ -1,7 +1,7 @@
-import {Message, MessageEmbed, TextChannel, VoiceChannel} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {timeout} from '../../../utils/helpers';
+import { Message, MessageEmbed, TextChannel, VoiceChannel } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { timeout } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'unlockdown',
@@ -14,7 +14,7 @@ const command: ICommand = {
             .setColor('#FFFCF4')
             .setTitle('Unlockdown - Report')
 
-        if (!message.member!.hasPermission('ADMINISTRATOR')) { // check for adequate permissions
+        if (!message.member!.permissions.has('ADMINISTRATOR')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `ADMINISTRATOR` permission to use this command.');
@@ -32,18 +32,18 @@ const command: ICommand = {
             console.log(e);
         }
 
-        const textChannels = message.guild!.channels.cache.filter(c => c.type === 'text').values(); // get all text channels in guild
-        const voiceChannels = message.guild!.channels.cache.filter(c => c.type === 'voice').values(); // get all voice channels in guild
+        const textChannels = message.guild!.channels.cache.filter(c => c.type === 'GUILD_TEXT').values(); // get all text channels in guild
+        const voiceChannels = message.guild!.channels.cache.filter(c => c.type === 'GUILD_VOICE').values(); // get all voice channels in guild
 
         let overallUnlockingSuccess = true; // variable to hold whether or not all channels were unlocked successfully
 
         for (const textChannel of textChannels) { // iterate through each of the text channels in the guild
             try {
                 await timeout(300); // setting a short timeout to prevent abuse of Discord's API
-                await (textChannel as TextChannel).permissionOverwrites.get(message.guild!.roles.everyone.id)!.delete();
+                await (textChannel as TextChannel).permissionOverwrites.cache.get(message.guild!.roles.everyone.id)!.delete();
                 console.log(`Successfully unlocked ${(textChannel as TextChannel).name}.`);
             } catch (e) {
-                console.log(`Failed to unlock ${(textChannel as TextChannel).name}.`); 
+                console.log(`Failed to unlock ${(textChannel as TextChannel).name}.`);
                 overallUnlockingSuccess = false;
             }
         }
@@ -51,10 +51,10 @@ const command: ICommand = {
         for (const voiceChannel of voiceChannels) { // iterate through each of the voice channels in the guild
             try {
                 await timeout(300); // setting a short timeout to prevent abuse of Discord's API
-                await (voiceChannel as VoiceChannel).permissionOverwrites.get(message.guild!.roles.everyone.id)!.delete();
+                await (voiceChannel as VoiceChannel).permissionOverwrites.cache.get(message.guild!.roles.everyone.id)!.delete();
                 console.log(`Successfully unlocked ${(voiceChannel as VoiceChannel).name}.`);
             } catch (e) {
-                console.log(`Failed to unlock ${(voiceChannel as VoiceChannel).name}.`); 
+                console.log(`Failed to unlock ${(voiceChannel as VoiceChannel).name}.`);
                 overallUnlockingSuccess = false;
             }
         }
@@ -69,7 +69,7 @@ const command: ICommand = {
         try { // send output embed with information about the command's success
             if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
-                await message.channel.send(outputEmbed);
+                await message.channel.send({ embeds: [outputEmbed] });
             }
             console.log(`Command unlockdown, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {

@@ -1,7 +1,7 @@
 import translate from '@iamtraction/google-translate';
-import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../utils/types';
-import {Client} from 'pg';
+import { Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../utils/types';
+import { Client } from 'pg';
 
 const command: ICommand = {
     name: 'translate',
@@ -30,7 +30,7 @@ const command: ICommand = {
         const phrase = args.join(' '); // join the rest of the message to get the phrase to translate
 
         try {
-            const translation = await translate(phrase, {to: toLang}); // request api for translation with the given data
+            const translation = await translate(phrase, { to: toLang }); // request api for translation with the given data
             outputEmbed.addField(`Translation to ${toLang}`, translation.text);
         } catch (e) {
             console.log('There was an error translating the phrase given.')
@@ -40,7 +40,7 @@ const command: ICommand = {
         try { // send output embed with information about the command's success
             if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Phrase translated:** ${phrase}`);
-                await message.channel.send(outputEmbed);
+                await message.channel.send({ embeds: [outputEmbed] });
             }
             console.log(`Command translate, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {

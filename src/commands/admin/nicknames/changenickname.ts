@@ -1,21 +1,21 @@
-import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {getUserFromMention} from '../../../utils/helpers';
+import { Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { getUserFromMention } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'changenickname',
     description: 'Changes the nickname of the given user to the new nickname given.',
     alias: ['changenick', 'cn'],
-    syntax: 'f!changenickname [user mention] [new nickname]',
+    syntax: 'f!changenickname [user mention] [new nickname (underscores for spaces)]',
     async execute(message: Message, _con: Client, args?: string[]) {
         console.log(`Command lock started by user ${message.member!.user.tag} in guild ${message.guild!.name}.`);
 
         const outputEmbed = new MessageEmbed() // create a new embed for output
-        .setColor('#FFFCF4')
-        .setTitle('Change Nickname - Report');
+            .setColor('#FFFCF4')
+            .setTitle('Change Nickname - Report');
 
-        if (!message.member!.hasPermission('MANAGE_NICKNAMES')) { // check for adequate permissions
+        if (!message.member!.permissions.has('MANAGE_NICKNAMES')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `MANAGE_NICKNAMES` permission to use this command.');
@@ -64,7 +64,7 @@ const command: ICommand = {
             }
         }
 
-        try  { // attempt to set the user's nickname to the new nickname given
+        try { // attempt to set the user's nickname to the new nickname given
             await user.setNickname(newNick);
             console.log(`Successfully changed ${user!.user.tag}'s nickname to ${user.nickname}.'`);
             outputEmbed.addField('Status', 'Success');
@@ -76,7 +76,7 @@ const command: ICommand = {
         try { // send output embed with information about the command's success
             if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Changed nickname of:** ${user!.user.tag}\n**Changed to:** ${user.nickname}`);
-                await message.channel.send(outputEmbed);
+                await message.channel.send({ embeds: [outputEmbed] });
             }
             console.log(`Command changenickname, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {

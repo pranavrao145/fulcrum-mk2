@@ -1,7 +1,7 @@
-import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {timeout} from '../../../utils/helpers';
+import { Collection, GuildMember, Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { timeout } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'updatevcroles',
@@ -17,7 +17,7 @@ const command: ICommand = {
 
         let overallSuccess = true;
 
-        if (!message.member!.hasPermission('MANAGE_ROLES')) { // check for adequate permissions
+        if (!message.member!.permissions.has('MANAGE_ROLES')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `MANAGE_ROLES` permission to use this command.');
@@ -35,7 +35,7 @@ const command: ICommand = {
             console.log(e);
         }
 
-        const voiceChannels = message.guild!.channels.cache.filter(c => c.type === 'voice').values(); // get all the voice channels in the server
+        const voiceChannels = message.guild!.channels.cache.filter(c => c.type === 'GUILD_VOICE').values(); // get all the voice channels in the server
 
         for (const voiceChannel of voiceChannels) { // iterate through each of the voice channels and add/remove role as neccessary
             if (!voiceChannel) { // check if the voice channel actually exists
@@ -50,7 +50,7 @@ const command: ICommand = {
                 continue;
             }
 
-            const vcMembers = voiceChannel.members.values(); // get the members of the voice channel
+            const vcMembers = (voiceChannel.members as Collection<string, GuildMember>).values(); // get the members of the voice channel
 
             // make sure all the people in the voice channel have the role
             for (const vcMember of vcMembers) {
@@ -105,7 +105,7 @@ const command: ICommand = {
         try { // send output embed with information about the command's success
             if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
-                await message.channel.send(outputEmbed);
+                await message.channel.send({ embeds: [outputEmbed] });
             }
             console.log(`Command updatevcroles, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {

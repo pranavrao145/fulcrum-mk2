@@ -4,14 +4,27 @@ dotenv.config();
 
 // import all necessary modules
 import Discord from 'discord.js';
-import {Client} from 'pg';
+import { Client } from 'pg';
 import * as database from './utils/database';
 import glob from 'glob';
-import {promisify} from 'util';
-import {ICommand} from './utils/types';
+import { promisify } from 'util';
+import { ICommand } from './utils/types';
 import schedule from 'node-schedule';
 
-const client: Discord.Client = new Discord.Client(); // initialize client object
+// initialize client object with allt the necessary intents
+const client: Discord.Client = new Discord.Client({
+    intents: [
+        Discord.Intents.FLAGS.GUILDS,
+        Discord.Intents.FLAGS.GUILD_BANS,
+        Discord.Intents.FLAGS.GUILD_INVITES,
+        Discord.Intents.FLAGS.GUILD_MEMBERS,
+        Discord.Intents.FLAGS.GUILD_MESSAGES,
+        Discord.Intents.FLAGS.GUILD_PRESENCES,
+        Discord.Intents.FLAGS.GUILD_VOICE_STATES,
+        Discord.Intents.FLAGS.GUILD_MESSAGE_TYPING
+    ]
+});
+
 const prefix = 'f!'; // declare prefix
 
 // DATABASE CONNECTION
@@ -55,12 +68,14 @@ client.on('ready', async () => {
     console.log(`Currently in ${client.guilds.cache.size} guilds!`);
 
     try {
-        await client.user!.setPresence({
+        client.user!.setPresence({
             status: 'online',
-            activity: {
-                name: 'f!help',
-                type: 'WATCHING'
-            },
+            activities: [
+                {
+                    name: 'f!help',
+                    type: 'WATCHING'
+                }
+            ],
         })
     }
     catch (e) {
@@ -84,7 +99,7 @@ client.on('ready', async () => {
 });
 
 // on a message, parse message for commands and execute accordingly
-client.on('message', async (message: Discord.Message) => {
+client.on('messageCreate', async (message: Discord.Message) => {
     // check if the message contains the prefix, and is not by a bot or in a dm 
     if (!message.content.toLowerCase().startsWith(prefix) || message.author.bot || message.guild === null) return;
 
@@ -186,7 +201,7 @@ client.on('voiceStateUpdate', async (oldState: Discord.VoiceState, newState: Dis
 // every time a voice channel is created, set up the associated voice channel role automatically
 client.on('channelCreate', async (channel: Discord.Channel) => {
     if (!channel) return; // ensure that the channel created exists 
-    if (channel.type !== 'voice') return; // ensure the channel created is a voice channel
+    if (channel.type !== 'GUILD_VOICE') return; // ensure the channel created is a GUILD_VOICE channel
     if (!(channel as Discord.VoiceChannel).guild) return; // check that the voice channel is actually associated with a guild
 
     console.log(`Voice channel creation detected in guild ${(channel as Discord.VoiceChannel).guild}. Attempting to create associated voice channel role.`);
@@ -200,9 +215,7 @@ client.on('channelCreate', async (channel: Discord.Channel) => {
 
     try {
         const vcRoleCreated = await (channel as Discord.VoiceChannel).guild.roles.create({ // create the role with the same name as the voice channel
-            data: {
-                name: (channel as Discord.VoiceChannel).name,
-            }
+            name: (channel as Discord.VoiceChannel).name,
         });
         console.log(`Role ${vcRoleCreated.name} created successfully.`)
     } catch (e) {
@@ -217,7 +230,7 @@ client.on('channelCreate', async (channel: Discord.Channel) => {
 // every time a voice channel is deleted, delete the associated voice channel role automatically
 client.on('channelDelete', async (channel: Discord.Channel) => {
     if (!channel) return; // ensure that the channel deleted existed 
-    if (channel.type !== 'voice') return; // ensure the channel deleted was a voice channel
+    if (channel.type !== 'GUILD_VOICE') return; // ensure the channel deleted was a GUILD_VOICE channel
     if (!(channel as Discord.VoiceChannel).guild) return; // check that the voice channel was actually associated with a guild
 
     console.log(`Voice channel deletion detected in guild ${(channel as Discord.VoiceChannel).guild}. Attempting to delete associated voice channel role.`);
@@ -243,7 +256,7 @@ client.on('channelDelete', async (channel: Discord.Channel) => {
 
 // every time a voice channel is updated, update the associated voice channel role
 client.on('channelUpdate', async (oldChannel: Discord.Channel, newChannel: Discord.Channel) => {
-    if (!(oldChannel.type === 'voice' && newChannel.type === 'voice')) return; // if the channel is not a voice channel, stop the function
+    if (!(oldChannel.type === 'GUILD_VOICE' && newChannel.type === 'GUILD_VOICE')) return; // if the channel is not a GUILD_VOICE channel, stop the function
 
     console.log(`Voice channel update detected in ${(newChannel as Discord.VoiceChannel).guild.name}. Attempting to update voice channel role.`);
 
@@ -299,7 +312,7 @@ client.on('guildMemberRemove', async (member: Discord.GuildMember | Discord.Part
 
 // automatically update channel count when a new channel is created
 client.on('channelCreate', async (channel: Discord.Channel) => {
-    if (!(channel && channel.type === 'voice' || channel.type === 'text')) return; // check that the channel actually exists, is of type text or voice, and is associated with a guild
+    if (!(channel && channel.type === 'GUILD_VOICE' || channel.type === 'GUILD_TEXT')) return; // check that the channel actually exists, is of type GUILD_TEXT or GUILD_VOICE, and is associated with a guild
 
     console.log(`Detected new channel created in ${(channel as Discord.TextChannel || Discord.VoiceChannel).guild.name}. Attempting to update channel count.`)
 
@@ -315,7 +328,7 @@ client.on('channelCreate', async (channel: Discord.Channel) => {
 
 // automatically update channel count when a channel is deleted
 client.on('channelDelete', async (channel: Discord.Channel) => {
-    if (!(channel && channel.type === 'voice' || channel.type === 'text')) return; // check that the channel actually exists, is of type text or voice, and is associated with a guild
+    if (!(channel && channel.type === 'GUILD_VOICE' || channel.type === 'GUILD_TEXT')) return; // check that the channel actually exists, is of type GUILD_TEXT or GUILD_VOICE, and is associated with a guild
 
     console.log(`Detected channel deleted in ${(channel as Discord.TextChannel || Discord.VoiceChannel).guild.name}. Attempting to update channel count.`)
 
@@ -339,7 +352,7 @@ client.on("guildCreate", (guild: Discord.Guild) => {
         channel = guild.systemChannel;
     } else {
         console.log('Guild system channel not found. Falling back to first channel where bot has SEND_MESSAGES perimssion.');
-        const textChannels = guild.channels.cache.filter(c => c.type === 'text'); // get text channels in the guild
+        const textChannels = guild.channels.cache.filter(c => c.type === 'GUILD_TEXT'); // get text channels in the guild
 
         if (!textChannels) { // if no text channels exist
             console.log('Guild has no text channels. Stopping execution.');

@@ -1,7 +1,7 @@
-import {Message, MessageEmbed} from 'discord.js';
-import {ICommand} from '../../../utils/types';
-import {Client} from 'pg';
-import {getChannelFromMention, getRoleFromMention, getUserFromMention} from '../../../utils/helpers';
+import { Message, MessageEmbed } from 'discord.js';
+import { ICommand } from '../../../utils/types';
+import { Client } from 'pg';
+import { getChannelFromMention, getRoleFromMention, getUserFromMention } from '../../../utils/helpers';
 
 const command: ICommand = {
     name: 'createchannel',
@@ -15,7 +15,7 @@ const command: ICommand = {
             .setColor('#FFFCF4')
             .setTitle('Create Channel - Report');
 
-        if (!message.member!.hasPermission('MANAGE_CHANNELS')) { // check for adequate permissions
+        if (!message.member!.permissions.has('MANAGE_CHANNELS')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
                 return await message.reply('sorry, you need to have the `MANAGE_CHANNELS` permission to use this command.');
@@ -59,7 +59,7 @@ const command: ICommand = {
 
             const typeFormatted = type!.toLowerCase(); // lowercase the type for consistent formatting
 
-            if (typeFormatted !== 'text' && typeFormatted !== 'voice') { // check if the type given was valid
+            if (typeFormatted !== 'GUILD_TEXT' && typeFormatted !== 'GUILD_VOICE') { // check if the type given was valid
                 try {
                     console.log('Type supplied was invalid. Stopping execution.');
                     return await message.channel.send('Invalid value for type! Must be text or voice.')
@@ -75,7 +75,7 @@ const command: ICommand = {
                 outputEmbed.addField(`${channelName}`, 'Invalid channel name or channel already exists on this server.');
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
                 try { // send output embed with information about the command's success
-                    return await message.channel.send(outputEmbed);
+                    return await message.channel.send({ embeds: [outputEmbed] });
                 } catch (e) {
                     console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
                     console.log(e);
@@ -122,7 +122,7 @@ const command: ICommand = {
 
             const typeFormatted = type!.toLowerCase(); // lowercase the type for consistent formatting
 
-            if (typeFormatted !== 'text' && typeFormatted !== 'voice') { // check if the type given was valid
+            if (typeFormatted !== 'GUILD_TEXT' && typeFormatted !== 'GUILD_VOICE') { // check if the type given was valid
                 try {
                     console.log('Type supplied was invalid. Stopping execution.');
                     return await message.channel.send('Invalid value for type! Must be text or voice.')
@@ -138,7 +138,7 @@ const command: ICommand = {
                 outputEmbed.addField(`${channelName}`, 'Invalid channel name or channel already exists on this server.');
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
                 try { // send output embed with information about the command's success
-                    return await message.channel.send(outputEmbed);
+                    return await message.channel.send({ embeds: [outputEmbed] });
                 } catch (e) {
                     console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
                     console.log(e);
@@ -167,7 +167,7 @@ const command: ICommand = {
                 outputEmbed.addField(`${channelName}`, 'Invalid channel name or channel already exists on this server.');
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}`);
                 try { // send output embed with information about the command's success
-                    return await message.channel.send(outputEmbed);
+                    return await message.channel.send({ embeds: [outputEmbed] });
                 } catch (e) {
                     console.log(`There was an error sending an embed in the guild ${message.guild!.name}! The error message is below:`);
                     console.log(e);
@@ -179,7 +179,7 @@ const command: ICommand = {
                 await message.guild!.channels.create(channelName);  // create a channel with the defualt options 
 
                 outputEmbed.addField(`Status`, 'Success');
-                outputEmbed.addField('Type', 'Text');
+                outputEmbed.addField('Type', 'GUILD_TEXT');
                 outputEmbed.addField('Privacy', 'Public');
             }
             catch (e) {
@@ -191,7 +191,7 @@ const command: ICommand = {
         try { // send output embed with information about the command's success
             if (outputEmbed.fields.length > 0) { // check if there are actually any fields to send the embed with
                 outputEmbed.setDescription(`**Command executed by:** ${message.member!.user.tag}\n**Channel created:** ${channelName}`);
-                await message.channel.send(outputEmbed);
+                await message.channel.send({ embeds: [outputEmbed] });
             }
             console.log(`Command createchannel, started by ${message.member!.user.tag}, terminated successfully in ${message.guild!.name}.`);
         } catch (e) {
