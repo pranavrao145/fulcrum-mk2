@@ -18,7 +18,7 @@ const command: ICommand = {
         if (!message.member!.permissions.has('MANAGE_CHANNELS')) { // check for adequate permissions
             try {
                 console.log('Insufficient permissions. Stopping execution.')
-                return await message.reply('sorry, you need to have the `MANAGE_CHANNELS` permission to use this command.');
+                return await message.reply('Sorry, you need to have the `MANAGE_CHANNELS` permission to use this command.');
             } catch (e) {
                 console.log(`There was an error sending a message in the guild ${message.guild!.name}! The error message is below:`);
                 console.log(e);
