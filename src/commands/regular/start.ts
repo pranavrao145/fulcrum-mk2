@@ -27,10 +27,6 @@ const command: ICommand = {
                         name: 'Services',
                         value: 'To see a full list of the services Fulcrum offers and how to set them up, run f!services.',
                     },
-                    {
-                        name: 'Support Server',
-                        value: 'To get the link to our support server, run f!supportserver.',
-                    },
                 )
 
             try { // send output embed with information about the command's success
@@ -62,10 +58,6 @@ const command: ICommand = {
                     {
                         name: 'Services',
                         value: 'To see a full list of the services Fulcrum offers and how to set them up, run f!services.',
-                    },
-                    {
-                        name: 'Support Server',
-                        value: 'To get the link to our support server, run f!supportserver.',
                     },
                 )
 
