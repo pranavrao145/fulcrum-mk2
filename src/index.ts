@@ -376,7 +376,6 @@ client.on("guildCreate", (guild: Discord.Guild) => {
             startCommand.execute(channel, con, undefined);
 
             (channel as Discord.TextChannel).send("**IMPORTANT:** Given that Fulcrum offers a variety of admin tools, please **ensure Fulcrum's role is above any role you want the bot to modify, and that Fulcrum can view and manage all channels you want it managing.** Otherwise, Fulcrum's features will not work properly.");
-            (channel as Discord.TextChannel).send("Join our support server: https://discord.gg/Yh4mkr88Hc");
             (channel as Discord.TextChannel).send("If you like the bot, please consider upvoting: https://top.gg/bot/827156281164955679");
         } catch (e) {
             console.log(`There was an error sending a message in the guild ${guild.name}! The error message is below:`);
