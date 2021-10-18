@@ -47,4 +47,3 @@ export function getRandomInteger(min: number, max: number) {
 export function isValidColor(color: string) {
     return /^#([0-9A-F]{3}){1,2}$/i.test(color);
 }
-
