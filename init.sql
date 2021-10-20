@@ -12,5 +12,3 @@ CREATE TABLE IF NOT EXISTS datechannel(
     guildid VARCHAR(18) NOT NULL,
     channelid VARCHAR(18) NOT NULL
 );
-
-
