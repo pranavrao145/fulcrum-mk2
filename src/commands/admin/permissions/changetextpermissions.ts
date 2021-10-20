@@ -46,7 +46,7 @@ const command: ICommand = {
         let role; // declare role object, to be determined later using logic below
 
         if (isNaN(parseInt(roleMention!))) { // if the arg is a mention and not a number
-            if (roleMention === "@everyone") { // special handling if the role is everyone
+            if (roleMention === "@everyone" || roleMention == "everyone" || roleMention == "everyone") { // special handling if the role is everyone
                 console.log('Role is everyone. Getting role from guild information.')
                 role = message.guild!.roles.everyone; // get everyone role
             } else {
