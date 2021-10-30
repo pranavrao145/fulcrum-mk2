@@ -47,14 +47,7 @@ const globPromise = promisify(glob);
 const commands: Array<ICommand> = [];
 
 // BOT EVENTS
-
-// log in as bot
-client.login(process.env.BOT_TOKEN).catch((err: any) => {
-  throw err;
-});
-
-// on ready, set status and log presence data
-client.on("ready", async () => {
+(async () => {
   // load in command files
   const commandFiles = await globPromise(`${__dirname}/commands/**/*.{js,ts}`); // identify command files
 
@@ -63,7 +56,10 @@ client.on("ready", async () => {
     commands.push(command);
     console.log(`Command ${command.name} loaded successfully.`);
   }
+})();
 
+// on ready, set status and log presence data
+client.on("ready", async () => {
   console.log(`Logged in as ${client.user!.tag}!`);
   console.log(`Currently in ${client.guilds.cache.size} guilds!`);
 
@@ -586,4 +582,9 @@ client.on("guildCreate", (guild: Discord.Guild) => {
       return;
     }
   }
+});
+
+// log in as bot
+client.login(process.env.BOT_TOKEN).catch((err: any) => {
+  throw err;
 });
