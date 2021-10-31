@@ -2,10 +2,12 @@ import { Message, MessageEmbed, TextChannel } from "discord.js";
 import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
 import { timeout } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "lock",
-  description: "Locks the current channel (makes it read only).",
+  slashCommand: new SlashCommandBuilder()
+    .setName("lock")
+    .setDescription("Locks the current channel (makes it read only)."),
   syntax: "f!lock",
   async execute(message: Message, _con: Client, _args?: string[]) {
     console.log(

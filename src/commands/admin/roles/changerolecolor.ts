@@ -2,11 +2,14 @@ import { ColorResolvable, Message, MessageEmbed } from "discord.js";
 import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
 import { getRoleFromMention, isValidColor } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "changerolecolor",
-  description:
-    "Changes the colour of the given role to the new colour specified.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("changerolecolor")
+    .setDescription(
+      "Changes the colour of the given role to the new colour specified."
+    ),
   alias: ["crc"],
   syntax: "f!changerolecolor [role mention or number] [new color code]",
   async execute(message: Message, _con: Client, args?: string[]) {

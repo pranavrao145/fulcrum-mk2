@@ -2,11 +2,14 @@ import { Message, MessageEmbed } from "discord.js";
 import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
 import { getUserFromMention } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "changenickname",
-  description:
-    "Changes the nickname of the given user to the new nickname given.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("changenickname")
+    .setDescription(
+      "Changes the nickname of the given user to the new nickname given."
+    ),
   alias: ["changenick", "cn"],
   syntax:
     "f!changenickname [user mention] [new nickname (underscores for spaces)]",

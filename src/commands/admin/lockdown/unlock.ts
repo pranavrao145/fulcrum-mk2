@@ -2,11 +2,14 @@ import { Message, MessageEmbed, TextChannel } from "discord.js";
 import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
 import { timeout } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "unlock",
-  description:
-    "Unlocks the current channel (makes it read and write for the @everyone role, as it is by default).",
+  slashCommand: new SlashCommandBuilder()
+    .setName("unlock")
+    .setDescription(
+      "Unlocks the current channel (makes it read and write for the @everyone role, as it is by default)."
+    ),
   syntax: "f!unlock",
   async execute(message: Message, _con: Client, _args?: string[]) {
     console.log(

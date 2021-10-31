@@ -2,11 +2,14 @@ import { ICommand } from "../../../utils/types";
 import { Message, MessageEmbed } from "discord.js";
 import { Client } from "pg";
 import { getRoleFromMention, timeout } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "deleteroles",
-  description:
-    "Deletes the role(s) given. You can delete upto 10 roles with one command.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("deleteroles")
+    .setDescription(
+      "Deletes the role(s) given. You can delete upto 10 roles with one command."
+    ),
   alias: ["dr", "drs"],
   syntax: "f!deleteroles [role mentions (10 max)]",
   async execute(message: Message, _con: Client, args?: string[]) {

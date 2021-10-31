@@ -2,10 +2,12 @@ import { Guild, Message, MessageEmbed } from "discord.js";
 import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
 import { timeout } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "updatechannelcount",
-  description: "Updates the channel count channel the current guild.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("updatechannelcount")
+    .setDescription("Updates the channel count channel the current guild."),
   alias: ["ucc"],
   syntax: "f!updatechannelcount",
   async execute(message: Message | Guild, con: Client, _args?: string[]) {

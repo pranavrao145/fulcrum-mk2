@@ -5,10 +5,12 @@ import {
   getChannelFromMention,
   getRoleFromMention,
 } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "renamechannel",
-  description: "Renames the given channel to the new name given.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("renamechannel")
+    .setDescription("Renames the given channel to the new name given."),
   alias: ["rc"],
   syntax:
     "f!renamechannel [channel mention (voice channel role for voice channel)] [new name (underscores for spaces)]",

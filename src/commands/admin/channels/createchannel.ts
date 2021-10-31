@@ -6,11 +6,14 @@ import {
   getRoleFromMention,
   getUserFromMention,
 } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "createchannel",
-  description:
-    "Creates a channel based on the given information. You must specify a name, and you can optionally specify a type, and whether you want the channel to be public or private.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("createchannel")
+    .setDescription(
+      "Creates a channel based on the given information. You must specify a name, and you can optionally specify a type, and whether you want the channel to be public or private."
+    ),
   alias: ["cc"],
   syntax:
     "f!createchannel [name (underscores for spaces)] (type, text/voice, default text) (privacy, public/private, default public)",

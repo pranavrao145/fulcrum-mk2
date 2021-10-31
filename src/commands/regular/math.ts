@@ -1,11 +1,14 @@
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { Message, MessageEmbed } from "discord.js";
-import { ICommand } from "../../utils/types";
-import { Client } from "pg";
 import { Parser } from "expr-eval";
+import { Client } from "pg";
+
+import { ICommand } from "../../utils/types";
 
 const command: ICommand = {
-  name: "math",
-  description: "Evaluates the mathematical expression given by the user.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("math")
+    .setDescription("Evaluates the mathematical expression given by the user."),
   syntax: "f!math [expression]",
   async execute(message: Message, _con: Client, args?: string[]) {
     console.log(
@@ -14,12 +17,14 @@ const command: ICommand = {
       }.`
     );
 
-    const outputEmbed = new MessageEmbed() // create an embed to display the results of the command
+    const outputEmbed = new MessageEmbed() // create an embed to display the
+      // results of the command
       .setColor("#FFFCF4")
       .setTitle("Math");
 
     if (!args || args.length === 0) {
-      // check if the args exist (this function requires them) and that there are not too many args
+      // check if the args exist (this function requires them) and that there are
+      // not too many args
       try {
         console.log("Incorrect syntax given. Stopping execution.");
         return await message.channel.send(
@@ -36,7 +41,8 @@ const command: ICommand = {
       }
     }
 
-    const mathExpression = args.join(""); // join all the args to get the mathematical expression they want to evaluate
+    const mathExpression = args.join(""); // join all the args to get the mathematical expression
+    // they want to evaluate
 
     try {
       const result = Parser.evaluate(mathExpression); // attempt to evaluate the expression they give

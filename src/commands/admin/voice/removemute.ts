@@ -2,10 +2,12 @@ import { Collection, GuildMember, Message, MessageEmbed } from "discord.js";
 import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
 import { getRoleFromMention, timeout } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "removemute",
-  description: "Lifts the voice mute on all members of a voice channel.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("removemute")
+    .setDescription("Lifts the voice mute on all members of a voice channel."),
   alias: ["rm"],
   syntax: "f!removemute [voice channel role mention]",
   async execute(message: Message, _con: Client, args?: string[]) {

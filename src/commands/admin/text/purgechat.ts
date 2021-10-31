@@ -2,11 +2,14 @@ import { Message, MessageEmbed } from "discord.js";
 import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
 import { timeout } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "purgechat",
-  description:
-    "Clears the amount of messages given. The number of messages you want to clear must be between 2 and 100.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("purgechat")
+    .setDescription(
+      "Clears the amount of messages given. The number of messages you want to clear must be between 2 and 100."
+    ),
   alias: ["pc"],
   syntax: "f!purgechat [number of messages to clear (2-100)]",
   async execute(message: Message, _con: Client, args?: string[]) {

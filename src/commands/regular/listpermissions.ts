@@ -6,11 +6,14 @@ import {
   textChannelPermissions,
   voiceChannelPermissions,
 } from "../../utils/information";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "listpermissions",
-  description:
-    "Lists permissions and their associated numbers with to use with permission changing commands. Three permission lists exist: the general permission list (to use with f!changerolepermissions), the text permission list (to use with f!changetextpermissions), and the voice permission list (to use with f!changevoicepermissions)",
+  slashCommand: new SlashCommandBuilder()
+    .setName("listpermissions")
+    .setDescription(
+      "Lists permissions and their associated numbers with to use with permission changing commands. Three permission lists exist: the general permission list (to use with f!changerolepermissions), the text permission list (to use with f!changetextpermissions), and the voice permission list (to use with f!changevoicepermissions)"
+    ),
   alias: ["lp"],
   syntax: "f!listpermissions (type, general/text/voice, default general)",
   async execute(message: Message, _con: Client, args?: string[]) {

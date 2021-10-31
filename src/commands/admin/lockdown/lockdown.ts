@@ -2,11 +2,14 @@ import { Message, MessageEmbed, TextChannel, VoiceChannel } from "discord.js";
 import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
 import { timeout } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "lockdown",
-  description:
-    "Locks down the whole server, disabling people without special priveleges from sending messages and connecting to voice channels. Also optionally deletes any and all active invites to the server. **WARNING:** To be used in emergencies only (situations like extreme and unmanageable bot attacks). This command can only be used with guild members with the ADMINISTRATOR command. You can lift the lockdown using f!unlockdown, but you must regenerate any deleted invites on your own.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("lockdown")
+    .setDescription(
+      "Locks down the whole server, disabling people without special priveleges from sending messages and connecting to voice channels. Also optionally deletes any and all active invites to the server. **WARNING:** To be used in emergencies only (situations like extreme and unmanageable bot attacks). This command can only be used with guild members with the ADMINISTRATOR command. You can lift the lockdown using f!unlockdown, but you must regenerate any deleted invites on your own."
+    ),
   syntax: "f!lockdown (delete all invites?, yes/no, default no)",
   async execute(message: Message, _con: Client, args?: string[]) {
     console.log(

@@ -2,10 +2,12 @@ import { Collection, GuildMember, Message, MessageEmbed } from "discord.js";
 import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
 import { getRoleFromMention, timeout } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "muteall",
-  description: "Mutes all the members of the specified voice channel.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("muteall")
+    .setDescription("Mutes all the members of the specified voice channel."),
   alias: ["ma"],
   syntax: "f!muteall [voice channel role mention]",
   async execute(message: Message, _con: Client, args?: string[]) {

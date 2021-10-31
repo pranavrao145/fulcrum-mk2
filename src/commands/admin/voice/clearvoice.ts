@@ -2,11 +2,14 @@ import { Collection, GuildMember, Message, MessageEmbed } from "discord.js";
 import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
 import { getRoleFromMention, timeout } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "clearvoice",
-  description:
-    "Clears the given voice channel (i.e. kicks everyone out from the voice channel).",
+  slashCommand: new SlashCommandBuilder()
+    .setName("clearvoice")
+    .setDescription(
+      "Clears the given voice channel (i.e. kicks everyone out from the voice channel)."
+    ),
   alias: ["cv"],
   syntax: "f!clearvoice [voice channel role mention]",
   async execute(message: Message, _con: Client, args?: string[]) {

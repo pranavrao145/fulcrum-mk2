@@ -2,10 +2,12 @@ import { Message, MessageEmbed } from "discord.js";
 import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
 import { getRoleFromMention } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "renamerole",
-  description: "Renames the given role to the new name specified.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("renamerole")
+    .setDescription("Renames the given role to the new name specified."),
   alias: ["rnr"],
   syntax:
     "f!renamerole [role mention or number] [new name (underscores for spaces)]",

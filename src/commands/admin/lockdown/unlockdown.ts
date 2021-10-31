@@ -2,11 +2,14 @@ import { Message, MessageEmbed, TextChannel, VoiceChannel } from "discord.js";
 import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
 import { timeout } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "unlockdown",
-  description:
-    "Releases server from lockdown triggered by f!lockdown. **WARNING:** This **deletes** permission overwrites on the @everyone role for all channels (resets it to default permissions), so make sure any other roles required to restrict permissions are assigned and set with the correct permissions.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("unlockdown")
+    .setDescription(
+      "Releases server from lockdown triggered by f!lockdown. **WARNING:** This **deletes** permission overwrites on the @everyone role for all channels (resets it to default permissions), so make sure any other roles required to restrict permissions are assigned and set with the correct permissions."
+    ),
   syntax: "f!unlockdown",
   async execute(message: Message, _con: Client, _args?: string[]) {
     console.log(

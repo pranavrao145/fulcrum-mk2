@@ -2,11 +2,14 @@ import translate from "@iamtraction/google-translate";
 import { Message, MessageEmbed } from "discord.js";
 import { ICommand } from "../../utils/types";
 import { Client } from "pg";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "translate",
-  description:
-    "Translates the given phrase into the language given. You do not need to specify the language you are translating from; it will be automatically detected.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("translate")
+    .setDescription(
+      "Translates the given phrase into the language given. You do not need to specify the language you are translating from; it will be automatically detected."
+    ),
   alias: ["tr"],
   syntax: "f!translate [2 letter code of lang to which to translate]  [phrase]",
   async execute(message: Message, _con: Client, args?: string[]) {

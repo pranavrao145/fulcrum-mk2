@@ -1,11 +1,14 @@
 import { Message, MessageEmbed } from "discord.js";
 import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "unban",
-  description:
-    "Unbans the given user. You can optionally specify a reason for unbanning.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("unban")
+    .setDescription(
+      "Unbans the given user. You can optionally specify a reason for unbanning."
+    ),
   alias: ["ub"],
   syntax: "f!unban [user ID] (reason)",
   async execute(message: Message, _con: Client, args?: string[]) {

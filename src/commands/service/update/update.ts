@@ -3,11 +3,14 @@ import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
 import { promisify } from "util";
 import glob from "glob";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "update",
-  description:
-    "Updates the service specified. See f!services for a full list of services that Fulcrum offers.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("update")
+    .setDescription(
+      "Updates the service specified. See f!services for a full list of services that Fulcrum offers."
+    ),
   alias: ["u"],
   syntax: "f!update [service]",
   async execute(message: Message, con: Client, args?: string[]) {
@@ -56,7 +59,7 @@ const command: ICommand = {
     ) {
       case "channelcount":
         serviceCommand = serviceCommands.find(
-          (c) => c.name === "updatechannelcount"
+          (c) => c.slashCommand.name === "updatechannelcount"
         ); // get the channelcount command
 
         if (!serviceCommand) {
@@ -83,7 +86,7 @@ const command: ICommand = {
         serviceCommand.execute(message, con, args); // execute the commmand
         break;
       case "date":
-        serviceCommand = serviceCommands.find((c) => c.name === "updatedate"); // get the channelcount command
+        serviceCommand = serviceCommands.find((c) => c.slashCommand.name === "updatedate"); // get the channelcount command
 
         if (!serviceCommand) {
           // if the command does not exist
@@ -110,7 +113,7 @@ const command: ICommand = {
         break;
       case "membercount":
         serviceCommand = serviceCommands.find(
-          (c) => c.name === "updatemembercount"
+          (c) => c.slashCommand.name === "updatemembercount"
         ); // get the channelcount command
 
         if (!serviceCommand) {
@@ -138,7 +141,7 @@ const command: ICommand = {
         break;
       case "vcroles":
         serviceCommand = serviceCommands.find(
-          (c) => c.name === "updatevcroles"
+          (c) => c.slashCommand.name === "updatevcroles"
         ); // get the channelcount command
 
         if (!serviceCommand) {

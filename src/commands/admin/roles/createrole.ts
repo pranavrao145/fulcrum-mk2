@@ -7,11 +7,14 @@ import {
   getUserFromMention,
   isValidColor,
 } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "createrole",
-  description:
-    "Creates a role with the given name and optionally the given colour.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("createrole")
+    .setDescription(
+      "Creates a role with the given name and optionally the given colour."
+    ),
   alias: ["cr"],
   syntax: "f!createrole [role name, underscores for spaces] (colour code)",
   async execute(message: Message, _con: Client, args?: string[]) {
@@ -132,7 +135,6 @@ const command: ICommand = {
       try {
         await message.guild!.roles.create({
           // create the role with the needed data
-          name: roleName,
           color: roleColor as ColorResolvable,
         });
 
@@ -156,7 +158,6 @@ const command: ICommand = {
         );
         await message.guild!.roles.create({
           // create the role with the needed data
-          name: roleName,
         });
         outputEmbed.addField(`Status`, "Success");
         console.log(

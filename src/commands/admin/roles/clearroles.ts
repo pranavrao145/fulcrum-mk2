@@ -2,11 +2,14 @@ import { Message, MessageEmbed } from "discord.js";
 import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
 import { getRoleFromMention, timeout } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "clearroles",
-  description:
-    "Removes the given role from all users that have it. You can clear upto 10 roles with one command.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("clearroles")
+    .setDescription(
+      "Removes the given role from all users that have it. You can clear upto 10 roles with one command."
+    ),
   alias: ["clr"],
   syntax: "f!clearroles [role mentions or numbers (10 max)]",
   async execute(message: Message, _con: Client, args?: string[]) {

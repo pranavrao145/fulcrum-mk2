@@ -2,11 +2,14 @@ import { Message, MessageEmbed } from "discord.js";
 import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
 import { timeout } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "setupvcroles",
-  description:
-    "Sets up Fulcrum's voice channel role feature. This can also be run to create any roles that currently do not exist, even after initial setup.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("setupvcroles")
+    .setDescription(
+      "Sets up Fulcrum's voice channel role feature. This can also be run to create any roles that currently do not exist, even after initial setup."
+    ),
   alias: ["svc"],
   syntax: "f!setupvcroles",
   async execute(message: Message, _con: Client, _args?: string[]) {
@@ -81,7 +84,6 @@ const command: ICommand = {
         await timeout(300);
         const vcRoleCreated = await message.guild!.roles.create({
           // create the role with the same name as the voice channel
-          name: voiceChannel.name,
         });
         console.log(`Role ${vcRoleCreated.name} created successfully.`);
       } catch (e) {

@@ -6,11 +6,14 @@ import {
   getRoleFromMention,
   timeout,
 } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "deletechannels",
-  description:
-    "Deletes all given channels. You can delete upto 10 channels with one command.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("deletechannels")
+    .setDescription(
+      "Deletes all given channels. You can delete upto 10 channels with one command."
+    ),
   alias: ["dc", "dcs"],
   syntax:
     "f!deletechannels [channel mentions (voice channel roles for voice channels) (10 max)]",

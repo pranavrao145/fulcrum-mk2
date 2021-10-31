@@ -2,10 +2,12 @@ import { Message, MessageEmbed } from "discord.js";
 import { ICommand } from "../../utils/types";
 import { Client } from "pg";
 import get from "axios";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "define",
-  description: "Defines the given English word.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("define")
+    .setDescription("Defines the given English word."),
   alias: ["df"],
   syntax: "f!define [word]",
   async execute(message: Message, _con: Client, args?: string[]) {

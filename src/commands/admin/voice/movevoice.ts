@@ -8,11 +8,14 @@ import {
 import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
 import { getRoleFromMention, timeout } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "movevoice",
-  description:
-    "Moves the members in the first given voice channel to the other.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("movevoice")
+    .setDescription(
+      "Moves the members in the first given voice channel to the other."
+    ),
   alias: ["mv"],
   syntax:
     "f!movevoice [voice channel role mention (from)] [voice channel role mention (to)]",

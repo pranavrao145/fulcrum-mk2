@@ -4,10 +4,12 @@ import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
 import { daysList, monthsList } from "../../../utils/information";
 import { timeout } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "updatedate",
-  description: "Updates the date channel in the current guild.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("updatedate")
+    .setDescription("Updates the date channel in the current guild."),
   alias: ["ud"],
   syntax: "f!updatedate",
   async execute(

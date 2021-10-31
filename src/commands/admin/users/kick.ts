@@ -2,11 +2,14 @@ import { Message, MessageEmbed } from "discord.js";
 import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
 import { getUserFromMention } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "kick",
-  description:
-    "Kicks the given user from the server. You can also optionally specify a reason for kicking.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("kick")
+    .setDescription(
+      "Kicks the given user from the server. You can also optionally specify a reason for kicking."
+    ),
   syntax: "f!kick [user mention] (reason)",
   async execute(message: Message, _con: Client, args?: string[]) {
     console.log(

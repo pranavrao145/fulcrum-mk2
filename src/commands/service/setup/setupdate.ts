@@ -4,10 +4,12 @@ import { Client } from "pg";
 import { getRoleFromMention } from "../../../utils/helpers";
 import { promisify } from "util";
 import glob from "glob";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "setupdate",
-  description: "Sets up Fulcrum's date channel feature.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("setupdate")
+    .setDescription("Sets up Fulcrum's date channel feature."),
   alias: ["sd", "sud"],
   syntax: "f!setupdate [voice channel role mention]",
   async execute(message: Message, con: Client, args?: string[]) {
@@ -160,7 +162,7 @@ const command: ICommand = {
       }
 
       const updateDateCommand = serviceCommands.find(
-        (c) => c.name === "updatedate"
+        (c) => c.slashCommand.name === "updatedate"
       ); // get the updatedate command
 
       if (updateDateCommand) {

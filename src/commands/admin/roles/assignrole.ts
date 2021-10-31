@@ -6,11 +6,14 @@ import {
   getUserFromMention,
   timeout,
 } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "assignrole",
-  description:
-    "Adds the given role to the given user(s). You can give a role to upto 10 users with one command.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("assignrole")
+    .setDescription(
+      "Adds the given role to the given user(s). You can give a role to upto 10 users with one command."
+    ),
   alias: ["ar"],
   syntax: "f!assignrole [role mention or number] [user mentions (10 max)]",
   async execute(message: Message, _con: Client, args?: string[]) {

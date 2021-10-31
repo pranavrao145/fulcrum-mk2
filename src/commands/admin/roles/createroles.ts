@@ -6,11 +6,14 @@ import {
   getRoleFromMention,
   getUserFromMention,
 } from "../../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "createroles",
-  description:
-    "Creates role(s) with the given name(s). You can create upto 10 roles with one command.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("createroles")
+    .setDescription(
+      "Creates role(s) with the given name(s). You can create upto 10 roles with one command."
+    ),
   alias: ["crs"],
   syntax: "f!createroles [role names (10 max, underscores for spaces)]",
   async execute(message: Message, _con: Client, args?: string[]) {
@@ -87,7 +90,6 @@ const command: ICommand = {
       try {
         await message.guild!.roles.create({
           // create the role with the needed data
-          name: roleName,
         });
         outputEmbedText += `\n**${roleName}:** Role created successfully.`;
         console.log(

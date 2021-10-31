@@ -2,10 +2,12 @@ import { Message, MessageEmbed } from "discord.js";
 import { ICommand } from "../../utils/types";
 import { Client } from "pg";
 import { getRandomInteger } from "../../utils/helpers";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "randomnumber",
-  description: "Gives a random number in the range specified.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("randomnumber")
+    .setDescription("Gives a random number in the range specified."),
   alias: ["rn"],
   syntax: "f!randomnumber [min] [max]",
   async execute(message: Message, _con: Client, args?: string[]) {

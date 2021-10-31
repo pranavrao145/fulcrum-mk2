@@ -54,7 +54,7 @@ const commands: Array<ICommand> = [];
   for (const file of commandFiles) {
     const command = await import(file);
     commands.push(command);
-    console.log(`Command ${command.name} loaded successfully.`);
+    console.log(`Command ${command.slashCommand.name} loaded successfully.`);
   }
 })();
 
@@ -68,7 +68,6 @@ client.on("ready", async () => {
       status: "online",
       activities: [
         {
-          name: "f!help",
           type: "WATCHING",
         },
       ],
@@ -86,7 +85,7 @@ client.on("ready", async () => {
       "Midnight EST detected. Attempting to update date in all guilds."
     );
 
-    const updateDateCommand = commands.find((c) => c.name === "updatedate");
+    const updateDateCommand = commands.find((c) => c.slashCommand.name === "updatedate");
 
     if (!updateDateCommand) {
       console.log("Command updatedate not found. Stopping execution.");
@@ -119,12 +118,11 @@ client.on("messageCreate", async (message: Discord.Message) => {
     .trim()
     .split(/ +/);
 
-  console.log(`Potential command name: ${commandName}`);
   console.log(`Potential arguments: ${args}`);
 
   const command = commands.find(
     (c) =>
-      c.name === commandName ||
+      c.slashCommand.name === commandName ||
       (c.alias ? c.alias!.includes(commandName) : false)
   );
 
@@ -297,7 +295,6 @@ client.on("channelCreate", async (channel: Discord.Channel) => {
       channel as Discord.VoiceChannel
     ).guild.roles.create({
       // create the role with the same name as the voice channel
-      name: (channel as Discord.VoiceChannel).name,
     });
     console.log(`Role ${vcRoleCreated.name} created successfully.`);
   } catch (e) {
@@ -423,7 +420,7 @@ client.on("guildMemberAdd", async (member: Discord.GuildMember) => {
   );
 
   const updateMemberCountCommand = commands.find(
-    (c) => c.name === "updatemembercount"
+    (c) => c.slashCommand.name === "updatemembercount"
   ); // attempt to get the actual command
 
   if (!updateMemberCountCommand) {
@@ -445,7 +442,7 @@ client.on(
     );
 
     const updateMemberCountCommand = commands.find(
-      (c) => c.name === "updatemembercount"
+      (c) => c.slashCommand.name === "updatemembercount"
     ); // attempt to get the actual command
 
     if (!updateMemberCountCommand) {
@@ -474,7 +471,7 @@ client.on("channelCreate", async (channel: Discord.Channel) => {
   );
 
   const updateChannelCountCommand = commands.find(
-    (c) => c.name === "updatechannelcount"
+    (c) => c.slashCommand.name === "updatechannelcount"
   ); // attempt to get the actual command
 
   if (!updateChannelCountCommand) {
@@ -506,7 +503,7 @@ client.on("channelDelete", async (channel: Discord.Channel) => {
   );
 
   const updateChannelCountCommand = commands.find(
-    (c) => c.name === "updatechannelcount"
+    (c) => c.slashCommand.name === "updatechannelcount"
   ); // attempt to get the actual command
 
   if (!updateChannelCountCommand) {
@@ -552,7 +549,7 @@ client.on("guildCreate", (guild: Discord.Guild) => {
       .first(); // get the first channel in which bot has permissions to write
   }
 
-  const startCommand = commands.find((c) => c.name === "start"); // attempt to get the start command
+  const startCommand = commands.find((c) => c.slashCommand.name === "start"); // attempt to get the start command
 
   if (!startCommand) {
     // check if start command actually exists

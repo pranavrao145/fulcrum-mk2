@@ -4,10 +4,12 @@ import { Client } from "pg";
 import { getRoleFromMention } from "../../../utils/helpers";
 import { promisify } from "util";
 import glob from "glob";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "setupmembercount",
-  description: "Sets up Fulcrum's member count channel feature.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("setupmembercount")
+    .setDescription("Sets up Fulcrum's member count channel feature."),
   alias: ["smc"],
   syntax: "f!setupmembercount [voice channel role mention]",
   async execute(message: Message, con: Client, args?: string[]) {
@@ -162,7 +164,7 @@ const command: ICommand = {
       }
 
       const updateMemberCountCommand = serviceCommands.find(
-        (c) => c.name === "updatemembercount"
+        (c) => c.slashCommand.name === "updatemembercount"
       ); // get the updatemembercount command
 
       if (updateMemberCountCommand) {

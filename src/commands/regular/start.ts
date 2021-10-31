@@ -1,10 +1,12 @@
 import { Channel, Message, MessageEmbed, TextChannel } from "discord.js";
 import { ICommand } from "../../utils/types";
 import { Client } from "pg";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "start",
-  description: "Displays a start message for Fulcrum.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("start")
+    .setDescription("Displays a start message for Fulcrum."),
   syntax: "f!start",
   async execute(message: Message | Channel, _con: Client, _args?: string[]) {
     if (message instanceof Message) {

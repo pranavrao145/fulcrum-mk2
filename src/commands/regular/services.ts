@@ -2,10 +2,14 @@ import { Message, MessageEmbed } from "discord.js";
 import { ICommand } from "../../utils/types";
 import { Client } from "pg";
 import { serviceList } from "../../utils/information";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "services",
-  description: "Displays a message detailing the services that Fulcrum offers.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("services")
+    .setDescription(
+      "Displays a message detailing the services that Fulcrum offers."
+    ),
   syntax: "f!services",
   async execute(message: Message, _con: Client, args?: string[]) {
     console.log(

@@ -3,11 +3,14 @@ import { ICommand } from "../../utils/types";
 import { Client } from "pg";
 import { promisify } from "util";
 import glob from "glob";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "help",
-  description:
-    "Displays a general help message, or for a specific command if specified.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("help")
+    .setDescription(
+      "Displays a general help message, or for a specific command if specified."
+    ),
   alias: ["h"],
   syntax: "f!help (command name)",
   async execute(message: Message, _con: Client, args?: string[]) {
@@ -68,17 +71,17 @@ const command: ICommand = {
       const commandName = args!.shift(); // get the name of the command specified
       const command = allComands.find(
         (c) =>
-          c.name === commandName ||
+          c.slashCommand.name === commandName ||
           (c.alias ? c.alias!.includes(commandName!) : false)
       ); // attempt to find the command by name or alias
 
       if (command) {
         // if a command is found
         // extract info about the command
-        const name = command.name;
+        const name = command.slashCommand.name;
         const aliases = command.alias;
         const syntax = command.syntax;
-        const description = command.description;
+        const description = command.slashCommand.description;
 
         outputEmbed.setDescription(`**Command:** ${name}`); // add the command to the help message
 
@@ -125,15 +128,15 @@ const command: ICommand = {
       let serviceOutputEmbedText = "";
 
       for (const command of adminCommands) {
-        adminOutputEmbedText += `\`${command.name}\` `; // add the command to the output text with a space
+        adminOutputEmbedText += `\`${command.slashCommand.name}\` `; // add the command to the output text with a space
       }
 
       for (const command of regularCommands) {
-        regularOutputEmbedText += `\`${command.name}\` `; // add the command to the output text with a space
+        regularOutputEmbedText += `\`${command.slashCommand.name}\` `; // add the command to the output text with a space
       }
 
       for (const command of serviceCommands) {
-        serviceOutputEmbedText += `\`${command.name}\` `; // add the command to the output text with a space
+        serviceOutputEmbedText += `\`${command.slashCommand.name}\` `; // add the command to the output text with a space
       }
 
       if (adminOutputEmbedText) {

@@ -2,11 +2,14 @@ import { ICommand } from "../../../utils/types";
 import { Message, MessageEmbed } from "discord.js";
 import { Client } from "pg";
 import { editMessageWithPaginatedEmbeds } from "discord.js-pagination-ts";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 const command: ICommand = {
-  name: "listroles",
-  description:
-    "Displays all the roles in the server in a list with numbers for use with other role management commands.",
+  slashCommand: new SlashCommandBuilder()
+    .setName("listroles")
+    .setDescription(
+      "Displays all the roles in the server in a list with numbers for use with other role management commands."
+    ),
   alias: ["lr"],
   syntax: "f!listroles",
   async execute(message: Message, _con: Client, _args?: string[]) {
