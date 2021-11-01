@@ -8,8 +8,9 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("changenickname")
     .setDescription(
-      "Changes the nickname of the given user to the new nickname given."
+      "Changes the nickname of the given user."
     ),
+  help: "Changes the nickname of the given user to the new nickname given.",
   alias: ["changenick", "cn"],
   syntax:
     "f!changenickname [user mention] [new nickname (underscores for spaces)]",

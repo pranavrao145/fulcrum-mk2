@@ -7,6 +7,7 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("start")
     .setDescription("Displays a start message for Fulcrum."),
+  help: "Displays a start message for Fulcrum.",
   syntax: "f!start",
   async execute(message: Message | Channel, _con: Client, _args?: string[]) {
     if (message instanceof Message) {

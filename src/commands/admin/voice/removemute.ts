@@ -8,6 +8,7 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("removemute")
     .setDescription("Lifts the voice mute on all members of a voice channel."),
+  help: "Lifts the voice mute on all members of a voice channel.",
   alias: ["rm"],
   syntax: "f!removemute [voice channel role mention]",
   async execute(message: Message, _con: Client, args?: string[]) {

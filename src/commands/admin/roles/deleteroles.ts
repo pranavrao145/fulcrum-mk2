@@ -8,8 +8,9 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("deleteroles")
     .setDescription(
-      "Deletes the role(s) given. You can delete upto 10 roles with one command."
+      "Deletes the role(s) given."
     ),
+  help: "Deletes the role(s) given. You can delete upto 10 roles with one command.",
   alias: ["dr", "drs"],
   syntax: "f!deleteroles [role mentions (10 max)]",
   async execute(message: Message, _con: Client, args?: string[]) {

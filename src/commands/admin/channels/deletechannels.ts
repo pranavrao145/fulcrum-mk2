@@ -12,8 +12,9 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("deletechannels")
     .setDescription(
-      "Deletes all given channels. You can delete upto 10 channels with one command."
+      "Deletes all given channels."
     ),
+  help: "Deletes all given channels. You can delete upto 10 channels with one command.",
   alias: ["dc", "dcs"],
   syntax:
     "f!deletechannels [channel mentions (voice channel roles for voice channels) (10 max)]",

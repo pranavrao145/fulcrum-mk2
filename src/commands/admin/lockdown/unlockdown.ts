@@ -1,15 +1,17 @@
-import { Message, MessageEmbed, TextChannel, VoiceChannel } from "discord.js";
-import { ICommand } from "../../../utils/types";
-import { Client } from "pg";
-import { timeout } from "../../../utils/helpers";
 import { SlashCommandBuilder } from "@discordjs/builders";
+import { Message, MessageEmbed, TextChannel, VoiceChannel } from "discord.js";
+import { Client } from "pg";
+
+import { timeout } from "../../../utils/helpers";
+import { ICommand } from "../../../utils/types";
 
 const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("unlockdown")
     .setDescription(
-      "Releases server from lockdown triggered by f!lockdown. **WARNING:** This **deletes** permission overwrites on the @everyone role for all channels (resets it to default permissions), so make sure any other roles required to restrict permissions are assigned and set with the correct permissions."
+      "Releases server from lockdown triggered by f!lockdown."
     ),
+  help: "Releases server from lockdown triggered by f!lockdown. **WARNING:** This **deletes** permission overwrites on the @everyone role for all channels (resets it to default permissions), so make sure any other roles required to restrict permissions are assigned and set with the correct permissions.",
   syntax: "f!unlockdown",
   async execute(message: Message, _con: Client, _args?: string[]) {
     console.log(
@@ -18,7 +20,8 @@ const command: ICommand = {
       } in guild ${message.guild!.name}.`
     );
 
-    let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
+    let outputEmbed = new MessageEmbed() // create an embed to display the results
+      // of the command
       .setColor("#FFFCF4")
       .setTitle("Unlockdown - Report");
 
@@ -60,7 +63,8 @@ const command: ICommand = {
       .guild!.channels.cache.filter((c) => c.type === "GUILD_VOICE")
       .values(); // get all voice channels in guild
 
-    let overallUnlockingSuccess = true; // variable to hold whether or not all channels were unlocked successfully
+    let overallUnlockingSuccess = true; // variable to hold whether or not all
+    // channels were unlocked successfully
 
     for (const textChannel of textChannels) {
       // iterate through each of the text channels in the guild

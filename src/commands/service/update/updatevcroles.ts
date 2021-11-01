@@ -8,8 +8,9 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("updatevcroles")
     .setDescription(
-      "Updates the assignment of voice channel roles in the current server (i.e. assigns voice channel roles to members missing them and takes them away from members that should not have them)."
+      "Updates the assignment of voice channel roles in the current server."
     ),
+  help: "Updates the assignment of voice channel roles in the current server (i.e. assigns voice channel roles to members missing them and takes them away from members that should not have them).",
   alias: ["uvcr", "uvc", "uvr", "uv"],
   syntax: "f!updatevcroles",
   async execute(message: Message, _con: Client, _args?: string[]) {

@@ -10,7 +10,8 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("renamechannel")
-    .setDescription("Renames the given channel to the new name given."),
+    .setDescription("Renames the given channel."),
+  help: "Renames the given channel to the new name given.",
   alias: ["rc"],
   syntax:
     "f!renamechannel [channel mention (voice channel role for voice channel)] [new name (underscores for spaces)]",

@@ -1,19 +1,21 @@
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { Message, MessageEmbed } from "discord.js";
-import { ICommand } from "../../utils/types";
 import { Client } from "pg";
+
 import {
   generalPermissions,
   textChannelPermissions,
   voiceChannelPermissions,
 } from "../../utils/information";
-import { SlashCommandBuilder } from "@discordjs/builders";
+import { ICommand } from "../../utils/types";
 
 const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("listpermissions")
     .setDescription(
-      "Lists permissions and their associated numbers with to use with permission changing commands. Three permission lists exist: the general permission list (to use with f!changerolepermissions), the text permission list (to use with f!changetextpermissions), and the voice permission list (to use with f!changevoicepermissions)"
+      "Lists permissions and their associated numbers with to use with permission changing commands."
     ),
+  help: "Lists permissions and their associated numbers with to use with permission changing commands. Three permission lists exist: the general permission list (to use with f!changerolepermissions), the text permission list (to use with f!changetextpermissions), and the voice permission list (to use with f!changevoicepermissions)",
   alias: ["lp"],
   syntax: "f!listpermissions (type, general/text/voice, default general)",
   async execute(message: Message, _con: Client, args?: string[]) {
@@ -120,7 +122,8 @@ const command: ICommand = {
 
     try {
       // send output embed with information about the command's success
-      outputEmbed.addField("\u200B", outputEmbedText); // add whatever text was accumulated throughout the command to the embed
+      outputEmbed.addField("\u200B", outputEmbedText); // add whatever text was accumulated
+      // throughout the command to the embed
       if (outputEmbedText !== "") {
         // check if there is actually any text to send the embed with
         await message.channel.send({ embeds: [outputEmbed] });

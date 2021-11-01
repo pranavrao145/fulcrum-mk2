@@ -8,8 +8,9 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("translate")
     .setDescription(
-      "Translates the given phrase into the language given. You do not need to specify the language you are translating from; it will be automatically detected."
+      "Translates the given phrase into the language given."
     ),
+  help: "Translates the given phrase into the language given. You do not need to specify the language you are translating from; it will be automatically detected.",
   alias: ["tr"],
   syntax: "f!translate [2 letter code of lang to which to translate]  [phrase]",
   async execute(message: Message, _con: Client, args?: string[]) {

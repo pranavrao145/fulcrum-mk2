@@ -8,6 +8,7 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("define")
     .setDescription("Defines the given English word."),
+  help: "Defines the given English word.",
   alias: ["df"],
   syntax: "f!define [word]",
   async execute(message: Message, _con: Client, args?: string[]) {

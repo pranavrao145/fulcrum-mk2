@@ -10,6 +10,7 @@ const command: ICommand = {
     .setDescription(
       "Displays a message detailing the services that Fulcrum offers."
     ),
+  help: "Displays a message detailing the services that Fulcrum offers.",
   syntax: "f!services",
   async execute(message: Message, _con: Client, args?: string[]) {
     console.log(

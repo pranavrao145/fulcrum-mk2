@@ -9,8 +9,9 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("changegeneralpermissions")
     .setDescription(
-      "Changes the given role's permissions on the entire server according to the changes given. Permissions are referred to by their name or number (see f!listpermissions). You can change permissions by specifiying an operation and a permission. Operation can be + for add, - for remove, or just r (with nothing after) for resetting permissions. E.g. to allow CREATE_INSTANT_INVITE and ADMINISTRATOR on a role, simply give the command: f!changegeneralpermissions @role +CREATE_INSTANT_INVITE +ADMINISTRATOR. Alternatively, if you prefer to use numbers, you can give the command as f!changegeneralpermissions @role +1 +4"
+      "Changes the given role's permissions on the entire server according to the changes given."
     ),
+  help: "Changes the given role's permissions on the entire server according to the changes given. Permissions are referred to by their name or number (see f!listpermissions). You can change permissions by specifiying an operation and a permission. Operation can be + for add, - for remove, or just r (with nothing after) for resetting permissions. E.g. to allow CREATE_INSTANT_INVITE and ADMINISTRATOR on a role, simply give the command: f!changegeneralpermissions @role +CREATE_INSTANT_INVITE +ADMINISTRATOR. Alternatively, if you prefer to use numbers, you can give the command as f!changegeneralpermissions @role +1 +4",
   alias: ["cp", "cgp", "changegeneralperms"],
   syntax:
     "f!changegeneralpermissions [role mention or number] [permission changes, (+/-/r)(permission number)]",

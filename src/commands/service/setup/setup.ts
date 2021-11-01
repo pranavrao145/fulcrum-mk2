@@ -11,6 +11,7 @@ const command: ICommand = {
     .setDescription(
       "Sets up the service specified. See f!services for a full list of services that Fulcrum offers."
     ),
+  help: "Sets up the service specified. See f!services for a full list of services that Fulcrum offers.",
   alias: ["s"],
   syntax: "f!setup [service] (options)",
   async execute(message: Message, con: Client, args?: string[]) {
@@ -86,7 +87,9 @@ const command: ICommand = {
         serviceCommand.execute(message, con, args); // execute the commmand
         break;
       case "date":
-        serviceCommand = serviceCommands.find((c) => c.slashCommand.name === "setupdate"); // get the channelcount command
+        serviceCommand = serviceCommands.find(
+          (c) => c.slashCommand.name === "setupdate"
+        ); // get the channelcount command
 
         if (!serviceCommand) {
           // if the command does not exist
@@ -140,7 +143,9 @@ const command: ICommand = {
         serviceCommand.execute(message, con, args); // execute the commmand
         break;
       case "vcroles":
-        serviceCommand = serviceCommands.find((c) => c.slashCommand.name === "setupvcroles"); // get the channelcount command
+        serviceCommand = serviceCommands.find(
+          (c) => c.slashCommand.name === "setupvcroles"
+        ); // get the channelcount command
 
         if (!serviceCommand) {
           // if the command does not exist

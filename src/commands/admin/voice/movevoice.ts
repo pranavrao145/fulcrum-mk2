@@ -16,6 +16,7 @@ const command: ICommand = {
     .setDescription(
       "Moves the members in the first given voice channel to the other."
     ),
+  help: "Moves the members in the first given voice channel to the other.",
   alias: ["mv"],
   syntax:
     "f!movevoice [voice channel role mention (from)] [voice channel role mention (to)]",

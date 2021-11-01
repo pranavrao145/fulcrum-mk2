@@ -8,6 +8,7 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("muteall")
     .setDescription("Mutes all the members of the specified voice channel."),
+  help: "Mutes all the members of the specified voice channel.",
   alias: ["ma"],
   syntax: "f!muteall [voice channel role mention]",
   async execute(message: Message, _con: Client, args?: string[]) {

@@ -1,29 +1,31 @@
+import { SlashCommandBuilder } from "@discordjs/builders";
 import {
   Message,
   MessageEmbed,
   PermissionResolvable,
   TextChannel,
 } from "discord.js";
-import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
+
 import {
   getChannelFromMention,
   getRoleFromMention,
   timeout,
 } from "../../../utils/helpers";
 import {
+  textChannelPermissionDisable,
   textChannelPermissions,
   textChannelPermissionsEnable,
-  textChannelPermissionDisable,
 } from "../../../utils/information";
-import { SlashCommandBuilder } from "@discordjs/builders";
+import { ICommand } from "../../../utils/types";
 
 const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("changetextpermissions")
     .setDescription(
-      "Changes the given role's permissions in a text channel according to the changes given. Permissions are referred to by their name or by their number (see f!listpermissions). You can change permissions by specifiying an operation and a permission. Operation can be + for add, - for remove, or just r (with nothing after) for resetting permissions. E.g. to allow CREATE_INSTANT_INVITE and MANAGE_MESSAGES on a role for a certain text channel, simply give the command: f!changetextpermissions @role #text-channel +CREATE_INSTANT_INVITE +MANAGE_MESSAGES. Alternatively, if you prefer to use numbers, you can give the command as: f!changetextpermissions @role #text-channel +1 +7"
+      "Changes the given role's permissions in a text channel according to the changes given."
     ),
+  help: "Changes the given role's permissions in a text channel according to the changes given. Permissions are referred to by their name or by their number (see f!listpermissions). You can change permissions by specifiying an operation and a permission. Operation can be + for add, - for remove, or just r (with nothing after) for resetting permissions. E.g. to allow CREATE_INSTANT_INVITE and MANAGE_MESSAGES on a role for a certain text channel, simply give the command: f!changetextpermissions @role #text-channel +CREATE_INSTANT_INVITE +MANAGE_MESSAGES. Alternatively, if you prefer to use numbers, you can give the command as: f!changetextpermissions @role #text-channel +1 +7",
   alias: ["ctp", "changetextperms"],
   syntax:
     "f!changetextpermissions [role mention or number] [text channel mention] [permission changes, (+/-/r)(permission number)]",
@@ -59,7 +61,8 @@ const command: ICommand = {
     }
 
     if (!args || args.length < 3) {
-      // check if the args exist (this function requires them) and that there are not too many args
+      // check if the args exist (this function requires them) and that there are
+      // not too many args
       try {
         console.log("Incorrect syntax given. Stopping execution.");
         return await message.channel.send(
@@ -137,9 +140,11 @@ const command: ICommand = {
     }
 
     for (const permissionChange of args) {
-      // iterate through the rest of the args to calculate and apply the permission changes
+      // iterate through the rest of the args to calculate and apply the
+      // permission changes
       const operation = permissionChange.charAt(0); // get the operation (first character of the sequence)
-      const permissionToChange = permissionChange.slice(1).toUpperCase(); // slice the operation off the argument to get the permission number
+      const permissionToChange = permissionChange.slice(1).toUpperCase(); // slice the operation off the argument to get the
+      // permission number
 
       if (!(operation === "+" || operation === "-" || operation === "r")) {
         console.log(
@@ -160,7 +165,8 @@ const command: ICommand = {
         let permission;
 
         if (isNaN(permissionNum)) {
-          // if the permission is not a number, check to see if it a valid permissions
+          // if the permission is not a number, check to see if it a valid
+          // permissions
           console.log(
             "Permission given is of type string. Checking permission validity."
           );
@@ -175,9 +181,11 @@ const command: ICommand = {
             outputEmbedText += `**${permissionChange}:** Invalid permission.\n`;
             continue;
           }
-          permission = permissionToChange; // set the permission to the value the user gave, as it is a valid permission
+          permission = permissionToChange; // set the permission to the value the user
+          // gave, as it is a valid permission
         } else {
-          // if it is a number, check in the list of permissions to get the matching permission
+          // if it is a number, check in the list of permissions to get the
+          // matching permission
           console.log(
             "Permission given is of type number. Checking permission validity."
           );
@@ -185,14 +193,16 @@ const command: ICommand = {
             permissionNum < 1 ||
             permissionNum > textChannelPermissions.length
           ) {
-            // check if the value for permission is actually within the range of the general permissions
+            // check if the value for permission is actually within the range of
+            // the general permissions
             console.log(
               `Invalid permission was given for a permission change. Skipping over it.`
             );
             outputEmbedText += `**${permissionChange}:** Invalid permission.\n`;
             continue;
           }
-          permission = textChannelPermissions[permissionNum - 1]; // get the permission name from the list using index
+          permission = textChannelPermissions[permissionNum - 1]; // get the permission name from
+          // the list using index
         }
 
         switch (
@@ -277,7 +287,8 @@ const command: ICommand = {
 
     try {
       // send output embed with information about the command's success
-      outputEmbed.addField("\u200B", outputEmbedText); // add whatever text was accumulated throughout the command to the embed
+      outputEmbed.addField("\u200B", outputEmbedText); // add whatever text was accumulated
+      // throughout the command to the embed
       if (outputEmbedText !== "") {
         // check if there is actually any text to send the embed with
         outputEmbed.setDescription(

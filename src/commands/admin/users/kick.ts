@@ -8,8 +8,9 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("kick")
     .setDescription(
-      "Kicks the given user from the server. You can also optionally specify a reason for kicking."
+      "Kicks the given user from the server."
     ),
+  help: "Kicks the given user from the server. You can also optionally specify a reason for kicking.",
   syntax: "f!kick [user mention] (reason)",
   async execute(message: Message, _con: Client, args?: string[]) {
     console.log(

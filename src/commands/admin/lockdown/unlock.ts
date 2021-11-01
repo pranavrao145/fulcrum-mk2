@@ -1,15 +1,17 @@
-import { Message, MessageEmbed, TextChannel } from "discord.js";
-import { ICommand } from "../../../utils/types";
-import { Client } from "pg";
-import { timeout } from "../../../utils/helpers";
 import { SlashCommandBuilder } from "@discordjs/builders";
+import { Message, MessageEmbed, TextChannel } from "discord.js";
+import { Client } from "pg";
+
+import { timeout } from "../../../utils/helpers";
+import { ICommand } from "../../../utils/types";
 
 const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("unlock")
     .setDescription(
-      "Unlocks the current channel (makes it read and write for the @everyone role, as it is by default)."
+      "Unlocks the current channel."
     ),
+  help: "Unlocks the current channel (makes it read and write for the @everyone role, as it is by default).",
   syntax: "f!unlock",
   async execute(message: Message, _con: Client, _args?: string[]) {
     console.log(
@@ -40,12 +42,15 @@ const command: ICommand = {
       }
     }
 
-    const messageChannel = message.channel; // get the message's chanel (like this so it can later be cast to TextChannel)
+    const messageChannel = message.channel; // get the message's chanel (like this so it can later be
+    // cast to TextChannel)
 
     try {
       await (messageChannel as TextChannel).permissionOverwrites.create(
         (messageChannel as TextChannel).guild.roles.everyone,
-        { SEND_MESSAGES: true }
+        {
+          SEND_MESSAGES: true,
+        }
       ); // set the channel as read only for everyone
       console.log(
         `Successfully unlocked ${(messageChannel as TextChannel).name}.`

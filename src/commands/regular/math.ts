@@ -9,6 +9,7 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("math")
     .setDescription("Evaluates the mathematical expression given by the user."),
+  help: "Evaluates the mathematical expression given by the user.",
   syntax: "f!math [expression]",
   async execute(message: Message, _con: Client, args?: string[]) {
     console.log(

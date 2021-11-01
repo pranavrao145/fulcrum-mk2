@@ -8,6 +8,7 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("lock")
     .setDescription("Locks the current channel (makes it read only)."),
+  help: "Locks the current channel (makes it read only).",
   syntax: "f!lock",
   async execute(message: Message, _con: Client, _args?: string[]) {
     console.log(

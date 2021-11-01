@@ -5,6 +5,7 @@ import { Client } from "pg";
 // interface for a bot command
 export interface ICommand {
   slashCommand: SlashCommandBuilder;
+  help: string;
   alias?: string[];
   syntax: string;
   execute(

@@ -1,15 +1,17 @@
-import { Message, MessageEmbed } from "discord.js";
-import { ICommand } from "../../../utils/types";
-import { Client } from "pg";
-import { getUserFromMention } from "../../../utils/helpers";
 import { SlashCommandBuilder } from "@discordjs/builders";
+import { Message, MessageEmbed } from "discord.js";
+import { Client } from "pg";
+
+import { getUserFromMention } from "../../../utils/helpers";
+import { ICommand } from "../../../utils/types";
 
 const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("ban")
     .setDescription(
-      "Bans the given user from the server. You can also optionally specify the amount of days of history from that user you want to purge from the server (must be from 0-7), and a reason for banning."
+      "Bans the given user from the server."
     ),
+  help: "Bans the given user from the server. You can also optionally specify the amount of days of history from that user you want to purge from the server (must be from 0-7), and a reason for banning.",
   syntax: "f!ban [user mention] (days, 0-7, default 0) (reason)",
   async execute(message: Message, _con: Client, args?: string[]) {
     console.log(
@@ -18,7 +20,8 @@ const command: ICommand = {
       }.`
     );
 
-    let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
+    let outputEmbed = new MessageEmbed() // create an embed to display the results
+      // of the command
       .setColor("#FFFCF4")
       .setTitle("Ban - Report");
 
@@ -41,7 +44,8 @@ const command: ICommand = {
     }
 
     if (!args || args.length === 0) {
-      // check if the args exist (this function requires them) and that there are not too many args
+      // check if the args exist (this function requires them) and that there are
+      // not too many args
       try {
         console.log("Incorrect syntax given. Stopping execution.");
         return await message.channel.send(
@@ -103,7 +107,8 @@ const command: ICommand = {
       }
 
       if (daysNum < 0 || daysNum > 7) {
-        // check if the value of days (which is definitely a number) is in the allowed range
+        // check if the value of days (which is definitely a number) is in the
+        // allowed range
         try {
           console.log("Invalid number was given for days. Stopping execution.");
           return await message.channel.send(
@@ -122,7 +127,8 @@ const command: ICommand = {
     }
 
     if (reasonToBan) {
-      // checks if there is a reason to ban (and by extension a value for days given)
+      // checks if there is a reason to ban (and by extension a value for days
+      // given)
       try {
         await member!.ban({
           // ban the user with the number of days and the reason

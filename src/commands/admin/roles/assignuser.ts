@@ -12,8 +12,9 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("assignuser")
     .setDescription(
-      "Assigns all the given roles to the given user. You can give upto 10 roles to a user with one command."
+      "Assigns all the given roles to the given user."
     ),
+  help: "Assigns all the given roles to the given user. You can give upto 10 roles to a user with one command.",
   alias: ["au"],
   syntax: "f!assignuser [user mention] [role mentions or numbers (10 max)]",
   async execute(message: Message, _con: Client, args?: string[]) {

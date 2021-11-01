@@ -1,9 +1,10 @@
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { Message, MessageEmbed } from "discord.js";
-import { ICommand } from "../../utils/types";
+import glob from "glob";
 import { Client } from "pg";
 import { promisify } from "util";
-import glob from "glob";
-import { SlashCommandBuilder } from "@discordjs/builders";
+
+import { ICommand } from "../../utils/types";
 
 const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
@@ -11,6 +12,7 @@ const command: ICommand = {
     .setDescription(
       "Displays a general help message, or for a specific command if specified."
     ),
+  help: "Displays a general help message, or for a specific command if specified.",
   alias: ["h"],
   syntax: "f!help (command name)",
   async execute(message: Message, _con: Client, args?: string[]) {
@@ -20,11 +22,13 @@ const command: ICommand = {
       }.`
     );
 
-    const outputEmbed = new MessageEmbed() // create an embed to display the results of the command
+    const outputEmbed = new MessageEmbed() // create an embed to display the
+      // results of the command
       .setColor("#FFFCF4")
       .setTitle("Help");
 
-    // the way the program is written means there is no direct access to the client's commands, so they must be read again
+    // the way the program is written means there is no direct access to the
+    // client's commands, so they must be read again
 
     // prepare to read command files for different categories of commands
     const globPromise = promisify(glob);
@@ -81,19 +85,20 @@ const command: ICommand = {
         const name = command.slashCommand.name;
         const aliases = command.alias;
         const syntax = command.syntax;
-        const description = command.slashCommand.description;
+        const help = command.help;
 
         outputEmbed.setDescription(`**Command:** ${name}`); // add the command to the help message
 
         if (aliases) {
           // check if alias(es) exist for this command
-          const aliasesFormatted = aliases.join(", "); // join the array of aliases by a comma for pretty printing in the embed
+          const aliasesFormatted = aliases.join(", "); // join the array of aliases by a comma for
+          // pretty printing in the embed
           outputEmbed.addField("Alias(es)", aliasesFormatted); // add alias info to output embed
         }
 
         // add other relevant info to output embed
         outputEmbed.addField("Syntax", syntax);
-        outputEmbed.addField("Description", description);
+        outputEmbed.addField("Description", help);
       } else {
         // if command not found
         outputEmbed.addField("\u200B", "Invalid command, no help available.");
@@ -118,7 +123,8 @@ const command: ICommand = {
         console.log(e);
       }
     } else {
-      // if the original message does not contain any arguments (general help message)
+      // if the original message does not contain any arguments (general help
+      // message)
       outputEmbed.setDescription(
         "General Help\nUse the prefix **f!** before any of these commands\nFor information on a specific command, type f!help [command]"
       );

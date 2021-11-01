@@ -68,6 +68,7 @@ client.on("ready", async () => {
       status: "online",
       activities: [
         {
+          name: "f!help",
           type: "WATCHING",
         },
       ],
@@ -85,7 +86,9 @@ client.on("ready", async () => {
       "Midnight EST detected. Attempting to update date in all guilds."
     );
 
-    const updateDateCommand = commands.find((c) => c.slashCommand.name === "updatedate");
+    const updateDateCommand = commands.find(
+      (c) => c.slashCommand.name === "updatedate"
+    );
 
     if (!updateDateCommand) {
       console.log("Command updatedate not found. Stopping execution.");

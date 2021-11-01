@@ -6,9 +6,8 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("unban")
-    .setDescription(
-      "Unbans the given user. You can optionally specify a reason for unbanning."
-    ),
+    .setDescription("Unbans the given user."),
+  help: "Unbans the given user. You can optionally specify a reason for unbanning.",
   alias: ["ub"],
   syntax: "f!unban [user ID] (reason)",
   async execute(message: Message, _con: Client, args?: string[]) {

@@ -1,19 +1,21 @@
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { Message, MessageEmbed } from "discord.js";
-import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
+
 import {
   getChannelFromMention,
   getRoleFromMention,
   getUserFromMention,
 } from "../../../utils/helpers";
-import { SlashCommandBuilder } from "@discordjs/builders";
+import { ICommand } from "../../../utils/types";
 
 const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("createchannel")
     .setDescription(
-      "Creates a channel based on the given information. You must specify a name, and you can optionally specify a type, and whether you want the channel to be public or private."
+      "Creates a channel based on the given information."
     ),
+  help: "Creates a channel based on the given information. You must specify a name, and you can optionally specify a type, and whether you want the channel to be public or private.",
   alias: ["cc"],
   syntax:
     "f!createchannel [name (underscores for spaces)] (type, text/voice, default text) (privacy, public/private, default public)",
@@ -24,7 +26,8 @@ const command: ICommand = {
       } in guild ${message.guild!.name}.`
     );
 
-    let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
+    let outputEmbed = new MessageEmbed() // create an embed to display the results
+      // of the command
       .setColor("#FFFCF4")
       .setTitle("Create Channel - Report");
 
@@ -47,7 +50,8 @@ const command: ICommand = {
     }
 
     if (!args || args.length === 0 || args.length > 3) {
-      // check if the args exist (this function requires them) and that there are not too many args
+      // check if the args exist (this function requires them) and that there are
+      // not too many args
       try {
         console.log("Incorrect syntax given. Stopping execution.");
         return await message.channel.send(
@@ -69,7 +73,8 @@ const command: ICommand = {
     const privacy = args.shift(); // get the potential privacy
 
     if (privacy) {
-      // if there is a privacy, meaning there will be a type and a channelName as well
+      // if there is a privacy, meaning there will be a type and a channelName as
+      // well
       console.log(
         "Privacy detected. Attempting to create channel with type and privacy."
       );
@@ -122,7 +127,8 @@ const command: ICommand = {
           (c) => c.name === channelName && c.type === typeFormatted
         )
       ) {
-        // checking to see if the channel already exists on the server as a role or anything else
+        // checking to see if the channel already exists on the server as a role
+        // or anything else
         console.log(
           "Invalid channel name or channel already exists in server. Stopping execution."
         );
@@ -228,7 +234,8 @@ const command: ICommand = {
           (c) => c.name === channelName && c.type === typeFormatted
         )
       ) {
-        // checking to see if the channel already exists on the server as a role or anything else
+        // checking to see if the channel already exists on the server as a role
+        // or anything else
         console.log(
           "Invalid channel name or channel already exists in server. Stopping execution."
         );
@@ -284,7 +291,8 @@ const command: ICommand = {
         getChannelFromMention(message, channelName) ||
         message.guild!.channels.cache.find((c) => c.name === channelName)
       ) {
-        // checking to see if the channel already exists on the server as a role or anything else
+        // checking to see if the channel already exists on the server as a role
+        // or anything else
         console.log(
           "Invalid channel name or channel already exists in server. Stopping execution."
         );

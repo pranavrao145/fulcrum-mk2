@@ -9,8 +9,9 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("update")
     .setDescription(
-      "Updates the service specified. See f!services for a full list of services that Fulcrum offers."
+      "Updates the service specified."
     ),
+  help: "Updates the service specified. See f!services for a full list of services that Fulcrum offers.",
   alias: ["u"],
   syntax: "f!update [service]",
   async execute(message: Message, con: Client, args?: string[]) {
@@ -86,7 +87,9 @@ const command: ICommand = {
         serviceCommand.execute(message, con, args); // execute the commmand
         break;
       case "date":
-        serviceCommand = serviceCommands.find((c) => c.slashCommand.name === "updatedate"); // get the channelcount command
+        serviceCommand = serviceCommands.find(
+          (c) => c.slashCommand.name === "updatedate"
+        ); // get the channelcount command
 
         if (!serviceCommand) {
           // if the command does not exist

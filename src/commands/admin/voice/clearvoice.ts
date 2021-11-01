@@ -8,8 +8,9 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("clearvoice")
     .setDescription(
-      "Clears the given voice channel (i.e. kicks everyone out from the voice channel)."
+      "Clears the given voice channel."
     ),
+  help: "Clears the given voice channel (i.e. kicks everyone out from the voice channel).",
   alias: ["cv"],
   syntax: "f!clearvoice [voice channel role mention]",
   async execute(message: Message, _con: Client, args?: string[]) {

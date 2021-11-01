@@ -1,15 +1,17 @@
-import { Message, MessageEmbed } from "discord.js";
-import { ICommand } from "../../../utils/types";
-import { Client } from "pg";
-import { timeout } from "../../../utils/helpers";
 import { SlashCommandBuilder } from "@discordjs/builders";
+import { Message, MessageEmbed } from "discord.js";
+import { Client } from "pg";
+
+import { timeout } from "../../../utils/helpers";
+import { ICommand } from "../../../utils/types";
 
 const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("setupvcroles")
     .setDescription(
-      "Sets up Fulcrum's voice channel role feature. This can also be run to create any roles that currently do not exist, even after initial setup."
+      "Sets up Fulcrum's voice channel role feature."
     ),
+  help: "Sets up Fulcrum's voice channel role feature. This can also be run to create any roles that currently do not exist, even after initial setup.",
   alias: ["svc"],
   syntax: "f!setupvcroles",
   async execute(message: Message, _con: Client, _args?: string[]) {
@@ -23,7 +25,8 @@ const command: ICommand = {
       .setColor("#FFFCF4")
       .setTitle("Setup Voice Channel Roles - Report");
 
-    let overallSuccess = true; // to keep track of whether or not the function was overall successful
+    let overallSuccess = true; // to keep track of whether or not the function was
+    // overall successful
 
     if (!message.member!.permissions.has("MANAGE_ROLES")) {
       // check for adequate permissions
@@ -61,7 +64,8 @@ const command: ICommand = {
       .values(); // get all the voice channels in the server
 
     for (const voiceChannel of voiceChannels) {
-      // iterate through each of the voice channel IDs to create a voice channel role for each
+      // iterate through each of the voice channel IDs to create a voice channel
+      // role for each
       if (!voiceChannel) {
         // check if the voice channel actually exists
         console.log(`A voice channel did not exist. Skipping over it.`);
@@ -70,7 +74,8 @@ const command: ICommand = {
 
       const vcRole = message.guild!.roles.cache.find(
         (r) => r.name === voiceChannel.name
-      ); // attempt to find a role in the server with the same name as the channel
+      ); // attempt to find a role in the server with
+      // the same name as the channel
 
       if (vcRole) {
         // check if the role already exists

@@ -8,6 +8,7 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("updatemembercount")
     .setDescription("Updates the member count channel the current guild."),
+  help: "Updates the member count channel the current guild.",
   alias: ["umc"],
   syntax: "f!updatemembercount",
   async execute(message: Message | Guild, con: Client, _args?: string[]) {

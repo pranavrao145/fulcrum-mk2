@@ -8,8 +8,9 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("changerolecolor")
     .setDescription(
-      "Changes the colour of the given role to the new colour specified."
+      "Changes the colour of the given role."
     ),
+  help: "Changes the colour of the given role to the new colour specified.",
   alias: ["crc"],
   syntax: "f!changerolecolor [role mention or number] [new color code]",
   async execute(message: Message, _con: Client, args?: string[]) {

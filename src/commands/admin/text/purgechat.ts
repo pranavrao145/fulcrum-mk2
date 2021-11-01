@@ -8,8 +8,9 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("purgechat")
     .setDescription(
-      "Clears the amount of messages given. The number of messages you want to clear must be between 2 and 100."
+      "Clears the amount of messages given."
     ),
+  help: "Clears the amount of messages given. The number of messages you want to clear must be between 2 and 100.",
   alias: ["pc"],
   syntax: "f!purgechat [number of messages to clear (2-100)]",
   async execute(message: Message, _con: Client, args?: string[]) {

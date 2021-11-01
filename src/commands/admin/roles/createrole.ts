@@ -13,8 +13,9 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("createrole")
     .setDescription(
-      "Creates a role with the given name and optionally the given colour."
+      "Creates a role with the given name and colour."
     ),
+  help: "Creates a role with the given name and optionally the given colour.",
   alias: ["cr"],
   syntax: "f!createrole [role name, underscores for spaces] (colour code)",
   async execute(message: Message, _con: Client, args?: string[]) {

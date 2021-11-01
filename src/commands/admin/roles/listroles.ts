@@ -8,8 +8,9 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("listroles")
     .setDescription(
-      "Displays all the roles in the server in a list with numbers for use with other role management commands."
+      "Displays all the roles in the server in a list."
     ),
+  help: "Displays all the roles in the server in a list with numbers for use with other role management commands.",
   alias: ["lr"],
   syntax: "f!listroles",
   async execute(message: Message, _con: Client, _args?: string[]) {

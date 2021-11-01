@@ -8,6 +8,7 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("randomnumber")
     .setDescription("Gives a random number in the range specified."),
+  help: "Gives a random number in the range specified.",
   alias: ["rn"],
   syntax: "f!randomnumber [min] [max]",
   async execute(message: Message, _con: Client, args?: string[]) {

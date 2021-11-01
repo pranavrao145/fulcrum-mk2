@@ -10,6 +10,7 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("updatedate")
     .setDescription("Updates the date channel in the current guild."),
+  help: "Updates the date channel in the current guild.",
   alias: ["ud"],
   syntax: "f!updatedate",
   async execute(

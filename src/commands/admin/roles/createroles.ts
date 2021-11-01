@@ -12,8 +12,9 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("createroles")
     .setDescription(
-      "Creates role(s) with the given name(s). You can create upto 10 roles with one command."
+      "Creates role(s) with the given name(s)."
     ),
+  help: "Creates role(s) with the given name(s). You can create upto 10 roles with one command.",
   alias: ["crs"],
   syntax: "f!createroles [role names (10 max, underscores for spaces)]",
   async execute(message: Message, _con: Client, args?: string[]) {

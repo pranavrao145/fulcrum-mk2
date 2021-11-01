@@ -1,14 +1,16 @@
-import { ICommand } from "../../utils/types";
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { Message } from "discord.js";
 import { Client } from "pg";
-import { SlashCommandBuilder } from "@discordjs/builders";
+
+import { ICommand } from "../../utils/types";
 
 const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("leavevoice")
     .setDescription(
-      "Disconnect the user from voice channel they are currently in. This is NOT an admin kicking utility, but rather a feature for users in a voice channel to use to easily disconnect from that channel without having to press the disconnect button."
+      "Disconnect the user from voice channel they are currently in."
     ),
+  help: "Disconnect the user from voice channel they are currently in. This is NOT an admin kicking utility, but rather a feature for users in a voice channel to use to easily disconnect from that channel without having to press the disconnect button.",
   alias: ["lv", "l"],
   syntax: "f!leavevoice",
   async execute(message: Message, _con: Client, _args?: string[]) {
@@ -23,7 +25,8 @@ const command: ICommand = {
 
       if (channel) {
         // if they're actually in a channel
-        message.member!.voice.setChannel(null); // attempt to remove the member from the voice channel they are currently in
+        message.member!.voice.setChannel(null); // attempt to remove the member from the voice channel they are
+        // currently in
       }
 
       console.log(

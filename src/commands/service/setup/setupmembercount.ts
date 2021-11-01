@@ -10,6 +10,7 @@ const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("setupmembercount")
     .setDescription("Sets up Fulcrum's member count channel feature."),
+  help: "Sets up Fulcrum's member count channel feature.",
   alias: ["smc"],
   syntax: "f!setupmembercount [voice channel role mention]",
   async execute(message: Message, con: Client, args?: string[]) {

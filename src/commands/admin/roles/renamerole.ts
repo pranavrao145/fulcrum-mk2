@@ -7,7 +7,8 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 const command: ICommand = {
   slashCommand: new SlashCommandBuilder()
     .setName("renamerole")
-    .setDescription("Renames the given role to the new name specified."),
+    .setDescription("Renames the given role."),
+  help: "Renames the given role to the new name specified.",
   alias: ["rnr"],
   syntax:
     "f!renamerole [role mention or number] [new name (underscores for spaces)]",
