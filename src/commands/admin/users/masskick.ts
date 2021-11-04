@@ -1,23 +1,26 @@
 import { Message, MessageEmbed } from "discord.js";
 import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
-import { getUserFromMention } from "../../../utils/helpers";
+import { getUserFromMention, timeout } from "../../../utils/helpers";
 
 const command: ICommand = {
-  name: "kick",
+  name: "masskick",
   description:
-    "Kicks the given user from the server. You can also optionally specify a reason for kicking.",
-  syntax: "f!kick [user mention] (reason)",
+    "Kicks the members given from the server. You can kick upto 10 members with one command.",
+  alias: ["mk"],
+  syntax: "f!masskick [user mentions (10 max)]",
   async execute(message: Message, _con: Client, args?: string[]) {
     console.log(
-      `Command kick started by user ${message.member!.user.tag} in guild ${
+      `Command masskick started by user ${message.member!.user.tag} in guild ${
         message.guild!.name
       }.`
     );
 
     let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
       .setColor("#FFFCF4")
-      .setTitle("Kick - Report");
+      .setTitle("Mass Kick - Report");
+
+    let outputEmbedText: string = ""; // text that will eventually be sent as a field in outputEmbed. Mainly for formatting
 
     if (!message.member!.permissions.has("KICK_MEMBERS")) {
       // check for adequate permissions
@@ -55,63 +58,40 @@ const command: ICommand = {
       }
     }
 
-    const userMention = args!.shift(); // get the user mention
-    const reasonToKick = args!.join(" "); // get the potential reason to kick by joining the rest of the args
+    for (const mention of args!) {
+      // iterate through all the user mentions
+      const member = getUserFromMention(message, mention); // get the user for the mention
 
-    const member = getUserFromMention(message, userMention!);
-
-    if (!member) {
-      // check if the user supplied was valid
-      console.log("User supplied was invalid. Stopping execution.");
-      try {
-        return await message.channel.send("Invalid user.");
-      } catch (e) {
-        console.log(
-          `There was an error sending a message in the guild ${
-            message.guild!.name
-          }! The error message is below:`
-        );
-        console.log(e);
-        return;
+      if (!member) {
+        // check if the user actually exists
+        console.log("A user supplied was not valid. Skipping over them.");
+        outputEmbedText += `\n**${mention}:** Invalid user or user not found`;
+        continue;
       }
-    }
 
-    if (reasonToKick) {
-      // check if the user provided a reason to kick
       try {
-        await member!.kick(reasonToKick); // kick the user with the reason given
-        console.log(`User ${member!.user.tag} kicked successfully.`);
-        outputEmbed.addField("Status", "Success");
-        outputEmbed.addField("Reason", `${reasonToKick}`);
+        await timeout(300); // setting a short timeout to prevent abuse of Discord's API
+        await member.kick(); // attempt to kick the user
+        console.log(`User ${member.user.tag} kicked successfully.`);
+        outputEmbedText += `\n**${member.user.tag}**: Kicked successfully.`;
       } catch (e) {
-        console.log(`Failed to kick ${member!.user.tag}.`);
-        outputEmbed.addField("Status", "Failed");
-      }
-    } else {
-      // if there is no reason to kick given
-      try {
-        await member!.kick(); // kick the user with the reason given
-        console.log(`User ${member!.user.tag} kicked successfully.`);
-        outputEmbed.addField("Status", "Success");
-      } catch (e) {
-        console.log(`Failed to kick ${member!.user.tag}.`);
-        outputEmbed.addField("Status", "Failed");
+        console.log(`Failed to kick user ${member.user.tag}.`);
+        outputEmbedText += `\n**${member.user.tag}**: Couldn\'t kick user.`;
       }
     }
 
     try {
       // send output embed with information about the command's success
-      if (outputEmbed.fields.length > 0) {
-        // check if there are actually any fields to send the embed with
+      outputEmbed.addField("\u200B", outputEmbedText); // add whatever text was accumulated throughout the command to the embed
+      if (outputEmbedText !== "") {
+        // check if there is actually any text to send the embed with
         outputEmbed.setDescription(
-          `**Command executed by:** ${
-            message.member!.user.tag
-          }\n**User kicked:** ${member!.user.tag}`
+          `**Command executed by:** ${message.member!.user.tag}`
         );
         await message.channel.send({ embeds: [outputEmbed] });
       }
       console.log(
-        `Command kick, started by ${
+        `Command masskick, started by ${
           message.member!.user.tag
         }, terminated successfully in ${message.guild!.name}.`
       );

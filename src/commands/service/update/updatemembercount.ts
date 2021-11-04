@@ -185,7 +185,7 @@ const command: ICommand = {
         if (!row) {
           // in the event a row does not exist
           console.log(
-            `Member count channel ID for guild does not exist in database. Stopping execution `
+            `Member count channel ID for guild does not exist in database. Stopping execution.`
           );
           return;
         }
