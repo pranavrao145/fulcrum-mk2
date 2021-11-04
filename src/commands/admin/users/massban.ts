@@ -4,30 +4,30 @@ import { Client } from "pg";
 import { getUserFromMention, timeout } from "../../../utils/helpers";
 
 const command: ICommand = {
-  name: "masskick",
+  name: "massban",
   description:
-    "Kicks the members given from the server. You can kick upto 10 members with one command.",
-  alias: ["mk"],
-  syntax: "f!masskick [user mentions (10 max)]",
+    "Bans the members given from the server. You can ban upto 10 members with one command.",
+  alias: ["mb"],
+  syntax: "f!massban [user mentions (10 max)]",
   async execute(message: Message, _con: Client, args?: string[]) {
     console.log(
-      `Command masskick started by user ${message.member!.user.tag} in guild ${
+      `Command massban started by user ${message.member!.user.tag} in guild ${
         message.guild!.name
       }.`
     );
 
     let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
       .setColor("#FFFCF4")
-      .setTitle("Mass Kick - Report");
+      .setTitle("Mass Ban - Report");
 
     let outputEmbedText: string = ""; // text that will eventually be sent as a field in outputEmbed. Mainly for formatting
 
-    if (!message.member!.permissions.has("KICK_MEMBERS")) {
+    if (!message.member!.permissions.has("BAN_MEMBERS")) {
       // check for adequate permissions
       try {
         console.log("Insufficient permissions. Stopping execution.");
         return await message.reply(
-          "Sorry, you need to have the `KICK_MEMBERS` permission to use this command."
+          "Sorry, you need to have the `BAN_MEMBERS` permission to use this command."
         );
       } catch (e) {
         console.log(
@@ -71,12 +71,12 @@ const command: ICommand = {
 
       try {
         await timeout(300); // setting a short timeout to prevent abuse of Discord's API
-        await member.kick(); // attempt to kick the user
-        console.log(`User ${member.user.tag} kicked successfully.`);
-        outputEmbedText += `\n**${member.user.tag}**: Kicked successfully.`;
+        await member.ban(); // attempt to ban the user
+        console.log(`User ${member.user.tag} banned successfully.`);
+        outputEmbedText += `\n**${member.user.tag}**: Banned successfully.`;
       } catch (e) {
-        console.log(`Failed to kick user ${member.user.tag}.`);
-        outputEmbedText += `\n**${member.user.tag}**: Couldn\'t kick user.`;
+        console.log(`Failed to ban user ${member.user.tag}.`);
+        outputEmbedText += `\n**${member.user.tag}**: Couldn\'t ban user.`;
       }
     }
 
@@ -91,7 +91,7 @@ const command: ICommand = {
         await message.channel.send({ embeds: [outputEmbed] });
       }
       console.log(
-        `Command masskick, started by ${
+        `Command massban, started by ${
           message.member!.user.tag
         }, terminated successfully in ${message.guild!.name}.`
       );
