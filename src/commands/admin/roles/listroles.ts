@@ -16,7 +16,8 @@ const command: ICommand = {
       }.`
     );
 
-    const roles = message.guild!.roles.cache.map((r) => r.name); // get roles of the server and map them to their names
+    const roles = await message.guild!.roles.fetch(); // get roles of the server 
+    const roleNames = roles.map((r) => r.name);  // map all roles to their names
 
     let embedList: MessageEmbed[] = []; // declare a list of message embeds, which will be paginated
     let outputEmbedText = "";
@@ -39,7 +40,7 @@ const command: ICommand = {
       }
     }
 
-    const numEmbedPages = Math.ceil(roles.length / 10); // there will be 10 roles on each page, so figure out how many pages of embeds
+    const numEmbedPages = Math.ceil(roleNames.length / 10); // there will be 10 roles on each page, so figure out how many pages of embeds
 
     for (let i = 0; i < numEmbedPages; i++) {
       // create new message embeds with the correct title and description
@@ -55,15 +56,15 @@ const command: ICommand = {
 
     let currentEmbedPage = 0; // a variable to keep track of the current page we're on
 
-    for (let i = 0; i < roles.length; i++) {
+    for (let i = 0; i < roleNames.length; i++) {
       // iterate through collection
-      outputEmbedText += `**${i + 1}.** ${roles[i]}\n`; // add the role to the list
+      outputEmbedText += `**${i + 1}.** ${roleNames[i]}\n`; // add the role to the list
       if (i !== 0 && (i + 1) % 10 === 0) {
         // if the current page is role number is divisible by 10 (and not 0), we must go to a new page
         embedList[currentEmbedPage].addField("\u200B", outputEmbedText); // add the text to the output
         currentEmbedPage++; // move on to the next page
         outputEmbedText = ""; // reset the output embed text
-      } else if (i + 1 === roles.length) {
+      } else if (i + 1 === roleNames.length) {
         // if we've reached the last role
         embedList[currentEmbedPage].addField("\u200B", outputEmbedText); // add the text to the output
       }

@@ -81,6 +81,7 @@ const command: ICommand = {
       // check if the number of days was given
       console.log("Checking validity of value given for days.");
       const daysNum = parseInt(days, 10);
+
       if (isNaN(daysNum)) {
         // checks if the value for days is a number
         console.log("Invalid number was given for days. Stopping execution.");

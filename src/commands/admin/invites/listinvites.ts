@@ -16,8 +16,9 @@ const command: ICommand = {
       } in guild ${message.guild!.name}.`
     );
 
-    const invites = message.guild!.invites.cache.map((r) => r.code); // get invites of the server and map them to their IDs
-
+    const invites = await message.guild!.invites.fetch(); // get invites of the server and
+    const inviteCodes = invites.map((r) => r.code); // map them to their codes
+ 
     let embedList: MessageEmbed[] = []; // declare a list of message embeds, which will be paginated
     let outputEmbedText = "";
 
@@ -39,7 +40,7 @@ const command: ICommand = {
       }
     }
 
-    const numEmbedPages = Math.ceil(invites.length / 10); // there will be 10 invites on each page, so figure out how many pages of embeds
+    const numEmbedPages = Math.ceil(inviteCodes.length / 10); // there will be 10 invites on each page, so figure out how many pages of embeds
 
     for (let i = 0; i < numEmbedPages; i++) {
       // create new message embeds with the correct title and description
@@ -55,15 +56,15 @@ const command: ICommand = {
 
     let currentEmbedPage = 0; // a variable to keep track of the current page we're on
 
-    for (let i = 0; i < invites.length; i++) {
+    for (let i = 0; i < inviteCodes.length; i++) {
       // iterate through collection
-      outputEmbedText += `**${i + 1}.** ${invites[i]}\n`; // add the invite to the list
+      outputEmbedText += `**${i + 1}.** ${inviteCodes[i]}\n`; // add the invite to the list
       if (i !== 0 && (i + 1) % 10 === 0) {
         // if the current page is invite number is divisible by 10 (and not 0), we must go to a new page
         embedList[currentEmbedPage].addField("\u200B", outputEmbedText); // add the text to the output
         currentEmbedPage++; // move on to the next page
         outputEmbedText = ""; // reset the output embed text
-      } else if (i + 1 === invites.length) {
+      } else if (i + 1 === inviteCodes.length) {
         // if we've reached the last invite
         embedList[currentEmbedPage].addField("\u200B", outputEmbedText); // add the text to the output
       }
