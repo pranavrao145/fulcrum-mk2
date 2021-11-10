@@ -59,11 +59,13 @@ const command: ICommand = {
     const deleteAllInvites = args!.shift(); // try to get the value if the user specified whether or
     // not all invites to the server should be deleted
 
-    const textChannels = message
-      .guild!.channels.cache.filter((c) => c.type === "GUILD_TEXT")
+    const channelList = await message.guild!.channels.fetch(); // get a list of all the channels in the guild
+
+    const textChannels = channelList
+      .filter((c) => c.type === "GUILD_TEXT")
       .values(); // get all text channels in guild
-    const voiceChannels = message
-      .guild!.channels.cache.filter((c) => c.type === "GUILD_VOICE")
+    const voiceChannels = channelList
+      .filter((c) => c.type === "GUILD_VOICE")
       .values(); // get all voice channels in guild
 
     let overallLockingSuccess = true; // variable to hold whether or not all

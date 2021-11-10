@@ -53,9 +53,10 @@ const command: ICommand = {
       console.log(e);
     }
 
-    const voiceChannels = message
-      .guild!.channels.cache.filter((c) => c.type === "GUILD_VOICE")
-      .values(); // get all the voice channels in the server
+    const voiceChannelList = await message.guild!.channels.fetch(); // fetch a list of all voice channels in the server
+    const voiceChannels = voiceChannelList
+      .filter((c) => c.type === "GUILD_VOICE")
+      .values(); // get objects for all voice channels in the server
 
     for (const voiceChannel of voiceChannels) {
       // iterate through each of the voice channel IDs to create a voice channel role for each

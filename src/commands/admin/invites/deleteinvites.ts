@@ -61,7 +61,8 @@ const command: ICommand = {
       }
     }
 
-    const inviteList = message.guild!.invites.cache.map((i) => i.code);
+    const inviteList = await message.guild!.invites.fetch(); // get a list of the roles in the server
+    const invites = inviteList.map((i) => i.code); // map the list of roles to their ids
 
     for (const code of args!) {
       // iterate through all the mentions given
@@ -76,7 +77,7 @@ const command: ICommand = {
         invite = message.guild!.invites.resolve(code); // resolve the invite using the code
       } else {
         console.log("Invite is of type number. Getting invite using position.");
-        invite = message.guild!.invites.resolve(inviteList[parseInt(code) - 1]); // else use the index in the list
+        invite = message.guild!.invites.resolve(invites[parseInt(code) - 1]); // else use the index in the list
         // to find the invite by its code
       }
 

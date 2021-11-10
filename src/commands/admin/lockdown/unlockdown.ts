@@ -50,11 +50,13 @@ const command: ICommand = {
       console.log(e);
     }
 
-    const textChannels = message
-      .guild!.channels.cache.filter((c) => c.type === "GUILD_TEXT")
+    const channelList = await message.guild!.channels.fetch(); // get a list of all the channels in the guild
+
+    const textChannels = channelList
+      .filter((c) => c.type === "GUILD_TEXT")
       .values(); // get all text channels in guild
-    const voiceChannels = message
-      .guild!.channels.cache.filter((c) => c.type === "GUILD_VOICE")
+    const voiceChannels = channelList
+      .filter((c) => c.type === "GUILD_VOICE")
       .values(); // get all voice channels in guild
 
     let overallUnlockingSuccess = true; // variable to hold whether or not all channels were unlocked successfully

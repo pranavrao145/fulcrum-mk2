@@ -1,7 +1,7 @@
 import { Guild, Message, MessageEmbed } from "discord.js";
-import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
 import { timeout } from "../../../utils/helpers";
+import { ICommand } from "../../../utils/types";
 
 const command: ICommand = {
   name: "updatechannelcount",
@@ -17,7 +17,8 @@ const command: ICommand = {
         } in guild ${message.guild!.name}.`
       );
 
-      let outputEmbed = new MessageEmbed() // create an embed to display the results of the command
+      let outputEmbed = new MessageEmbed() // create an embed to display the results of the
+        // command
         .setColor("#FFFCF4")
         .setTitle("Update Channel Count - Report");
 
@@ -50,10 +51,12 @@ const command: ICommand = {
           `SELECT * FROM channelcountchannel WHERE guildid = '${
             message.guild!.id
           }'`
-        ); // find the id of the channel count channel for the guild of the message
+        ); // find the id of the channel count
+        // channel for the guild of the message
 
         const row = res.rows[0]; // get the first row from the database query result
-        let voiceChannel; // declare voice channel that may be initialized later if there is a match
+        let voiceChannel; // declare voice channel that may be initialized later
+        // if there is a match
 
         if (!row) {
           // in the event a row does not exist
@@ -75,7 +78,8 @@ const command: ICommand = {
           }
         }
 
-        voiceChannel = message.guild!.channels.cache.get(row.channelid); // get the voice channel in the guild according to the id found
+        voiceChannel = message.guild!.channels.cache.get(row.channelid); // get the voice channel in the guild according to
+        // the id found
 
         if (!voiceChannel) {
           // in the event the voice channel does not exist
@@ -97,7 +101,9 @@ const command: ICommand = {
           }
         }
 
-        const channelCount = message.guild!.channels.cache.filter(
+        const channelList = await message.guild!.channels.fetch(); // get an updated list of the channels in the server
+
+        const channelCount = channelList.filter(
           (c) => c.type === "GUILD_TEXT" || c.type === "GUILD_VOICE"
         ).size; // get the number of channels in the guild
         const nameToBeSet = `💬|Channel Count: ${channelCount}`; // what the channel count channel should display
@@ -126,7 +132,9 @@ const command: ICommand = {
           await voiceChannel.setName(
             nameToBeSet,
             "Updated channel count channel."
-          ); // attempt to set the voice channel name to the right channel count
+          ); // attempt to set the voice
+          // channel name to the right
+          // channel count
           console.log("Channel count channel updated successfully.");
           outputEmbed.addField("Status", "Success");
         } catch (e) {
@@ -179,10 +187,12 @@ const command: ICommand = {
         );
         const res = await con.query(
           `SELECT * FROM channelcountchannel WHERE guildid = '${message.id}'`
-        ); // find the id of the channel count channel for the guild of the message
+        ); // find the id of the channel count channel for
+        // the guild of the message
 
         const row = res.rows[0]; // get the first row from the database query result
-        let voiceChannel; // declare voice channel that may be initialized later if there is a match
+        let voiceChannel; // declare voice channel that may be initialized later
+        // if there is a match
 
         if (!row) {
           // in the event a row does not exist
@@ -192,7 +202,8 @@ const command: ICommand = {
           return;
         }
 
-        voiceChannel = message.channels.cache.get(row.channelid); // get the voice channel in the guild according to the id found
+        voiceChannel = message.channels.cache.get(row.channelid); // get the voice channel in the guild according to
+        // the id found
 
         if (!voiceChannel) {
           // in the event the voice channel does not exist
@@ -202,11 +213,13 @@ const command: ICommand = {
           return;
         }
 
-        const channelCount = message.channels.cache.filter(
+        const channelList = await message.channels.fetch(); // get an updated list of the channels in the server
+
+        const channelCount = channelList.filter(
           (c) => c.type === "GUILD_TEXT" || c.type === "GUILD_VOICE"
         ).size; // get the number of channels in the guild
         const nameToBeSet = `💬|Channel Count: ${channelCount}`; // what the channel count channel should display
-
+ 
         if (voiceChannel.name === nameToBeSet) {
           // if the voice channel name is already correct, no need to change it
           console.log(
@@ -219,7 +232,9 @@ const command: ICommand = {
           await voiceChannel.setName(
             nameToBeSet,
             "Updated channel count channel."
-          ); // attempt to set the voice channel name to the right channel count
+          ); // attempt to set the voice
+          // channel name to the right
+          // channel count
           console.log("Channel count channel updated successfully.");
         } catch (e) {
           console.log(

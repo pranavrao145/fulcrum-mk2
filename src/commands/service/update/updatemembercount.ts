@@ -97,7 +97,9 @@ const command: ICommand = {
           }
         }
 
-        const memberCount = message.guild!.members.cache.size; // get the number of members in the guild
+        const memberList = await message.guild!.members.fetch(); // get an updated list of the channels in the server
+
+        const memberCount = memberList.size; // get the number of members in the guild
         const nameToBeSet = `👥|Member Count: ${memberCount}`; // what the member count channel should display
 
         if (voiceChannel.name === nameToBeSet) {
@@ -200,7 +202,9 @@ const command: ICommand = {
           return;
         }
 
-        const memberCount = message.members.cache.size; // get the number of members in the guild
+        const memberList = await message.members.fetch(); // get an updated list of the channels in the server
+
+        const memberCount = memberList.size; // get the number of members in the guild
         const nameToBeSet = `👥|Member Count: ${memberCount}`; // what the member count channel should display
 
         if (voiceChannel.name === nameToBeSet) {
