@@ -4,30 +4,30 @@ import { Client } from "pg";
 import { editMessageWithPaginatedEmbeds } from "discord.js-pagination-ts";
 
 const command: ICommand = {
-  name: "listroles",
+  name: "listinvites",
   description:
-    "Displays all the roles in the server in a list with numbers for use with other role management commands.",
-  alias: ["lr"],
-  syntax: "f!listroles",
+    "Displays all the invites in the server in a list with numbers for use with other invite management commands.",
+  alias: ["li"],
+  syntax: "f!listinvites",
   async execute(message: Message, _con: Client, _args?: string[]) {
     console.log(
-      `Command listroles started by user ${message.member!.user.tag} in guild ${
-        message.guild!.name
-      }.`
+      `Command listinvites started by user ${
+        message.member!.user.tag
+      } in guild ${message.guild!.name}.`
     );
 
-    const roles = await message.guild!.roles.fetch(); // get roles of the server 
-    const roleNames = roles.map((r) => r.name);  // map all roles to their names
-
+    const invites = await message.guild!.invites.fetch(); // get invites of the server and
+    const inviteCodes = invites.map((r) => r.code); // map them to their codes
+ 
     let embedList: MessageEmbed[] = []; // declare a list of message embeds, which will be paginated
     let outputEmbedText = "";
 
-    if (!message.member!.permissions.has("MANAGE_ROLES")) {
+    if (!message.member!.permissions.has("MANAGE_GUILD")) {
       // check for adequate permissions
       try {
         console.log("Insufficient permissions. Stopping execution.");
         return await message.reply(
-          "Sorry, you need to have the `MANAGE_ROLES` permission to use this command."
+          "Sorry, you need to have the `MANAGE_GUILD` permission to use this command."
         );
       } catch (e) {
         console.log(
@@ -40,13 +40,13 @@ const command: ICommand = {
       }
     }
 
-    const numEmbedPages = Math.ceil(roleNames.length / 10); // there will be 10 roles on each page, so figure out how many pages of embeds
+    const numEmbedPages = Math.ceil(inviteCodes.length / 10); // there will be 10 invites on each page, so figure out how many pages of embeds
 
     for (let i = 0; i < numEmbedPages; i++) {
       // create new message embeds with the correct title and description
       embedList.push(
         new MessageEmbed()
-          .setTitle(`Roles for ${message.guild!.name}`)
+          .setTitle(`Invites for ${message.guild!.name}`)
           .setColor("#FFFCF4")
           .setDescription(
             `**Command executed by:** ${message.member!.user.tag}`
@@ -56,16 +56,16 @@ const command: ICommand = {
 
     let currentEmbedPage = 0; // a variable to keep track of the current page we're on
 
-    for (let i = 0; i < roleNames.length; i++) {
+    for (let i = 0; i < inviteCodes.length; i++) {
       // iterate through collection
-      outputEmbedText += `**${i + 1}.** ${roleNames[i]}\n`; // add the role to the list
+      outputEmbedText += `**${i + 1}.** ${inviteCodes[i]}\n`; // add the invite to the list
       if (i !== 0 && (i + 1) % 10 === 0) {
-        // if the current page is role number is divisible by 10 (and not 0), we must go to a new page
+        // if the current page is invite number is divisible by 10 (and not 0), we must go to a new page
         embedList[currentEmbedPage].addField("\u200B", outputEmbedText); // add the text to the output
         currentEmbedPage++; // move on to the next page
         outputEmbedText = ""; // reset the output embed text
-      } else if (i + 1 === roleNames.length) {
-        // if we've reached the last role
+      } else if (i + 1 === inviteCodes.length) {
+        // if we've reached the last invite
         embedList[currentEmbedPage].addField("\u200B", outputEmbedText); // add the text to the output
       }
     }
@@ -73,7 +73,7 @@ const command: ICommand = {
     let embedMessage; // variable to hold message on to which embed will hook
 
     try {
-      embedMessage = await message.channel.send("Loading roles..."); // send a message on to which the embed can hook
+      embedMessage = await message.channel.send("Loading invites..."); // send a message on to which the embed can hook
     } catch (e) {
       console.log(
         `There was an error sending a message in the guild ${
@@ -90,12 +90,27 @@ const command: ICommand = {
         // check that there are actually fields with which to send the embed
         await editMessageWithPaginatedEmbeds(embedMessage, embedList, {
           footer:
-            "FYI: in commands involving managing roles, you can refer to roles by their mention or by their number in this list",
+            "FYI: in commands involving managing invites, you can refer to invites by their code or by their number in this list",
           timeout: 300000,
         });
+      } else {
+        try {
+          console.log("No invites found for server. Stopping execution.");
+          return await embedMessage.edit(
+            "There are no invites for this server yet."
+          );
+        } catch (e) {
+          console.log(
+            `There was an error editing a message in the guild ${
+              message.guild!.name
+            }! The error message is below:`
+          );
+          console.log(e);
+          return;
+        }
       }
       console.log(
-        `Command listroles, started by ${
+        `Command listinvites, started by ${
           message.member!.user.tag
         }, terminated successfully in ${message.guild!.name}.`
       );

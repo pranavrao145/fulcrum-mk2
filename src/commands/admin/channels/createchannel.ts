@@ -91,7 +91,7 @@ const command: ICommand = {
         }
       }
 
-      const typeFormatted = type!.toUpperCase(); // lowercase the type for consistent formatting
+      const typeFormatted = type!.toUpperCase(); // uppercase the type for consistent formatting
 
       if (typeFormatted !== "GUILD_TEXT" && typeFormatted !== "GUILD_VOICE") {
         // check if the type given was valid
@@ -317,7 +317,7 @@ const command: ICommand = {
         console.log(
           `Failed to create channel ${channelName} in server ${
             message.guild!.name
-          }.`
+          }. The error message is below:`
         );
       }
     }

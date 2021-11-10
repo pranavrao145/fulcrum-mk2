@@ -22,6 +22,7 @@ const client: Discord.Client = new Discord.Client({
     Discord.Intents.FLAGS.GUILD_PRESENCES,
     Discord.Intents.FLAGS.GUILD_VOICE_STATES,
     Discord.Intents.FLAGS.GUILD_MESSAGE_TYPING,
+    Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
   ],
 });
 
