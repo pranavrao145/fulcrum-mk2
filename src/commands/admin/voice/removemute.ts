@@ -6,7 +6,7 @@ import { getRoleFromMention, timeout } from "../../../utils/helpers";
 const command: ICommand = {
   name: "removemute",
   description: "Lifts the voice mute on all members of a voice channel.",
-  alias: ["rm"],
+  alias: ["rm", "lm", "liftmute"],
   syntax: "f!removemute [voice channel role mention]",
   async execute(message: Message, _con: Client, args?: string[]) {
     console.log(
