@@ -54,7 +54,8 @@ const command: ICommand = {
     }
 
     const vcList = await message.guild!.channels.fetch(); // get a list of all channels in the server
-    const voiceChannels = vcList.filter((c) => c.type === "GUILD_VOICE")
+    const voiceChannels = vcList
+      .filter((c) => c.type === "GUILD_VOICE" || c.type === "GUILD_STAGE_VOICE")
       .values(); // get all the voice channels in the server
 
     for (const voiceChannel of voiceChannels) {
