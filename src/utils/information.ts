@@ -59,6 +59,7 @@ export const generalPermissions: PermissionResolvable[] = [
   "MANAGE_WEBHOOKS",
   "MANAGE_EMOJIS_AND_STICKERS",
 ];
+
 export const voiceChannelPermissions: PermissionResolvable[] = [
   // list of permission overwrites for voice channels
   "CREATE_INSTANT_INVITE",
@@ -163,6 +164,47 @@ export const voiceChannelPermissionsDisable: Map<PermissionResolvable, any> =
     ["MOVE_MEMBERS", { MOVE_MEMBERS: false }],
     ["USE_VAD", { USE_VAD: false }],
     ["MANAGE_ROLES", { MANAGE_ROLES: false }],
+  ]);
+
+export const stageVoiceChannelPermissions: PermissionResolvable[] = [
+  // list of permission overwrites for stage channels
+  "CREATE_INSTANT_INVITE",
+  "MANAGE_CHANNELS",
+  "VIEW_CHANNEL",
+  "CONNECT",
+  "MUTE_MEMBERS",
+  "DEAFEN_MEMBERS",
+  "MOVE_MEMBERS",
+  "MANAGE_ROLES",
+  "REQUEST_TO_SPEAK",
+];
+
+export const stageVoiceChannelPermissionsEnable: Map<PermissionResolvable, any> =
+  new Map([
+    // list of permission overwrites for stage channels
+    ["CREATE_INSTANT_INVITE", { CREATE_INSTANT_INVITE: true }],
+    ["MANAGE_CHANNELS", { MANAGE_CHANNELS: true }],
+    ["VIEW_CHANNEL", { VIEW_CHANNEL: true }],
+    ["CONNECT", { CONNECT: true }],
+    ["MUTE_MEMBERS", { MUTE_MEMBERS: true }],
+    ["DEAFEN_MEMBERS", { DEAFEN_MEMBERS: true }],
+    ["MOVE_MEMBERS", { MOVE_MEMBERS: true }],
+    ["MANAGE_ROLES", { MANAGE_ROLES: true }],
+    ["REQUEST_TO_SPEAK", { REQUEST_TO_SPEAK: true }],
+  ]);
+
+export const stageVoiceChannelPermissionsDisable: Map<PermissionResolvable, any> =
+  new Map([
+    // list of permission overwrites for stage channels
+    ["CREATE_INSTANT_INVITE", { CREATE_INSTANT_INVITE: false }],
+    ["MANAGE_CHANNELS", { MANAGE_CHANNELS: false }],
+    ["VIEW_CHANNEL", { VIEW_CHANNEL: false }],
+    ["CONNECT", { CONNECT: false }],
+    ["MUTE_MEMBERS", { MUTE_MEMBERS: false }],
+    ["DEAFEN_MEMBERS", { DEAFEN_MEMBERS: false }],
+    ["MOVE_MEMBERS", { MOVE_MEMBERS: false }],
+    ["MANAGE_ROLES", { MANAGE_ROLES: false }],
+    ["REQUEST_TO_SPEAK", { REQUEST_TO_SPEAK: false }],
   ]);
 
 export const serviceList: Map<string, string> = new Map([
