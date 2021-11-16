@@ -5,7 +5,8 @@ import { getRoleFromMention, timeout } from "../../../utils/helpers";
 
 const command: ICommand = {
   name: "muteall",
-  description: "Mutes all the members of the specified voice channel.",
+  description:
+    "Mutes all the members of the specified voice channel. Note: when used in a stage channel, this command will only affect speakers.",
   alias: ["ma"],
   syntax: "f!muteall [voice channel role mention]",
   async execute(message: Message, _con: Client, args?: string[]) {
@@ -77,7 +78,9 @@ const command: ICommand = {
     }
 
     const voiceChannel = message
-      .guild!.channels.cache.filter((c) => c.type === "GUILD_VOICE")
+      .guild!.channels.cache.filter(
+        (c) => c.type === "GUILD_VOICE" || c.type === "GUILD_STAGE_VOICE"
+      )
       .find((c) => c.name === vcRole.name); // attempt to get voice channel with the same name
 
     if (!voiceChannel) {
