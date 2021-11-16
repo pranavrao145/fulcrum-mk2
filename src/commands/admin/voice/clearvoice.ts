@@ -78,7 +78,7 @@ const command: ICommand = {
     }
 
     const voiceChannel = message
-      .guild!.channels.cache.filter((c) => c.type === "GUILD_VOICE")
+      .guild!.channels.cache.filter((c) => c.type === "GUILD_VOICE" || c.type === "GUILD_STAGE_VOICE")
       .find((c) => c.name === role!.name); // get the voice channel associated with the role
 
     if (!voiceChannel) {
