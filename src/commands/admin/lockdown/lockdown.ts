@@ -1,4 +1,10 @@
-import { Message, MessageEmbed, TextChannel, VoiceChannel } from "discord.js";
+import {
+  Message,
+  MessageEmbed,
+  StageChannel,
+  TextChannel,
+  VoiceChannel,
+} from "discord.js";
 import { Client } from "pg";
 
 import { timeout } from "../../../utils/helpers";
@@ -67,6 +73,9 @@ const command: ICommand = {
     const voiceChannels = channelList
       .filter((c) => c.type === "GUILD_VOICE")
       .values(); // get all voice channels in guild
+    const stageVoiceChannels = channelList
+      .filter((c) => c.type === "GUILD_STAGE_VOICE")
+      .values(); // get all stage voice channels in guild
 
     let overallLockingSuccess = true; // variable to hold whether or not all
     // channels were locked successfully
@@ -106,6 +115,28 @@ const command: ICommand = {
         );
       } catch (e) {
         console.log(`Failed to lock ${(voiceChannel as VoiceChannel).name}.`);
+        overallLockingSuccess = false;
+      }
+    }
+
+    for (const stageVoiceChannel of stageVoiceChannels) {
+      // iterate through each of the stage voice channels in the guild
+      try {
+        await timeout(300); // setting a short timeout to prevent abuse of Discord's API
+        await (stageVoiceChannel as StageChannel).permissionOverwrites.create(
+          (stageVoiceChannel as StageChannel).guild.roles.everyone,
+          {
+            CONNECT: false,
+          }
+        ); // get rid of the ability to connect to stage voice channels for
+        // everyone role
+        console.log(
+          `Successfully locked ${(stageVoiceChannel as StageChannel).name}.`
+        );
+      } catch (e) {
+        console.log(
+          `Failed to lock ${(stageVoiceChannel as StageChannel).name}.`
+        );
         overallLockingSuccess = false;
       }
     }

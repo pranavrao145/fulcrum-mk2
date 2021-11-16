@@ -1,4 +1,10 @@
-import { Message, MessageEmbed, TextChannel, VoiceChannel } from "discord.js";
+import {
+  Message,
+  MessageEmbed,
+  StageChannel,
+  TextChannel,
+  VoiceChannel,
+} from "discord.js";
 import { ICommand } from "../../../utils/types";
 import { Client } from "pg";
 import { timeout } from "../../../utils/helpers";
@@ -58,6 +64,9 @@ const command: ICommand = {
     const voiceChannels = channelList
       .filter((c) => c.type === "GUILD_VOICE")
       .values(); // get all voice channels in guild
+    const stageVoiceChannels = channelList
+      .filter((c) => c.type === "GUILD_STAGE_VOICE")
+      .values(); // get all stage voice channels in guild
 
     let overallUnlockingSuccess = true; // variable to hold whether or not all channels were unlocked successfully
 
@@ -89,6 +98,24 @@ const command: ICommand = {
         );
       } catch (e) {
         console.log(`Failed to unlock ${(voiceChannel as VoiceChannel).name}.`);
+        overallUnlockingSuccess = false;
+      }
+    }
+
+    for (const stageVoiceChannel of stageVoiceChannels) {
+      // iterate through each of the stage voice channels in the guild
+      try {
+        await timeout(300); // setting a short timeout to prevent abuse of Discord's API
+        await (stageVoiceChannel as StageChannel).permissionOverwrites.cache
+          .get(message.guild!.roles.everyone.id)!
+          .delete();
+        console.log(
+          `Successfully unlocked ${(stageVoiceChannel as StageChannel).name}.`
+        );
+      } catch (e) {
+        console.log(
+          `Failed to unlock ${(stageVoiceChannel as StageChannel).name}.`
+        );
         overallUnlockingSuccess = false;
       }
     }
