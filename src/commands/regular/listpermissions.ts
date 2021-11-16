@@ -3,6 +3,7 @@ import { ICommand } from "../../utils/types";
 import { Client } from "pg";
 import {
   generalPermissions,
+  stageVoiceChannelPermissions,
   textChannelPermissions,
   voiceChannelPermissions,
 } from "../../utils/information";
@@ -12,7 +13,8 @@ const command: ICommand = {
   description:
     "Lists permissions and their associated numbers with to use with permission changing commands. Three permission lists exist: the general permission list (to use with f!changerolepermissions), the text permission list (to use with f!changetextpermissions), and the voice permission list (to use with f!changevoicepermissions)",
   alias: ["lp"],
-  syntax: "f!listpermissions (type, general/text/voice, default general)",
+  syntax:
+    "f!listpermissions (type, GENERAL/GUILD_STAGE_VOICE/GUILD_TEXT/GUILD_VOICE, default general)",
   async execute(message: Message, _con: Client, args?: string[]) {
     console.log(
       `Command listpermissions started by user ${
@@ -29,19 +31,19 @@ const command: ICommand = {
     let type = args!.shift(); // try to get the type specified by the user
 
     if (!type) {
-      console.log("No type given by user. Assuming general.");
-      type = "general"; // set type to general explicitly so program knows what to do
+      console.log("No type given by user. Assuming GENERAL.");
+      type = "GENERAL"; // set type to general explicitly so program knows what to do
     } else {
       console.log(
         `Type detected. Attempting to print permission of type ${type}.`
       );
-      type = type.toLowerCase();
+      type = type.toUpperCase();
     }
 
     switch (
       type // check different values of type
     ) {
-      case "general":
+      case "GENERAL":
         for (let i = 0; i < generalPermissions.length; i++) {
           // iterate through general permissions using index
           outputEmbedText += `**${i + 1}.** ${generalPermissions[i]}\n`;
@@ -78,6 +80,22 @@ const command: ICommand = {
           `**Command executed by:** ${
             message.member!.user.tag
           }\nThese are voice channel permissions. They (and their corresponding numbers) will be used by Fulcrum to give roles certain permissions in specific voice channels.`
+        );
+        outputEmbed.setFooter(
+          "FYI: in commands involving changing permissions, you can need to use the numbers of the permissions in this list to refer to the permissions (e.g. 1 refers to CREATE_INSTANT_INVITE)"
+        );
+        break;
+      case "GUILD_STAGE_VOICE":
+        for (let i = 0; i < stageVoiceChannelPermissions.length; i++) {
+          // iterate through stage channel permissions using index
+          outputEmbedText += `**${i + 1}.** ${
+            stageVoiceChannelPermissions[i]
+          }\n`;
+        }
+        outputEmbed.setDescription(
+          `**Command executed by:** ${
+            message.member!.user.tag
+          }\nThese are stage voice channel permissions. They (and their corresponding numbers) will be used by Fulcrum to give roles certain permissions in specific stage voice channels.`
         );
         outputEmbed.setFooter(
           "FYI: in commands involving changing permissions, you can need to use the numbers of the permissions in this list to refer to the permissions (e.g. 1 refers to CREATE_INSTANT_INVITE)"

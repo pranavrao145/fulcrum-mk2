@@ -92,10 +92,14 @@ const command: ICommand = {
     }
 
     const vcFrom = message
-      .guild!.channels.cache.filter((c) => c.type === "GUILD_VOICE")
-      .find((c) => c.name === roleFrom.name); // find the voice channel associated with the from role
+      .guild!.channels.cache.filter(
+        (c) => c.type === "GUILD_VOICE" || c.type === "GUILD_STAGE_VOICE"
+      )
+      .find((c) => c.name === roleFrom.name); // find the voice channel associated with the from ro e
     const vcTo = message
-      .guild!.channels.cache.filter((c) => c.type === "GUILD_VOICE")
+      .guild!.channels.cache.filter(
+        (c) => c.type === "GUILD_VOICE" || c.type === "GUILD_STAGE_VOICE"
+      )
       .find((c) => c.name === roleTo.name); // find the voice channel associated with the to role
 
     if (!vcFrom || !vcTo) {

@@ -90,7 +90,7 @@ const command: ICommand = {
     } else if (vcRole) {
       // else if a role is given, check if it is associated with a voice channel
       const voiceChannel = message
-        .guild!.channels.cache.filter((c) => c.type === "GUILD_VOICE")
+        .guild!.channels.cache.filter((c) => c.type === "GUILD_VOICE" || c.type === "GUILD_STAGE_VOICE")
         .find((c) => c.name === vcRole.name); // attempt to get the voice channel associated with the role
 
       if (!voiceChannel) {

@@ -13,7 +13,7 @@ const command: ICommand = {
     "Creates a channel based on the given information. You must specify a name, and you can optionally specify a type, and whether you want the channel to be public or private.",
   alias: ["cc"],
   syntax:
-    "f!createchannel [name (underscores for spaces)] (type, GUILD_TEXT/GUILD_VOICE, default GUILD_TEXT) (privacy, public/private, default public)",
+    "f!createchannel [name (underscores for spaces)] (type, GUILD_TEXT/GUILD_VOICE/GUILD_STAGE_VOICE, default GUILD_TEXT) (privacy, public/private, default public)",
   async execute(message: Message, _con: Client, args?: string[]) {
     console.log(
       `Command createchannel started by user ${
@@ -93,12 +93,12 @@ const command: ICommand = {
 
       const typeFormatted = type!.toUpperCase(); // uppercase the type for consistent formatting
 
-      if (typeFormatted !== "GUILD_TEXT" && typeFormatted !== "GUILD_VOICE") {
+      if (typeFormatted !== "GUILD_TEXT" && typeFormatted !== "GUILD_VOICE" && typeFormatted !== "GUILD_STAGE_VOICE") {
         // check if the type given was valid
         try {
           console.log("Type supplied was invalid. Stopping execution.");
           return await message.channel.send(
-            "Invalid value for type! Must be GUILD_TEXT or GUILD_VOICE."
+            "Invalid value for type! Must be GUILD_TEXT, GUILD_VOICE, or GUILD_STAGE_VOICE."
           );
         } catch (e) {
           console.log(
@@ -199,12 +199,12 @@ const command: ICommand = {
 
       const typeFormatted = type!.toUpperCase(); // uppercase the type for consistent formatting
 
-      if (typeFormatted !== "GUILD_TEXT" && typeFormatted !== "GUILD_VOICE") {
+      if (typeFormatted !== "GUILD_TEXT" && typeFormatted !== "GUILD_VOICE" && typeFormatted !== "GUILD_STAGE_VOICE") {
         // check if the type given was valid
         try {
           console.log("Type supplied was invalid. Stopping execution.");
           return await message.channel.send(
-            "Invalid value for type! Must be GUILD_TEXT or GUILD_VOICE."
+            "Invalid value for type! Must be GUILD_TEXT, GUILD_VOICE, or GUILD_STAGE_VOICE."
           );
         } catch (e) {
           console.log(
