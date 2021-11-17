@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cp /home/cypher/Programming/fulcrum-mk2/.env .
+sed -i '/postinstall/d' ./package.json
+yarn
