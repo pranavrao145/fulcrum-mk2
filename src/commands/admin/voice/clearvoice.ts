@@ -6,7 +6,7 @@ import { getRoleFromMention, timeout } from "../../../utils/helpers";
 const command: ICommand = {
   name: "clearvoice",
   description:
-    "Clears the given voice channel (i.e. kicks everyone out from the voice channel).",
+    "Clears the given voice or stage channel (i.e. kicks everyone out from the voice or stage channel).",
   alias: ["cv"],
   syntax: "f!clearvoice [voice channel role mention]",
   async execute(message: Message, _con: Client, args?: string[]) {
