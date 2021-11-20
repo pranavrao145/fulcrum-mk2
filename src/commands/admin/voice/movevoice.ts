@@ -12,7 +12,7 @@ import { getRoleFromMention, timeout } from "../../../utils/helpers";
 const command: ICommand = {
   name: "movevoice",
   description:
-    "Moves the members in the first given voice channel to the other.",
+    "Moves the members in the first given voice or stage channel to the other.",
   alias: ["mv"],
   syntax:
     "f!movevoice [voice channel role mention (from)] [voice channel role mention (to)]",
