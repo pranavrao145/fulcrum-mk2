@@ -74,9 +74,10 @@ const command: ICommand = {
       // iterate through each of the text channels in the guild
       try {
         await timeout(300); // setting a short timeout to prevent abuse of Discord's API
-        await (textChannel as TextChannel).permissionOverwrites.cache
-          .get(message.guild!.roles.everyone.id)!
-          .delete();
+        await (textChannel as TextChannel).permissionOverwrites.edit(
+          (textChannel as TextChannel).guild.roles.everyone,
+          { SEND_MESSAGES: null }
+        ); // reset permissions on SEND_MESSAGES permission in every text channel
         console.log(
           `Successfully unlocked ${(textChannel as TextChannel).name}.`
         );
@@ -90,9 +91,10 @@ const command: ICommand = {
       // iterate through each of the voice channels in the guild
       try {
         await timeout(300); // setting a short timeout to prevent abuse of Discord's API
-        await (voiceChannel as VoiceChannel).permissionOverwrites.cache
-          .get(message.guild!.roles.everyone.id)!
-          .delete();
+        await (voiceChannel as VoiceChannel).permissionOverwrites.edit(
+          (voiceChannel as VoiceChannel).guild.roles.everyone,
+          { CONNECT: null }
+        ); // reset permissions on CONNECT permission in every voice channel
         console.log(
           `Successfully unlocked ${(voiceChannel as VoiceChannel).name}.`
         );
@@ -106,9 +108,10 @@ const command: ICommand = {
       // iterate through each of the stage voice channels in the guild
       try {
         await timeout(300); // setting a short timeout to prevent abuse of Discord's API
-        await (stageVoiceChannel as StageChannel).permissionOverwrites.cache
-          .get(message.guild!.roles.everyone.id)!
-          .delete();
+        await (stageVoiceChannel as StageChannel).permissionOverwrites.edit(
+          (stageVoiceChannel as StageChannel).guild.roles.everyone,
+          { CONNECT: null }
+        ); // reset permissions on CONNECT permission in every stage channel
         console.log(
           `Successfully unlocked ${(stageVoiceChannel as StageChannel).name}.`
         );

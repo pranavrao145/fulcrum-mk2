@@ -40,10 +40,10 @@ const command: ICommand = {
     const messageChannel = message.channel; // get the message's chanel (like this so it can later be cast to TextChannel)
 
     try {
-      await (messageChannel as TextChannel).permissionOverwrites.create(
+      await (messageChannel as TextChannel).permissionOverwrites.edit(
         (messageChannel as TextChannel).guild.roles.everyone,
-        { SEND_MESSAGES: true }
-      ); // set the channel as read only for everyone
+        { SEND_MESSAGES: null }
+      ); // reset permissions on SEND_MESSAGES permission in given channel
       console.log(
         `Successfully unlocked ${(messageChannel as TextChannel).name}.`
       );
