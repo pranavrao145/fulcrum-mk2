@@ -155,7 +155,8 @@ const command: ICommand = {
         // send output embed with information about the command's success
         if (outputEmbed.fields.length > 0) {
           // check if there are actually any fields to send the embed with
-          await message.channel.send({ embeds: [outputEmbed] });
+          await message.author.send({ embeds: [outputEmbed] });
+          await message.channel.messages.react(message, "✅");
         }
         console.log(
           `Command help, started by ${
